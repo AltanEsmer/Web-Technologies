@@ -88,7 +88,7 @@ body {
 .background {
   width: 100%;
   height: 100vh;
-  background: url(pexels-semws-2670898.jpg);
+  background: url(Images/pexels-semws-2670898.jpg);
   background-size: cover;
   background-position: center;
   filter: blur(10px);
