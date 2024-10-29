@@ -13,15 +13,20 @@ body {
 /* Sidebar */
 .sidebar {
     width: 200px;
-    background: #333;
+    background: #a7dff0;
     color: #fff;
     padding: 20px;
+    position: absolute; 
+    right: 0; 
+    top: 0; 
+    height: 100vh;
 }
 
 .search-bar {
     width: 100%;
     padding: 8px;
     margin-bottom: 20px;
+
 }
 
 .playlists ul {
@@ -41,29 +46,87 @@ main {
     padding: 20px;
 }
 
-header nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
+
+
+.navbar :where(#menu-close-button, #menu-open-button) {
+    display: block;
+    font-size: var(--font-size-1);
+  }
+
+  .navbar #menu-close-button {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+  }
+
+  .navbar #menu-open-button {
+    color: var(--white-color);
+  }
+
+  .navbar .nav-menu {
+    display: block;
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    background: var(--white-color);
+    transition: left 0.2s ease;
+  }
+
+  body.show-mobile-menu .navbar .nav-menu {
+    left: 0;
+  }
+
+  .navbar .nav-menu .nav-link {
+    color: var(--dark-color);
+    display: block;
+    margin-top: 17px;
+    font-size: var(--font-size-1);
+  }
+
+
+.recommendations .artists {
+    display: flex;
+    gap: 30px;
+    justify-content: center; /* Center aligns the artist items */
+}
+
+.artist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .recommendations .artist-circle {
-    width: 80px;
-    height: 80px;
-    background: #ccc;
+    width: 100px;
+    height: 100px;
+    background: #b4e8f1;
     border-radius: 50%;
-    display: inline-block;
-    margin: 10px;
 }
+
+.artist-name {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+}
+
 
 .album-carousel {
     margin-top: 20px;
+    text-align: center;
 }
 
 .carousel {
     display: flex;
     overflow: hidden;
-    position: relative;
+    justify-content: center;
+    gap: 20px;
 }
 
 .carousel-item {
@@ -74,21 +137,31 @@ header nav a {
     text-align: center;
 }
 
+/* Centered controls below the carousel */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
 .carousel-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #333;
-    color: #fff;
+    width: 40px;         
+    height: 40px;        
+    border-radius: 50%; 
+    background: #b3eaf3; 
+    color: #000000;         
     border: none;
-    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;     
     cursor: pointer;
+    
 }
 
-.prev {
-    left: 0;
+.carousel-control:hover {
+    background: #9fd6e2; 
 }
 
-.next {
-    right: 0;
-}
+
