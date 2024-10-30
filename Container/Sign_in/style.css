@@ -95,21 +95,24 @@ body {
 }
 
 .container {
+  display: flex;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 75%;
-  height: 550px;
+  min-width:700px;
+  min-height: 550px;
   background: url(Images/pexels-semws-2670898.jpg) no-repeat;
   background-size: cover;
   background-position: center;
   margin-top: 20px;
   border-radius: 20px;
+  flex-wrap: wrap;
 }
 
 .container .content {
-  position: absolute;
+  
   top: 0;
   left: 0;
   width: 58%;
@@ -117,9 +120,9 @@ body {
   background-color: transparent;
   padding: 80px;
   color: #e4e4e4;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+  min-width:360px;
+  flex-wrap: wrap;
+  clear:both;
 }
 
 .content .logo {
@@ -128,10 +131,13 @@ body {
 
 .content h2 {
   font-size: 40px;
+  width:100%;
+  padding-bottom:25px;
 }
 
 .content h2 span{
   font-size: 25px;
+  width:100%;
 }
 
 .text-sci p{
@@ -157,6 +163,11 @@ body {
   width: calc(100% - 58%);
   height: 100%;
   overflow: hidden;
+}
+
+.logreg-box {
+  min-width:360px;
+  flex-wrap:wrap;
 }
 
 .logreg-box .form-box {
@@ -299,3 +310,4 @@ body {
 .login-register p a:hover {
   text-decoration: underline;
 }
+
