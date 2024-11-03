@@ -1,11 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-// Route for the Sign In page
-Route::get('/signin', function () {
-    return view('signin');
-})->name('signin');
+// Route for showing the Sign In page
+Route::get('/signin', [AuthController::class, 'showLoginForm'])->name('signin');
+
+// Route for handling the Sign In form submission
+Route::post('/signin', [AuthController::class, 'signIn'])->name('signin.submit');
+
+// Route for handling the Sign Up form submission
+Route::post('/signup', [AuthController::class, 'signUp'])->name('signup.submit');
 
 // Route for the Home page
 Route::get('/home', function () {
@@ -19,5 +24,5 @@ Route::get('/library', function () {
 
 // Set the default route to Sign In if you want the root URL to show the Sign In page
 Route::get('/', function () {
-    return view('signin');
+    return redirect()->route('signin');
 })->name('default');

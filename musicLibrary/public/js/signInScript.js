@@ -35,3 +35,30 @@ loginLink.addEventListener('click', () => {
 });
 
 //for checking if input data is valid
+
+/*
+document.querySelector('#sign-in-btn').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent the default form submission to handle it via JavaScript
+  
+  const form = event.target.closest('form');
+
+  // Send an AJAX request (or use fetch for modern JavaScript)
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Redirect to home page on success
+      window.location.href = 'C:\\Users\\vesen\\Documents\\GitHub\\Web-Technologies\\musicLibrary\\resources\\views\\home.blade.php'; // Replace with your home route
+    } else {
+      alert('Login failed. Please try again.');
+    }
+  })
+  .catch(error => console.error('Error:', error));
+});
+*/

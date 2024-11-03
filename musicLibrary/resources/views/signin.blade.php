@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="{{ asset('css/signinStyle.css') }}">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <title>Main Page</title>
@@ -45,8 +46,9 @@
 
     <div class="logreg-box">
       <div class="form-box login">
-        <form action="sign_in.php" method="post">
-          <h2>Sign In</h2>
+        <form action="{{ route('signin.submit') }}" method="post">
+        @csrf  
+        <h2>Sign In</h2>
 
           <div class="input-box">
             <span class="icon"><i class='bx bxs-envelope' ></i></span>
@@ -77,8 +79,9 @@
       </div>
 
       <div class="form-box register">
-        <form action="sign_up.php" method="post">
-          <h2>Sign Up</h2>
+        <form action="{{ route('signup.submit') }}" method="post">
+        @csrf 
+        <h2>Sign Up</h2>
 
           <div class="input-box">
             <span class="icon"><i class='bx bxs-user' ></i></span>
@@ -102,7 +105,7 @@
             <label><input type="checkbox" name="checker" id="checker"> I agree to the terms & conditions</label>
           </div>
 
-          <button type="submit" class="btn">Sign In</button>
+          <button type="submit" class="btn">Sign Up</button>
 
           <div class="login-register">
             <p>
