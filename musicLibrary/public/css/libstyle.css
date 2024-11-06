@@ -113,6 +113,7 @@ main {
     overflow: hidden;
     justify-content: center;
     gap: 20px;
+    flex-direction: row;
 }
 
 .carousel-item {

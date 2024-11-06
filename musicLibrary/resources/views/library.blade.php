@@ -48,12 +48,13 @@
     <!-- Main Content -->
     <main>
         <section class="album-carousel">
-            <h2>Sounds of Rock</h2>
+            <h2>Sounds of Phonk</h2>
             <!-- Carousel for albums -->
             <div class="carousel">
-                <div class="carousel-item">Album 1</div>
-                <div class="carousel-item">Album 2</div>
-                <div class="carousel-item">Album 3</div>
+                <div class="carousel-item">Hilfiger - Plan 9<br><img src="/images/sample1.jpg" width="150px"></div>
+                <div class="carousel-item">HOODMAFFIA - Prophecy Sounds<br><img src="/images/sample2.jpg" width="150px"></div>
+                <div class="carousel-item">SPYDER550 - On the run<br><img src="/images/sample3.jpg" width="150px"></div>
+                <div class="carousel-item" hidden>HOODMAFFIA - Criminology<br><img src="/images/sample4.jpg" width="150px"></div>
             </div>
             <!-- Carousel controls centered below the carousel -->
             <div class="carousel-controls">

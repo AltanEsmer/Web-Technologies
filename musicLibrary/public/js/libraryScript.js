@@ -2,7 +2,9 @@
 const prevButton = document.querySelector('.prev');
 const nextButton = document.querySelector('.next');
 const carousel = document.querySelector('.carousel');
+const songs = document.querySelectorAll('.carousel-item');
 let scrollAmount = 0;
+let songsShownIndex = [0, 1, 2];
 
 prevButton.addEventListener('click', () => {
     carousel.scrollTo({
@@ -14,6 +16,13 @@ prevButton.addEventListener('click', () => {
 });
 
 nextButton.addEventListener('click', () => {
+    songsShownIndex.forEach((value, index, array)=>{
+        array[index] = value + 1;
+    })
+    console.log(songsShownIndex);
+    songs[songsShownIndex[0]-1].hidden = true;
+    songs[songsShownIndex[2]].hidden = false;
+    console.log(songs);
     carousel.scrollTo({
         top: 0,
         left: (scrollAmount += 150),
