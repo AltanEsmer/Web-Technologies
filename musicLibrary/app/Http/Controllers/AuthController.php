@@ -6,43 +6,55 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+    // Show the login form
     public function showLoginForm()
     {
-        return view('signin'); // Adjust if you have a different view file name
+        return view('signin');
     }
 
+    // Handle the Sign In form submission
     public function signIn(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        // Validate the input
+        $validated = $request->validate([
+            'mail' => 'required|email',
+            'pass' => 'required|min:6',
+            'pass_confirmation' => 'required|min:6',
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('home')->with('success', 'Logged in successfully!');
+        // Attempt to log the user in
+        if (Auth::attempt(['email' => $request->mail, 'password' => $request->pass], $request->has('checker'))) {
+            return redirect()->route('home'); // Redirect to home page if login is successful
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials.']);
+        // If login fails, redirect back with an error message
+        return redirect()->back()->withErrors(['msg' => 'Invalid credentials!'])->withInput();
     }
 
+    // Handle the Sign Up form submission
     public function signUp(Request $request)
     {
-        $request->validate([
+        // Validate the input
+        $validated = $request->validate([
             'username' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:8|confirmed',
+            'mail' => 'required|email|unique:users,email',
+            'pass' => 'required|min:6|confirmed',
         ]);
 
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        // Create the new user
+        $user = new User();
+        $user->name = $request->username;
+        $user->email = $request->mail;
+        $user->password = Hash::make($request->pass);
+        $user->save();
 
+        // Automatically log the user in after they sign up
         Auth::login($user);
-        return redirect()->route('home')->with('success', 'Registration successful!');
+
+        return redirect()->route('home'); // Redirect to home page after successful signup
     }
 }
