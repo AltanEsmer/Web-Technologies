@@ -24,7 +24,6 @@
         <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
         <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
         <li class="nav-item"><a href="{{ route('library') }}" class="nav-link">Library</a></li>
-        <li class="nav-item"><a href="#artists" class="nav-link">Artists</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
         <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign in</a></li>
         
@@ -42,12 +41,12 @@
           <h3 class="subtitle">Find the best music that fits you!</h3>
           <p class="description">Deliming bama</p>
           <div class="buttons">
-          <a href="{{ route('library') }}" class="button choose-now">Go to the Library</a>
-          <a href="#" class="button contact-us">Contact Us</a>
+            <a href="#" class="button choose-now">Choose Music</a>
+            <a href="#" class="button contact-us">Contact Us</a>
           </div>
         </div>
         <div class="parent-image-wrapper">
-          <img src="{{ asset('images/Music-removebg-preview.png') }}" alt="parent" class="parent-image">
+          <img src="{{ asset('images/rock.png') }}" alt="parent" class="parent-image">
         </div>
       </div>
     </section>

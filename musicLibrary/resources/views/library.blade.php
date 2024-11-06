@@ -11,7 +11,7 @@
     <!-- Header with Navigation Bar -->
     <header> 
         <nav class="navbar section-content">
-            <a href="" class="nav-logo">
+            <a href="#" class="nav-logo">
                 <h2 class="logo-text">🎸 Music Library</h2>
             </a>
             <ul class="nav-menu">
@@ -38,11 +38,11 @@
         <div class="playlists">
             <h3>Your Playlists</h3>
             <ul>
-            <!-- Link each playlist to its detail page -->
-            <li class="playlist-icon" data-id="1">Playlist 1</li>
-            <li class="playlist-icon" data-id="2">Playlist 2</li>
-            <li class="playlist-icon" data-id="create">+ Add New</li>
-        </ul>
+                <!-- Link each playlist to its detail page -->
+                <li class="playlist-icon" data-id="1">Playlist 1</li>
+                <li class="playlist-icon" data-id="2">Playlist 2</li>
+                <li class="playlist-icon" data-id="create">+ Add New</li>
+            </ul>
         </div>
     </aside>
 

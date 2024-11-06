@@ -32,8 +32,8 @@
       <div class="text-sci">
         <h2>Welcome!<br><span>To Our Website</span></h2>
         <p>
-          This is the login page designed for Music Library.
-          The database and functional javascript code is not impelemented yet.
+          You are now situating in log-in page of music library.
+          You can switch to sign-up page using link that is located bottom of the log-in page.
           It's just a visual representation of login and signup page.
         </p>
 
