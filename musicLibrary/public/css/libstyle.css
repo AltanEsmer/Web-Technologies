@@ -1,9 +1,45 @@
 /* Basic Reset */
 * {
     margin: 0;
-    padding: 0;
+    padding: 0%;
     box-sizing: border-box;
-}
+    font-family: "Poppins", sans-serif;
+  }
+  
+  :root {
+    /* Colours */
+    --white-color: #fff;
+    --dark-color: #006D77;
+    --primary-color: #83C5BE;
+    --secondary-color: #E29578;
+    --light-pink-color: #FFDDD2;
+    --medium-gray-color: #EDF6F9;
+  
+    /* Font size */
+    --font-size-s: 0.9rem;
+    --font-size-n: 1rem;
+    --font-size-m: 1.12rem;
+    --font-size-1: 1.5rem;
+    --font-size-x1: 2rem;
+    --font-size-xx1: 2.3rem;
+  
+    /* Font weight */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+  
+    /* Border radius */
+    --border-radius-s: 8px;
+    --border-radius-m: 30px;
+    --border-radius-circle: 50%;
+    /* Site max width */
+    --site-max-width: 1300px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
 
 body {
     font-family: Arial, sans-serif;
@@ -11,44 +47,101 @@ body {
     flex-direction: column; 
 }
 
-/* Navbar Styling */
-.navbar {
-    background-color: #007BFF; 
-    padding: 10px; 
-    display: flex; 
-    align-items: center; 
-    position: relative; 
-    z-index: 1000; 
-}
-
-.nav-menu {
-    display: flex; 
-    list-style-type: none; 
-    margin-left: auto; 
-}
-
-.nav-item {
-    margin-left: 20px; 
-}
-
-.nav-link {
-    color: white; 
-    text-decoration: none; 
-    padding: 10px 15px; 
-    border-radius: 5px; 
-    background-color: #0056b3; 
-    transition: background-color 0.3s ease; 
-}
-
-/* Hover effect for nav links */
-.nav-link:hover {
-    background-color: #003f7f; 
-}
+header {
+    background: var(--primary-color);
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .navbar .nav-logo .logo-text {
+    color: var(--white-color);
+    font-size: var(--font-size-x1);
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  .nav-menu {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+  }
+  
+  .nav-item {
+    margin-left: 20px; /* Updated to align with new spacing */
+  }
+  
+  .nav-link {
+    color: var(--white-color);
+    padding: 10px 18px;
+    font-size: var(--font-size-m);
+    border-radius: var(--border-radius-m);
+    transition: 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: var(--primary-color);
+    background: var(--secondary-color);
+  }
+  
+  /* Responsive Menu Toggle for smaller screens */
+  .navbar :where(#menu-close-button, #menu-open-button) {
+    display: none;
+  }
+  
+  /* Additional responsive styles */
+  @media screen and (max-width: 900px) {
+    .navbar :where(#menu-close-button, #menu-open-button) {
+      display: block;
+      font-size: var(--font-size-1);
+    }
+  
+    .navbar #menu-close-button {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+    }
+  
+    .navbar #menu-open-button {
+      color: var(--white-color);
+    }
+  
+    .nav-menu {
+      display: block;
+      position: fixed;
+      left: -300px;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 100px;
+      background: var(--white-color);
+      transition: left 0.2s ease;
+    }
+  
+    body.show-mobile-menu .nav-menu {
+      left: 0;
+    }
+  
+    .nav-menu .nav-link {
+      color: var(--dark-color);
+      display: block;
+      margin-top: 17px;
+      font-size: var(--font-size-1);
+    }
+  }
 
 /* Sidebar Styling */
 .sidebar {
     width: 200px;
-    background: #a7dff0;
+    background: #FFDDD2;
     color: #fff;
     padding: 20px;
     position: absolute; 
@@ -71,12 +164,12 @@ body {
 
 .playlist-icon {
     padding: 10px;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #FFDDD2;
     cursor: pointer;
 }
 /* Playlist Details Section */
 .playlist-details {
-    margin-top: 20px;
+    margin-top: 50px;
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -99,7 +192,7 @@ main {
     flex: 1;
     padding: 20px;
     margin-right: 220px; 
-    margin-top: 10px; 
+    margin-top: 70px; 
 }
 
 /* Additional styles for album carousel and recommendations remain the same... */
@@ -136,7 +229,7 @@ main {
     width: 40px;         
     height: 40px;        
     border-radius: 50%; 
-    background: #b3eaf3; 
+    background: #83C5BE; 
     color: #000000;         
     border: none;
     display: flex;
@@ -147,13 +240,14 @@ main {
 }
 
 .carousel-control:hover {
-    background: #9fd6e2; 
+    background: #83C5BE; 
 }
 
 .recommendations .artists {
     display: flex;
     gap: 30px;
-    justify-content: center; /* Center aligns the artist items */
+    justify-content: center; 
+    margin-top: 40px;
 }
 
 .artist {
@@ -165,7 +259,7 @@ main {
 .recommendations .artist-circle {
     width: 100px;
     height: 100px;
-    background: #b4e8f1;
+    background: #83C5BE;
     border-radius: 50%;
 }
 
