@@ -47,7 +47,13 @@
     <div class="logreg-box">
       <div class="form-box login">
         <form action="{{ route('signin.submit') }}" method="post">
-        @csrf  
+        @csrf
+        @if ($errors->has('msg'))
+            <div class="alert alert-danger">
+                <strong>{{ $errors->first('msg') }}</strong>
+            </div>
+        @endif
+
         <h2>Sign In</h2>
 
           <div class="input-box">
@@ -99,6 +105,12 @@
             <span class="icon"><i class='bx bxs-lock-alt' ></i></span>
             <input type="password" name="pass" id="pass" required>
             <label>Password</label>
+          </div>
+
+          <div class="input-box">
+            <span class="icon"><i class='bx bxs-lock-alt' ></i></span>
+            <input type="password" name="pass_confirmation" id="pass_confirmation" required>
+            <label>Enter Password Again</label>
           </div>
 
           <div class="remember-forgot">
