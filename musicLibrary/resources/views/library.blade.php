@@ -4,9 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Library</title>
-    <link rel="stylesheet" href="libstyle.css">
+    <link rel="stylesheet" href="{{asset('css/libstyle.css')}}">
 </head>
 <body>
+
+    <!-- Header with Navigation Bar -->
+    <header> 
+        <nav class="navbar section-content">
+            <a href="" class="nav-logo">
+                <h2 class="logo-text">🎸 Music Library</h2>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../Home/HomePage.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="library.html" class="nav-link">Library</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -24,25 +47,6 @@
 
     <!-- Main Content -->
     <main>
-        <header>
-            <nav>
-                <a href="#">Home</a>
-                <a href="#">Library</a>
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-            </nav>
-        </header>
-        
-        <section class="recommendations">
-            <h2>Artists You May Like</h2>
-            <!-- Artist circles -->
-            <div class="artists">
-                <div class="artist-circle">Artist 1</div>
-                <div class="artist-circle">Artist 2</div>
-                <div class="artist-circle">Artist 3</div>
-            </div>
-        </section>
-
         <section class="album-carousel">
             <h2>Sounds of Rock</h2>
             <!-- Carousel for albums -->
@@ -50,9 +54,29 @@
                 <div class="carousel-item">Album 1</div>
                 <div class="carousel-item">Album 2</div>
                 <div class="carousel-item">Album 3</div>
-                <!-- Carousel controls -->
+            </div>
+            <!-- Carousel controls centered below the carousel -->
+            <div class="carousel-controls">
                 <button class="carousel-control prev">◀</button>
                 <button class="carousel-control next">▶</button>
+            </div>
+        </section>
+
+        <section class="recommendations">
+            <h3>Artists You May Like</h3>
+            <div class="artists">
+                <div class="artist">
+                    <div class="artist-circle"></div>
+                    <p class="artist-name">Artist 1</p>
+                </div>
+                <div class="artist">
+                    <div class="artist-circle"></div>
+                    <p class="artist-name">Artist 2</p>
+                </div>
+                <div class="artist">
+                    <div class="artist-circle"></div>
+                    <p class="artist-name">Artist 3</p>
+                </div>
             </div>
         </section>
     </main>

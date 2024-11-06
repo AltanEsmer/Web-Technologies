@@ -8,14 +8,54 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
+    flex-direction: column; 
 }
 
-/* Sidebar */
+/* Navbar Styling */
+.navbar {
+    background-color: #007BFF; 
+    padding: 10px; 
+    display: flex; 
+    align-items: center; 
+    position: relative; 
+    z-index: 1000; 
+}
+
+.nav-menu {
+    display: flex; 
+    list-style-type: none; 
+    margin-left: auto; 
+}
+
+.nav-item {
+    margin-left: 20px; 
+}
+
+.nav-link {
+    color: white; 
+    text-decoration: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    background-color: #0056b3; 
+    transition: background-color 0.3s ease; 
+}
+
+/* Hover effect for nav links */
+.nav-link:hover {
+    background-color: #003f7f; 
+}
+
+/* Sidebar Styling */
 .sidebar {
     width: 200px;
-    background: #333;
+    background: #a7dff0;
     color: #fff;
     padding: 20px;
+    position: absolute; 
+    right: 0; 
+    top: 60px; 
+    height: calc(100vh - 60px); 
+    overflow-y: auto; 
 }
 
 .search-bar {
@@ -39,31 +79,21 @@ body {
 main {
     flex: 1;
     padding: 20px;
+    margin-right: 220px; 
+    margin-top: 10px; 
 }
 
-header nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-}
-
-.recommendations .artist-circle {
-    width: 80px;
-    height: 80px;
-    background: #ccc;
-    border-radius: 50%;
-    display: inline-block;
-    margin: 10px;
-}
-
+/* Additional styles for album carousel and recommendations remain the same... */
 .album-carousel {
     margin-top: 20px;
+    text-align: center;
 }
 
 .carousel {
     display: flex;
     overflow: hidden;
-    position: relative;
+    justify-content: center;
+    gap: 20px;
 }
 
 .carousel-item {
@@ -74,21 +104,54 @@ header nav a {
     text-align: center;
 }
 
+/* Centered controls below the carousel */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
 .carousel-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #333;
-    color: #fff;
+    width: 40px;         
+    height: 40px;        
+    border-radius: 50%; 
+    background: #b3eaf3; 
+    color: #000000;         
     border: none;
-    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;     
     cursor: pointer;
 }
 
-.prev {
-    left: 0;
+.carousel-control:hover {
+    background: #9fd6e2; 
 }
 
-.next {
-    right: 0;
+.recommendations .artists {
+    display: flex;
+    gap: 30px;
+    justify-content: center; /* Center aligns the artist items */
+}
+
+.artist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recommendations .artist-circle {
+    width: 100px;
+    height: 100px;
+    background: #b4e8f1;
+    border-radius: 50%;
+}
+
+.artist-name {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
 }

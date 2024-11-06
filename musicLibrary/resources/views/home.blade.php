@@ -23,9 +23,10 @@
         <button id="menu-close-button" class="fas fa-times"></button>
         <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
         <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="#library" class="nav-link">Library</a></li>
+        <li class="nav-item"><a href="{{ route('library') }}" class="nav-link">Library</a></li>
         <li class="nav-item"><a href="#artists" class="nav-link">Artists</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        
       </ul>
       <button id="menu-open-button" class="fas fa-bars"></button>
     </nav>
@@ -68,44 +69,8 @@
       </div>
     </section>
 
-    <!-- Library Section -->
-    <section class="library-section" id="library">
-      <h2 class="section-title">Our Library</h2>
-      <div class="section-content">
-        <ul class="library-list">
-          @for ($i = 0; $i < 6; $i++)
-            <li class="library-item">
-              <img src="{{ asset('images/music_about_us.jpeg') }}" alt="try" class="library-image">
-              <h3 class="name">Music Royale</h3>
-              <p class="text">Wide range of rhythms are included inside the song</p>
-            </li>
-          @endfor
-        </ul>
-      </div>
-    </section>
 
-    <!-- Artists Section -->
-    <section class="artists-section" id="artists">
-      <h2 class="section-title">Artists</h2>
-      <div class="section-content">
-        <div class="slider-container swiper">
-          <div class="slider-wrapper">
-            <ul class="artists-list swiper-wrapper">
-              @for ($i = 0; $i < 6; $i++)
-                <li class="artists swiper-slide">
-                  <img src="{{ asset('images/mona-lisa.jpg') }}" alt="artist" class="artist-image">
-                  <h3 class="name">Mona Lisa</h3>
-                  <i class="feedback">Classic and old painter</i>
-                </li>
-              @endfor
-            </ul>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-slide-button swiper-button-prev"></div>
-            <div class="swiper-slide-button swiper-button-next"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
