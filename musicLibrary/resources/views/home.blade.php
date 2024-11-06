@@ -26,6 +26,7 @@
         <li class="nav-item"><a href="{{ route('library') }}" class="nav-link">Library</a></li>
         <li class="nav-item"><a href="#artists" class="nav-link">Artists</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign in</a></li>
         
       </ul>
       <button id="menu-open-button" class="fas fa-bars"></button>
@@ -55,11 +56,11 @@
     <section class="about-section" id="about">
       <div class="section-content">
         <div class="about-image-wrapper">
-          <img src="{{ asset('images/music_about_us.jpeg') }}" alt="try" class="about-image">
+          <img src="{{ asset('images/Music-removebg-preview.png') }}" alt="try" class="about-image">
         </div>
         <div class="about-details">
           <h2 class="section-title">About Us</h2>
-          <p class="text">Music Library boasts a rich history. It was founded back in 1899...</p>
+          <p class="text">Music Library was created as part of the project for Web Technology, Autumn semester 2024</p>
           <div class="social-link-list">
             <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
             <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>

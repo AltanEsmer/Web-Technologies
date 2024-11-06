@@ -15,6 +15,7 @@
       <a href="#">About</a>
       <a href="{{ route('library') }}">Library</a>
       <a href="#">Contact</a>
+      <a href="{{ route('signin') }}">Sign in</a>
     </nav>
 
     <form action="#" class="search-bar">

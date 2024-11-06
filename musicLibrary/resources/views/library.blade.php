@@ -27,6 +27,7 @@
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">Contact</a>
                 </li>
+                <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign in</a></li>
             </ul>
         </nav>
     </header>
@@ -47,20 +48,34 @@
 
     <!-- Main Content -->
     <main>
-        <section class="album-carousel">
+    <section class="album-carousel">
+    <div class="playlist-view">
+        <div class="playlist-title">
             <h2>Sounds of Rock</h2>
-            <!-- Carousel for albums -->
+            <p>or whatever</p>
+        </div>
+        <div class="playlist-carousel">
+            <button class="carousel-btn left-btn">&lt;</button>
             <div class="carousel">
-                <div class="carousel-item">Album 1</div>
-                <div class="carousel-item">Album 2</div>
-                <div class="carousel-item">Album 3</div>
+                <div class="carousel-item">Emptiness Machine</div>
+                <div class="carousel-item">APT.</div>
+                <div class="carousel-item">Gossip feat. Tom Morello</div>
+                <div class="carousel-item">Imperial March</div>
             </div>
-            <!-- Carousel controls centered below the carousel -->
-            <div class="carousel-controls">
-                <button class="carousel-control prev">◀</button>
-                <button class="carousel-control next">▶</button>
-            </div>
-        </section>
+            <button class="carousel-btn right-btn">&gt;</button>
+        </div>
+        <div class="show-more">
+            <a href="#">Show more</a>
+        </div>
+    </div>
+    </div>
+    <div class="carousel-controls">
+        <button class="carousel-control prev">◀</button>
+        <button class="carousel-control next">▶</button>
+    </div>
+</section>
+
+
                 <!-- Playlist Detail Section -->
                 <section id="playlist-details" class="playlist-details">
             <h3>Playlist Details</h3>
