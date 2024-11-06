@@ -24,7 +24,6 @@
         <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
         <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
         <li class="nav-item"><a href="{{ route('library') }}" class="nav-link">Library</a></li>
-        <li class="nav-item"><a href="#artists" class="nav-link">Artists</a></li>
         <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
         
       </ul>
@@ -46,7 +45,7 @@
           </div>
         </div>
         <div class="parent-image-wrapper">
-          <img src="{{ asset('images/deneme.png') }}" alt="parent" class="parent-image">
+          <img src="{{ asset('images/rock.png') }}" alt="parent" class="parent-image">
         </div>
       </div>
     </section>
