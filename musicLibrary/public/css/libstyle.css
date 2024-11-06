@@ -74,6 +74,25 @@ body {
     border-bottom: 1px solid #444;
     cursor: pointer;
 }
+/* Playlist Details Section */
+.playlist-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    width: 300px;
+    float: right; /* Align the section to the right */
+}
+
+.playlist-details h3 {
+    color: #333;
+}
+
+.playlist-details #playlist-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
 
 /* Main Content */
 main {
