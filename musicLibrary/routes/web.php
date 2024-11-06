@@ -26,3 +26,10 @@ Route::get('/library', function () {
 Route::get('/', function () {
     return redirect()->route('signin');
 })->name('default');
+
+//playlist view and creation
+use App\Http\Controllers\PlaylistController;
+
+Route::get('/playlist/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
+Route::get('/playlist/create', [PlaylistController::class, 'create'])->name('playlist.create');
+

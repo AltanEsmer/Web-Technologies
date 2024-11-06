@@ -37,11 +37,11 @@
         <div class="playlists">
             <h3>Your Playlists</h3>
             <ul>
-                <!-- Icons representing playlists -->
-                <li class="playlist-icon">Playlist 1</li>
-                <li class="playlist-icon">Playlist 2</li>
-                <li class="playlist-icon">+ Add New</li>
-            </ul>
+            <!-- Link each playlist to its detail page -->
+            <li class="playlist-icon" data-id="1">Playlist 1</li>
+            <li class="playlist-icon" data-id="2">Playlist 2</li>
+            <li class="playlist-icon" data-id="create">+ Add New</li>
+        </ul>
         </div>
     </aside>
 
@@ -60,6 +60,11 @@
                 <button class="carousel-control prev">◀</button>
                 <button class="carousel-control next">▶</button>
             </div>
+        </section>
+                <!-- Playlist Detail Section -->
+                <section id="playlist-details" class="playlist-details">
+            <h3>Playlist Details</h3>
+            <div id="playlist-content">Select a playlist to view its contents</div>
         </section>
 
         <section class="recommendations">
@@ -80,6 +85,7 @@
             </div>
         </section>
     </main>
-
+    <script src="{{ asset('js/libraryScript.js') }}"></script>
+    
 </body>
 </html>
