@@ -15,9 +15,9 @@
                 <h2 class="logo-text">🎸 Music Library</h2>
             </a>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="../Home/HomePage.html" class="nav-link">Home</a>
-                </li>
+            <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link">Home</a>
+            </li>
                 <li class="nav-item">
                     <a href="#about" class="nav-link">About</a>
                 </li>

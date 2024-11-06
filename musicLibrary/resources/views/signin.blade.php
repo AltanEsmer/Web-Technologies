@@ -26,7 +26,7 @@
   <div class="background"></div>
   <div class="container">
     <div class="content">
-      <h2 class="logo"><i class='bx bxs-hot' ></i>Music Library</h2>
+      <h2 class="logo"><i></i>Music Library</h2>
 
       <div class="text-sci">
         <h2>Welcome!<br><span>To Our Website</span></h2>

@@ -41,12 +41,12 @@
           <h3 class="subtitle">Find the best music that fits you!</h3>
           <p class="description">Deliming bama</p>
           <div class="buttons">
-            <a href="#" class="button choose-now">Choose Music</a>
-            <a href="#" class="button contact-us">Contact Us</a>
+          <a href="{{ route('library') }}" class="button choose-now">Go to the Library</a>
+          <a href="#" class="button contact-us">Contact Us</a>
           </div>
         </div>
         <div class="parent-image-wrapper">
-          <img src="{{ asset('images/deneme.png') }}" alt="parent" class="parent-image">
+          <img src="{{ asset('images/Music-removebg-preview.png') }}" alt="parent" class="parent-image">
         </div>
       </div>
     </section>
