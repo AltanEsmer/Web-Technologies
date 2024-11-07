@@ -182,12 +182,12 @@
   }
   
   .logreg-box.active .form-box.login {
-    transform: translateX(430px);
+    transform: translateX(830px);
     transition-delay: 0s;
   }
   
   .logreg-box .form-box.register {
-    transform: translate(430px,-550px);
+    transform: translate(830px,-550px);
     transition: transform 0.6s ease;
     transition-delay: 0s;
   }
