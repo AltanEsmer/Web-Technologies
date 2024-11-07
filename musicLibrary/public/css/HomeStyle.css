@@ -11,11 +11,11 @@
 :root {
   /* Colours */
   --white-color: #fff;
-  --dark-color: #252525;
-  --primary-color: #1c144c;
-  --secondary-color: #f81818;
-  --light-pink-color: #e7d1cc;
-  --medium-gray-color: #ccc;
+  --dark-color: #006D77;
+  --primary-color: #83C5BE;
+  --secondary-color: #E29578;
+  --light-pink-color: #FFDDD2;
+  --medium-gray-color: #EDF6F9;
 
   /* Font size */
   --font-size-s: 0.9rem;
@@ -84,49 +84,110 @@ img {
   border-radius: var(--border-radius-s);
   background: var(--secondary-color);
 }
-
-/* Navbar and header styling */
-
-header {
-  background: var(--primary-color);
+/* header*/
+.header {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  z-index: 5;
-}
-
-header .navbar {
+  padding: 15px 12.5%; /* Adjust padding for better alignment */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  z-index: 100;
+  background-color: var(--primary-color);
 }
 
-.navbar .nav-menu {
+/* Align logo and links in a row */
+.navbar {
   display: flex;
-  gap: 10px;
+  align-items: center;
 }
 
-.navbar .nav-logo .logo-text {
-  color: var(--white-color);
-  font-size: var(--font-size-x1);
-  font-weight: var(--font-weight-semibold);
+/* Logo styling */
+.logo-image-wrapper {
+  max-width: 100px; /* Set a max width for the logo */
+  margin-right: 15px; /* Add space between the logo and links */
 }
 
-.navbar .nav-menu .nav-link {
-  color: var(--white-color);
-  padding: 10px 18px;
-  font-size: var(--font-size-m);
-  border-radius: var(--border-radius-m);
-  transition: 0.3s ease;
+.logo-image {
+  width: 100%; /* Make the logo fit within the wrapper */
+  height: auto;
+  max-height: 50px; /* Adjust height as needed */
 }
 
-.navbar .nav-menu .nav-link:hover {
-  color: var(--primary-color);
-  background: var(--secondary-color);
+/* Navigation links styling */
+.navbar a {
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 20px;
+  transition: color 0.3s;
 }
 
-.navbar :where(#menu-close-button, #menu-open-button) {
-  display: none;
+.navbar a:last-child {
+  margin-right: 0; /* Remove margin on the last link */
+}
+
+.navbar a:hover {
+  color: var(--secondary-color);
+}
+
+.navbar a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background: var(--medium-gray-color);
+  border-radius: 5px;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.navbar a:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+/* Search bar styling */
+.search-bar {
+  width: 250px;
+  height: 45px;
+  background: transparent;
+  border: 2px solid var(--medium-gray-color);
+  border-radius: 6px;
+  display: flex;
+  margin-left: auto; /* Pushes the search bar to the far right */
+}
+
+.search-bar input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--medium-gray-color);
+  padding-left: 10px;
+}
+
+.search-bar button {
+  width: 40px;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.search-bar button i {
+  font-size: 22px;
+  color: var(--medium-gray-color);
 }
 
 /* Parent section styling */
@@ -246,99 +307,8 @@ header .navbar {
   color: var(--secondary-color);
 }
 
-/* Library Section Styling */
-.library-section {
-  color: var(--white-color);
-  background: var(--dark-color);
-  padding: 50px 0 100px;
-}
 
-.library-section .library-list{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 110px;
-  align-items: center;
-  justify-content: space-between;
-}
 
-.library-section .library-list .library-item {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  justify-content: space-between;
-  width: calc(100% / 3 - 110px);
-}
-
-.library-section .library-list .library-item .library-image {
-  max-width: 83%;
-  aspect-ratio: 1;
-  object-fit: contain;
-}
-
-.library-section .library-list .library-item .name{
-  margin: 12px 0;
-  font-size: var(--font-size-1);
-  font-weight: var(--font-weight-semibold);
-}
-
-.library-section .library-list .library-item .text {
-  font-size: var(--font-size-m);
-}
-
-/* Artists Section Styling */
-.artists-section {
-  padding: 50px 0 100px;
-  background: var(--white-color);
-}
-
-.artists-section .slider-wrapper {
-  overflow: hidden;
-  margin: 0 60px 50px;
-}
-
-.artists-section .artists {
-  user-select: none;
-  display: flex;
-  align-items: center;
-  padding: 35px;
-  text-align: center;
-  flex-direction: column;
-}
-
-.artists-section .artists .artist-image {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  margin-bottom: 50px;
-  border-radius: var(--border-radius-circle);
-}
-
-.artists-section .artist .name {
-  margin-bottom: 16px;
-  font-size: var(--font-size-m);
-}
-
-.artists-section .artist .feedback {
-  line-height: 25px;
-}
-
-.artists-section .swiper-pagination-bullet {
-  width: 15px;
-  height: 15px;
-  opacity: 1;
-  background: var(--secondary-color);
-}
-
-.artists-section .swiper-slide-button {
-  margin-top: -50px;
-  color: var(--secondary-color);
-  transition: 0.3s ease;
-}
-
-.artists-section .swiper-slide-button:hover {
-  color: var(--primary-color);
-}
 
 /* Contact us Section Styling */
 .contact-section {

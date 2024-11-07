@@ -9,15 +9,18 @@
   <title>Main Page</title>
 </head>
 <body>
-  <header class="header">
+<header class="header">
     <nav class="navbar">
+    <div class="about-image-wrapper">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="try" class="about-image">
+        </div> 
       <a href="{{ route('home') }}">Home</a>
-      <a href="#">About</a>
+      
       <a href="{{ route('library') }}">Library</a>
-      <a href="#">Contact</a>
+      
       <a href="{{ route('signin') }}">Sign in</a>
     </nav>
-
+    </div>
     <form action="#" class="search-bar">
       <input type="text" name="search" id="search" placeholder="Search...">
       <button type="submit"><i class='bx bx-search'></i></button>

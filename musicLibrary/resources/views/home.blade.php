@@ -14,22 +14,22 @@
 <body>
 
   <!-- Header & navbar -->
-  <header>
-    <nav class="navbar section-content">
-      <a href="" class="nav-logo">
-        <h2 class="logo-text">🎸 Music Library</h2>
-      </a>
-      <ul class="nav-menu">
-        <button id="menu-close-button" class="fas fa-times"></button>
-        <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="{{ route('library') }}" class="nav-link">Library</a></li>
-        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-        <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign in</a></li>
-        
-      </ul>
-      <button id="menu-open-button" class="fas fa-bars"></button>
+  <header class="header">
+    <nav class="navbar">
+    <div class="logo-image-wrapper">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="try" class="about-image">
+        </div> 
+      <a href="{{ route('home') }}">Home</a>
+      <a href="#">About</a>
+      <a href="{{ route('library') }}">Library</a>
+      <a href="#">Contact</a>
+      <a href="{{ route('signin') }}">Sign in</a>
     </nav>
+    </div>
+    <form action="#" class="search-bar">
+      <input type="text" name="search" id="search" placeholder="Search...">
+      <button type="submit"><i class='bx bx-search'></i></button>
+    </form>
   </header>
 
   <main>
@@ -39,9 +39,9 @@
         <div class="parent-details">
           <h2 class="title">Best Music Library</h2>
           <h3 class="subtitle">Find the best music that fits you!</h3>
-          <p class="description">Deliming bama</p>
+          <p class="description">On this page you are going to recive personal recommendations for your playlists</p>
           <div class="buttons">
-            <a href="#" class="button choose-now">Choose Music</a>
+            <a href="#" class="button choose-now">Go to the Library</a>
             <a href="#" class="button contact-us">Contact Us</a>
           </div>
         </div>

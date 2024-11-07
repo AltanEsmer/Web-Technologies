@@ -8,66 +8,26 @@
 </head>
 <body>
 
-    <!-- Header with Navigation Bar 
-    <header> 
-        <nav class="navbar section-content">
-            <a href="#" class="nav-logo">
-                <h2 class="logo-text">🎸 Music Library</h2>
-            </a>
-            <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="{{ route('home') }}" class="nav-link">Home</a>
-            </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="library.html" class="nav-link">Library</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign in</a></li>
-            </ul>
-        </nav>
-        <form action="#" class="search-bar">
+      <!-- Header & navbar -->
+ <header class="header">
+    <nav class="navbar">
+    <div class="about-image-wrapper">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="try" class="about-image">
+        </div> 
+      <a href="{{ route('home') }}">Home</a>
+      
+      <a href="{{ route('library') }}">Library</a>
+      
+      <a href="{{ route('signin') }}">Sign in</a>
+    </nav>
+    </div>
+    <form action="#" class="search-bar">
       <input type="text" name="search" id="search" placeholder="Search...">
       <button type="submit"><i class='bx bx-search'></i></button>
-     </form>
-    </header> -->
+    </form>
+  </header>
 
-    <header>
-    <div class="navbar">
-        <!-- Left Side: Logo and Navigation Links -->
-        <div class="nav-logo">
-            <span class="logo-text">🎸 Music Library</span>
-        </div>
-        
-        <!-- Right Side: Search Bar and Sign-In Button -->
-        <div class="navbar-right">
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="{{ route('home') }}" class="nav-link">Home</a>
-            </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="library.html" class="nav-link">Library</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign-in</a></li>
-            </ul>
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
-                <button><i class="fa fa-search"></i></button>
-            </div>
-            
-        </div>
-    </div>
-</header>
+    
 
 
     <!-- Sidebar -->
