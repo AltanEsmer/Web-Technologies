@@ -7,6 +7,8 @@ use App\Http\Controllers\PlaylistController;
 // Routes for Authentication
 Route::get('/signin', [AuthController::class, 'showLoginForm'])->name('signin');
 Route::post('/signin', [AuthController::class, 'signIn'])->name('signin.submit');
+
+Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
 Route::post('/signup', [AuthController::class, 'signUp'])->name('signup.submit');
 
 // Routes for Pages
