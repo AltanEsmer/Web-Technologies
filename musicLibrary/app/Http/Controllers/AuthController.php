@@ -23,7 +23,6 @@ class AuthController extends Controller
         $validated = $request->validate([
             'mail' => 'required|email',
             'pass' => 'required|min:6',
-            'pass_confirmation' => 'required|min:6',
         ]);
 
         // Attempt to log the user in
@@ -46,11 +45,11 @@ class AuthController extends Controller
         ]);
 
         // Create the new user
-        $user = new User();
-        $user->name = $request->username;
-        $user->email = $request->mail;
-        $user->password = Hash::make($request->pass);
-        $user->save();
+        $user = User::create([
+            'name' => $request->username,
+            'email' => $request->mail,
+            'password' => Hash::make($request->pass),
+        ]);
 
         // Automatically log the user in after they sign up
         Auth::login($user);
