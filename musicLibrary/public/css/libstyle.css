@@ -69,7 +69,7 @@ header {
   
   .nav-menu {
     display: flex;
-    gap: 10px;
+    gap: 1px;
     list-style-type: none;
   }
   
@@ -137,24 +137,53 @@ header {
       font-size: var(--font-size-1);
     }
   }
+  
+  /* Right-side elements: search bar and pages buttons */
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+  }
 
+  /* Search Bar Styling */
+  .search-bar {
+    width: 200px; /* Adjust width as needed */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border: 2px solid #EDF6F9;
+    border-radius: 6px;
+    padding: 0 8px;
+  }
+
+  /* Input in Search Bar */
+  .search-bar input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #EDF6F9;
+    padding-left: 8px;
+  }
+
+  /* Search Icon */
+  .search-bar button i {
+    font-size: 20px;
+    color: #EDF6F9;
+  }
+  
 /* Sidebar Styling */
 .sidebar {
-    width: 200px;
+    width: 250px;
     background: #FFDDD2;
     color: #fff;
     padding: 20px;
     position: absolute; 
     right: 0; 
-    top: 60px; 
+    top: 80px; 
     height: calc(100vh - 60px); 
     overflow-y: auto; 
-}
-
-.search-bar {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 20px;
 }
 
 .playlists ul {
@@ -195,14 +224,14 @@ main {
     margin-top: 70px; 
 }
 
-/* Additional styles for album carousel and recommendations remain the same... */
+/* playlist recommendation */
 .playlist-view {
     display: flex;
     align-items: center;
     border: 1px solid #ddd;
-    padding: 20px;
+    padding: 40px;
     width: 80%;
-    margin: 20px auto;
+    margin: 40px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -268,7 +297,7 @@ main {
 }
 
 .show-more a {
-    color: #007bff;
+    color: #006D77;
     text-decoration: none;
 }
 
@@ -276,35 +305,11 @@ main {
     text-decoration: underline;
 }
 
-/* Centered controls below the carousel */
-.carousel-controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.carousel-control {
-    width: 40px;         
-    height: 40px;        
-    border-radius: 50%; 
-    background: #83C5BE; 
-    color: #000000;         
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;     
-    cursor: pointer;
-}
-
-.carousel-control:hover {
-    background: #83C5BE; 
-}
+/* Artists*/
 
 .recommendations .artists {
     display: flex;
-    gap: 30px;
+    gap: 100px;
     justify-content: center; 
     margin-top: 40px;
 }
@@ -316,10 +321,10 @@ main {
 }
 
 .recommendations .artist-circle {
-    width: 100px;
-    height: 100px;
+    width: 170px;
+    height: 170px;
     background: #83C5BE;
-    border-radius: 50%;
+    border-radius: 90%;
 }
 
 .artist-name {

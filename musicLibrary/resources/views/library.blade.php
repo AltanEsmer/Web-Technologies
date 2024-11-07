@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- Header with Navigation Bar -->
+    <!-- Header with Navigation Bar 
     <header> 
         <nav class="navbar section-content">
             <a href="#" class="nav-logo">
@@ -30,11 +30,49 @@
                 <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign in</a></li>
             </ul>
         </nav>
-    </header>
+        <form action="#" class="search-bar">
+      <input type="text" name="search" id="search" placeholder="Search...">
+      <button type="submit"><i class='bx bx-search'></i></button>
+     </form>
+    </header> -->
+
+    <header>
+    <div class="navbar">
+        <!-- Left Side: Logo and Navigation Links -->
+        <div class="nav-logo">
+            <span class="logo-text">🎸 Music Library</span>
+        </div>
+        
+        <!-- Right Side: Search Bar and Sign-In Button -->
+        <div class="navbar-right">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link">Home</a>
+            </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="library.html" class="nav-link">Library</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item"><a href="{{ route('signin') }}" class="nav-link">Sign-in</a></li>
+            </ul>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <button><i class="fa fa-search"></i></button>
+            </div>
+            
+        </div>
+    </div>
+</header>
+
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <input type="text" placeholder="Search..." class="search-bar">
+        
         <div class="playlists">
             <h3>Your Playlists</h3>
             <ul>
@@ -61,6 +99,8 @@
                 <div class="carousel-item">APT.</div>
                 <div class="carousel-item">Gossip feat. Tom Morello</div>
                 <div class="carousel-item">Imperial March</div>
+                <div class="carousel-item">Stick Season</div>
+                <div class="carousel-item">vampire</div>
             </div>
             <button class="carousel-btn right-btn">&gt;</button>
         </div>
@@ -69,18 +109,15 @@
         </div>
     </div>
     </div>
-    <div class="carousel-controls">
-        <button class="carousel-control prev">◀</button>
-        <button class="carousel-control next">▶</button>
-    </div>
+
 </section>
 
 
-                <!-- Playlist Detail Section -->
+                <!-- Playlist Detail Section 
                 <section id="playlist-details" class="playlist-details">
             <h3>Playlist Details</h3>
             <div id="playlist-content">Select a playlist to view its contents</div>
-        </section>
+        </section> -->
 
         <section class="recommendations">
             <h3>Artists You May Like</h3>
