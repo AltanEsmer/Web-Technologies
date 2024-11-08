@@ -20,7 +20,7 @@ nextButton.addEventListener('click', () => {
         array[index] = value + 1;
     })
     console.log(songsShownIndex);
-    songs[songsShownIndex[0]-1].hidden = true;
+    songs[songsShownIndex[0]-1].hidden = true ;
     songs[songsShownIndex[2]].hidden = false;
     console.log(songs);
     carousel.scrollTo({
