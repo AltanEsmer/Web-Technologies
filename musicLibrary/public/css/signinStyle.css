@@ -4,87 +4,145 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
   }
+  :root {
+    /* Colours */
+    --white-color: #fff;
+    --dark-color: #006D77;
+    --primary-color: #83C5BE;
+    --secondary-color: #E29578;
+    --light-pink-color: #FFDDD2;
+    --medium-gray-color: #EDF6F9;
   
-  body {
-    background: #006D77;
+    /* Font size */
+    --font-size-s: 0.9rem;
+    --font-size-n: 1rem;
+    --font-size-m: 1.12rem;
+    --font-size-1: 1.5rem;
+    --font-size-x1: 2rem;
+    --font-size-xx1: 2.3rem;
+  
+    /* Font weight */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+  
+    /* Border radius */
+    --border-radius-s: 8px;
+    --border-radius-m: 30px;
+    --border-radius-circle: 50%;
+    /* Site max width */
+    --site-max-width: 1300px;
   }
   
+  body {
+    background: var(--primary-color);
+  }
+ /*header*/ 
   .header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 25px 12.5%;
+    padding: 15px 12.5%; /* Adjust padding for better alignment */
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    
-  }
-  
-  .navbar a{
-    position: relative;
-    font-size: 16px;
-    color: #EDF6F9;
+    background-color: var(--primary-color);
+}
+
+/* Align logo and links in a row */
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo styling */
+.about-image-wrapper {
+    max-width: 100px; /* Set a max width for the logo */
+    margin-right: 50px; /* Add space between the logo and links */
+}
+
+.about-image {
+    width: 100%; /* Make the logo fit within the wrapper */
+    height: auto;
+    max-height: 50px; /* Adjust height as needed */
+}
+
+/* Navigation links styling */
+.navbar a {
+    font-size: 20px;
+    color: #fff;
     text-decoration: none;
-    font-weight: 500;
-    margin-right: 30px;
-  }
-  
-  .navbar a::after {
+    font-weight: 600;
+    margin-right: 20px;
+    transition: color 0.3s;
+}
+
+.navbar a:last-child {
+    margin-right: 0; /* Remove margin on the last link */
+}
+
+.navbar a:hover {
+    color: var(--secondary-color);
+}
+
+.navbar a::after {
     content: '';
     position: absolute;
     left: 0;
     bottom: -5px;
     width: 100%;
     height: 2px;
-    background: #EDF6F9;
+    background: var(--medium-gray-color);
     border-radius: 5px;
     transform-origin: right;
     transform: scaleX(0);
-    transition: transform 0.5s;
-  }
-  
-  .navbar a:hover::after {
+    transition: transform 0.3s;
+}
+
+.navbar a:hover::after {
     transform-origin: left;
     transform: scaleX(1);
-  }
-  
-  .search-bar {
+}
+
+/* Search bar styling */
+.search-bar {
     width: 250px;
     height: 45px;
     background: transparent;
-    border: 2px solid #EDF6F9;
+    border: 2px solid var(--medium-gray-color);
     border-radius: 6px;
     display: flex;
-  }
-  
-  .search-bar input {
+    margin-left: auto; /* Pushes the search bar to the far right */
+}
+
+.search-bar input {
     width: 100%;
     background: transparent;
     border: none;
     outline: none;
     font-size: 16px;
-    color: #EDF6F9;
+    color: var(--medium-gray-color);
     padding-left: 10px;
-  }
-  
-  .search-bar button {
+}
+
+.search-bar button {
     width: 40px;
     height: 100%;
     background-color: transparent;
     border: none;
-    outline: none;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-  }
-  
-  .search-bar button i {
+}
+
+.search-bar button i {
     font-size: 22px;
-    color: #EDF6F9;
-  }
+    color: var(--medium-gray-color);
+}
   
   .background {
     width: 100%;
@@ -103,7 +161,7 @@
     width: 75%;
     height: 550px;
     
-    background: #83C5BE;
+    background: var(--dark-color);
     /*background: url('/images/log-in-background.jpg') no-repeat;*/
     background-size: cover;
     background-position: center;
@@ -182,12 +240,12 @@
   }
   
   .logreg-box.active .form-box.login {
-    transform: translateX(430px);
+    transform: translateX(830px);
     transition-delay: 0s;
   }
   
   .logreg-box .form-box.register {
-    transform: translate(430px,-550px);
+    transform: translate(830px,-550px);
     transition: transform 0.6s ease;
     transition-delay: 0s;
   }
