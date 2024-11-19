@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Playlist;
 use App\Models\Song;
 use Illuminate\Http\Request;
+use App\Services\SpotifyService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 
@@ -96,27 +97,15 @@ class PlaylistController extends Controller
 
     public function searchSpotify(Request $request, Playlist $playlist)
     {
+        $spotifyService = new SpotifyService();
         $query = $request->input('query');
         $message = '';
         $spotifySongs = [];
 
         if ($query) {
-            try {
-                $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . config('services.spotify.token')
-                ])->get('https://api.spotify.com/v1/search', [
-                    'q' => $query,
-                    'type' => 'track',
-                    'limit' => 10
-                ]);
-
-                if ($response->successful()) {
-                    $spotifySongs = $response->json()['tracks']['items'];
-                } else {
-                    $message = 'Failed to fetch songs from Spotify';
-                }
-            } catch (\Exception $e) {
-                $message = 'Error connecting to Spotify: ' . $e->getMessage();
+            $spotifySongs = $spotifyService->searchTracks($query);
+            if ($spotifySongs === null) {
+                $message = 'Failed to fetch songs from Spotify';
             }
         }
 

@@ -1,36 +1,68 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
-use App\Services\SpotifyService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
-class SpotifyController extends Controller
+class SpotifyService
 {
-    protected $spotifyService;
+    protected $clientId = '2c5bcb785c644b058a82398c6755b4f1';
+    protected $clientSecret = 'b9fb6fdecdc74b37a1ff51f3ec11d085';
+    protected $tokenUrl = 'https://accounts.spotify.com/api/token';
+    protected $searchUrl = 'https://api.spotify.com/v1/search';
 
-    public function __construct(SpotifyService $spotifyService)
+    protected function getAccessToken()
     {
-        $this->spotifyService = $spotifyService;
-    }
-
-    public function searchSpotify(Request $request)
-    {
-        $query = $request->input('query');
-
-        if (empty($query)) {
-            return view('spotify.search', [
-                'spotifySongs' => [],
-                'message' => 'Please enter a search term.'
-            ]);
+        if (Cache::has('spotify_token')) {
+            return Cache::get('spotify_token');
         }
 
-        $songs = $this->spotifyService->searchTracks($query);
+        try {
+            $response = Http::asForm()->post($this->tokenUrl, [
+                'grant_type' => 'client_credentials',
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+            ]);
 
-        return view('spotify.search', [
-            'spotifySongs' => $songs ?? [],
-            'message' => $songs === null ? 'Failed to fetch songs from Spotify.' : null,
-            'query' => $query
-        ]);
+            if ($response->successful()) {
+                $data = $response->json();
+                Cache::put('spotify_token', $data['access_token'], now()->addSeconds($data['expires_in']));
+                return $data['access_token'];
+            }
+        } catch (\Exception $e) {
+            \Log::error('Spotify token error: ' . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    public function searchTracks($query)
+    {
+        if (empty($query)) {
+            return null;
+        }
+
+        $token = $this->getAccessToken();
+        if (!$token) {
+            \Log::error('Failed to get Spotify access token');
+            return null;
+        }
+
+        try {
+            $response = Http::withToken($token)->get($this->searchUrl, [
+                'q' => $query,
+                'type' => 'track',
+                'limit' => 10
+            ]);
+
+            if ($response->successful()) {
+                return $response->json()['tracks']['items'];
+            }
+        } catch (\Exception $e) {
+            \Log::error('Spotify search error: ' . $e->getMessage());
+        }
+
+        return null;
     }
 }

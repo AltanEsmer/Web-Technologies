@@ -7,29 +7,15 @@ use Illuminate\Support\Facades\Cache;
 
 class SpotifyService
 {
-    protected $clientId;
-    protected $clientSecret;
+    protected $clientId = '2c5bcb785c644b058a82398c6755b4f1';
+    protected $clientSecret = 'b9fb6fdecdc74b37a1ff51f3ec11d085';
     protected $tokenUrl = 'https://accounts.spotify.com/api/token';
     protected $searchUrl = 'https://api.spotify.com/v1/search';
-
-    public function __construct()
-    {
-        $this->clientId = config('services.spotify.client_id');
-        $this->clientSecret = config('services.spotify.client_secret');
-        
-        if (!$this->clientId || !$this->clientSecret) {
-            throw new \Exception('Spotify credentials not configured');
-        }
-    }
 
     protected function getAccessToken()
     {
         if (Cache::has('spotify_token')) {
             return Cache::get('spotify_token');
-        }
-
-        if (!$this->tokenUrl) {
-            throw new \Exception('Token URL not configured');
         }
 
         try {

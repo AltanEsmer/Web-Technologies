@@ -5,15 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Playlist;
 use App\Models\Song;
-use Illuminate\Support\Facades\Http;
+use App\Services\SpotifyService;
 
 class PlaylistSongsSeeder extends Seeder
 {
-    protected $spotifyToken;
+    protected $spotifyService;
 
     public function __construct()
     {
-        $this->spotifyToken = config('services.spotify.token');
+        $this->spotifyService = new SpotifyService();
     }
 
     public function run()
@@ -22,43 +22,32 @@ class PlaylistSongsSeeder extends Seeder
         $searchTerms = ['rock', 'pop', 'jazz', 'classical', 'hip hop'];
 
         foreach ($playlists as $playlist) {
-            // Randomly select a search term
             $searchTerm = $searchTerms[array_rand($searchTerms)];
             
-            try {
-                $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $this->spotifyToken
-                ])->get('https://api.spotify.com/v1/search', [
-                    'q' => $searchTerm,
-                    'type' => 'track',
-                    'limit' => 5 // Get 5 songs per playlist
-                ]);
+            $tracks = $this->spotifyService->searchTracks($searchTerm);
+            
+            if ($tracks) {
+                foreach ($tracks as $track) {
+                    $song = Song::firstOrCreate(
+                        [
+                            'spotify_id' => $track['id'],
+                            'title' => $track['name'],
+                            'artist' => $track['artists'][0]['name'],
+                            'album' => $track['album']['name']
+                        ],
+                        [
+                            'cover_art' => $track['album']['images'][0]['url'] ?? null
+                        ]
+                    );
 
-                if ($response->successful()) {
-                    $tracks = $response->json()['tracks']['items'];
-                    
-                    foreach ($tracks as $track) {
-                        $song = Song::firstOrCreate(
-                            [
-                                'title' => $track['name'],
-                                'artist' => $track['artists'][0]['name'],
-                                'album' => $track['album']['name']
-                            ],
-                            [
-                                'cover_art' => $track['album']['images'][0]['url'] ?? null
-                            ]
-                        );
-
-                        // Attach song to playlist if not already attached
-                        if (!$playlist->songs->contains($song->id)) {
-                            $playlist->songs()->attach($song->id);
-                        }
+                    if (!$playlist->songs->contains($song->id)) {
+                        $playlist->songs()->attach($song->id);
                     }
-
-                    $this->command->info("Added songs to playlist: {$playlist->name}");
                 }
-            } catch (\Exception $e) {
-                $this->command->error("Error adding songs to playlist {$playlist->name}: {$e->getMessage()}");
+
+                $this->command->info("Added songs to playlist: {$playlist->name}");
+            } else {
+                $this->command->error("Failed to fetch songs for playlist: {$playlist->name}");
             }
         }
     }
