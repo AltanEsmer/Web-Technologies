@@ -17,15 +17,24 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Rock Classics',
                 'description' => 'Classic rock songs from the 70s and 80s',
+                'user_id' => 1, // Make sure this user exists
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
                 'name' => 'Chill Vibes',
                 'description' => 'Relaxing and chill tracks for any time',
+                'user_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
                 'name' => 'Workout Hits',
                 'description' => 'High-energy music for a great workout',
-            ],
+                'user_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
         ]);
     }
-}
+    }

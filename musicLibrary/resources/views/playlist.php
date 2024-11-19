@@ -1,28 +1,28 @@
 <?php
-// playlist.php
 
-// Database connection (adjust parameters as needed)
-$host = 'localhost';
-$db = 'music_library';
-$user = 'yourusername';
-$pass = 'yourpassword';
-$conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+namespace App\Models;
 
-// Check if a playlist ID is provided
-if (isset($_GET['playlist_id'])) {
-    $playlistId = $_GET['playlist_id'];
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    // Fetch the playlist data from the database
-    $stmt = $conn->prepare("SELECT * FROM playlists WHERE id = ?");
-    $stmt->execute([$playlistId]);
-    $playlist = $stmt->fetch(PDO::FETCH_ASSOC);
+class Playlist extends Model
+{
+    use HasFactory;
 
-    if ($playlist) {
-        // Return playlist data as JSON
-        echo json_encode($playlist);
-    } else {
-        echo json_encode(['error' => 'Playlist not found']);
+    protected $fillable = [
+        'name',
+        'description',
+        'cover_image',
+        'user_id'
+    ];
+
+    public function songs()
+    {
+        return $this->belongsToMany(Song::class, 'playlist_song');
     }
-} else {
-    echo json_encode(['error' => 'No playlist ID provided']);
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

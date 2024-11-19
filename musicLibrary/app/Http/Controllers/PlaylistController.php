@@ -3,108 +3,203 @@
 namespace App\Http\Controllers;
 
 use App\Models\Playlist;
-use App\Models\Song;  // Ensure Song model is imported
+use App\Models\Song;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class PlaylistController extends Controller
 {
-    public function show($id)
+    public function index()
     {
-        $playlist = Playlist::find($id);
-        if (!$playlist) {
-            abort(404, 'Playlist not found');
-        }
-        return view('show', compact('playlist'));
+        $playlists = Playlist::with('songs')->get();
+        return view('playlists.index', compact('playlists'));
     }
 
     public function create()
     {
-        return view('playlist.create');
+        return view('playlists.create');
     }
 
-    public function searchSpotify(Request $request)
+    public function store(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => 'required|max:255',
+                'description' => 'nullable|string',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            $validated['user_id'] = auth()->id() ?? 1;
+
+            if ($request->hasFile('cover_image')) {
+                $image = $request->file('cover_image');
+                
+                // Debug information
+                \Log::info('Image details', [
+                    'original_name' => $image->getClientOriginalName(),
+                    'mime_type' => $image->getMimeType(),
+                    'size' => $image->getSize(),
+                    'error' => $image->getError()
+                ]);
+
+                $imageName = time() . '.' . $image->extension();
+                
+                // Store the file directly in public disk
+                $path = $image->storeAs('playlist-covers', $imageName, 'public');
+                
+                if (!$path) {
+                    throw new \Exception('Failed to store image');
+                }
+
+                // Verify the file exists
+                if (!Storage::disk('public')->exists($path)) {
+                    throw new \Exception('Stored file not found');
+                }
+
+                $validated['cover_image'] = $path;
+                
+                \Log::info('Image stored successfully', [
+                    'path' => $path,
+                    'url' => Storage::url($path)
+                ]);
+            }
+
+            $playlist = Playlist::create($validated);
+
+            \Log::info('Playlist created', [
+                'id' => $playlist->id,
+                'cover_image' => $playlist->cover_image,
+                'storage_path' => $playlist->cover_image ? Storage::url($playlist->cover_image) : null
+            ]);
+
+            return redirect()->route('playlists.show', $playlist)
+                ->with('success', 'Playlist created successfully!');
+                
+        } catch (\Exception $e) {
+            \Log::error('Playlist creation failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()
+                ->withInput()
+                ->with('error', 'Failed to create playlist: ' . $e->getMessage());
+        }
+    }
+
+    public function show(Playlist $playlist)
+    {
+        $playlist->load('songs');
+        return view('playlists.show', compact('playlist'));
+    }
+
+    public function searchSpotify(Request $request, Playlist $playlist)
     {
         $query = $request->input('query');
+        $message = '';
+        $spotifySongs = [];
 
-        if (!$query) {
-            return view('spotify.search', ['spotifySongs' => [], 'message' => 'Please enter a search term.']);
+        if ($query) {
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . config('services.spotify.token')
+                ])->get('https://api.spotify.com/v1/search', [
+                    'q' => $query,
+                    'type' => 'track',
+                    'limit' => 10
+                ]);
+
+                if ($response->successful()) {
+                    $spotifySongs = $response->json()['tracks']['items'];
+                } else {
+                    $message = 'Failed to fetch songs from Spotify';
+                }
+            } catch (\Exception $e) {
+                $message = 'Error connecting to Spotify: ' . $e->getMessage();
+            }
         }
 
-        // Step 1: Hard-code client ID and client secret for testing purposes
-        
-
-        // Request Access Token
-        $response = Http::post('https://accounts.spotify.com/api/token', [
-            'grant_type' => 'client_credentials',
-            'client_id' => '2c5bcb785c644b058a82398c6755b4f1',
-            'client_secret' => 'b9fb6fdecdc74b37a1ff51f3ec11d085',
-        ]);
-
-        if (!$response->successful()) {
-            Log::error('Failed to retrieve access token', [
-                'error' => $response->json()
-            ]);
-            return view('spotify.search', [
-                'spotifySongs' => [],
-                'message' => 'Failed to connect to Spotify API. Please try again later.'
-            ]);
-        }
-
-        $accessToken = $response->json()['access_token'] ?? null;
-
-        if (!$accessToken) {
-            Log::error('Access token not found in Spotify API response', [
-                'response' => $response->json()
-            ]);
-            return view('spotify.search', [
-                'spotifySongs' => [],
-                'message' => 'Could not retrieve access token. Please check your Spotify API credentials.'
-            ]);
-        }
-
-        // Step 2: Perform the actual search with the access token
-        $results = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $accessToken,
-        ])->get('https://api.spotify.com/v1/search', [
-            'q' => $query,
-            'type' => 'track',
-            'limit' => 10,
-        ]);
-
-        $spotifySongs = $results->json()['tracks']['items'] ?? [];
-
-        return view('spotify.search', compact('spotifySongs'));
-    }
-
-    private function getSpotifyAccessToken()
-    {
-        $response = Http::asForm()->post("https://accounts.spotify.com/api/token", [
-            'grant_type' => 'client_credentials',
-            'client_id' => env('SPOTIFY_CLIENT_ID'),
-            'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
-        ]);
-
-        return $response->json()['access_token'] ?? null;
+        return view('playlists.search', compact('playlist', 'spotifySongs', 'query', 'message'));
     }
 
     public function addSong(Request $request, Playlist $playlist)
     {
-        $songData = $request->input('song');
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'artist' => 'required|string',
+            'album' => 'required|string',
+            'cover_art' => 'nullable|url'
+        ]);
 
         $song = Song::firstOrCreate(
-            ['spotify_id' => $songData['spotify_id']],
             [
-                'title' => $songData['title'],
-                'artist' => $songData['artist'],
-                'album' => $songData['album'],
-                'cover_art' => $songData['cover_art'],
+                'title' => $validated['title'],
+                'artist' => $validated['artist'],
+                'album' => $validated['album']
+            ],
+            [
+                'cover_art' => $validated['cover_art'] ?? null
             ]
         );
 
         $playlist->songs()->attach($song->id);
 
-        return redirect()->route('playlist.show', $playlist->id)->with('success', 'Song added to playlist!');
+        return back()->with('success', 'Song added to playlist successfully!');
+    }
+
+    public function edit(Playlist $playlist)
+    {
+        $playlist->load('songs');
+        return view('playlists.edit', compact('playlist'));
+    }
+
+    public function update(Request $request, Playlist $playlist)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => 'required|max:255',
+                'description' => 'nullable|string',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'song_order' => 'array'
+            ]);
+
+            if ($request->hasFile('cover_image')) {
+                // Delete old image if exists
+                if ($playlist->cover_image) {
+                    Storage::disk('public')->delete($playlist->cover_image);
+                }
+
+                $image = $request->file('cover_image');
+                $imageName = time() . '.' . $image->extension();
+                $path = $image->storeAs('playlist-covers', $imageName, 'public');
+                $playlist->cover_image = $path;
+            }
+
+            $playlist->name = $validated['name'];
+            $playlist->description = $validated['description'];
+            $playlist->save();
+
+            // Update song order if provided
+            if (isset($validated['song_order'])) {
+                foreach ($validated['song_order'] as $index => $songId) {
+                    $playlist->songs()->updateExistingPivot($songId, ['order' => $index]);
+                }
+            }
+
+            return redirect()->route('playlists.show', $playlist)
+                ->with('success', 'Playlist updated successfully!');
+
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Failed to update playlist: ' . $e->getMessage());
+        }
+    }
+
+    public function removeSong(Playlist $playlist, Song $song)
+    {
+        $playlist->songs()->detach($song->id);
+        return response()->json(['success' => true]);
     }
 }
