@@ -24,29 +24,33 @@
 
     <!-- Main Content -->
     <main>
-        <section class="album-carousel">
-            <div class="playlist-view">
-                <div class="playlist-title">
-                    <h2>Sounds of Rock</h2>
-                    <p>or whatever</p>
-                </div>
-                <div class="playlist-carousel">
-                    <button class="carousel-btn left-btn">&lt;</button>
-                    <div class="carousel">
-                        <div class="carousel-item">Emptiness Machine</div>
-                        <div class="carousel-item">APT.</div>
-                        <div class="carousel-item">Gossip feat. Tom Morello</div>
-                        <div class="carousel-item">Imperial March</div>
-                        <div class="carousel-item">Stick Season</div>
-                        <div class="carousel-item">vampire</div>
-                    </div>
-                    <button class="carousel-btn right-btn">&gt;</button>
-                </div>
-                <div class="show-more">
-                    <a href="#">Show more</a>
-                </div>
+    <section class="album-carousel">
+    <div class="playlist-view">
+        <div class="playlist-title">
+            <h2>Sounds of Hungarian Rap</h2>
+            <p>or whatever</p>
+        </div>
+        <div class="playlist-carousel">
+            <button class="carousel-btn left-btn">&lt;</button>
+            <div class="carousel">
+                <!--<div class="carousel-item"><p>6363 - Arany</p><img src="/images/song_pics/dummy1.jpg"></div>-->
             </div>
-        </section>
+            <button class="carousel-btn right-btn">&gt;</button>
+        </div>
+        <div class="show-more">
+            <a href="#">Show more</a>
+        </div>
+    </div>
+</div>
+
+</section>
+
+
+                <!-- Playlist Detail Section 
+                <section id="playlist-details" class="playlist-details">
+            <h3>Playlist Details</h3>
+            <div id="playlist-content">Select a playlist to view its contents</div>
+        </section> -->
 
         <section class="recommendations">
             <h3>Artists You May Like</h3>
