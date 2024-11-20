@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-3xl mx-auto">
+<div class="container mx-auto px-4 py-16">
+    <div class="max-w-2xl mx-auto">
         <div class="flex items-center gap-4 mb-6">
             <a href="{{ route('playlists.show', $playlist) }}" class="text-gray-600 hover:text-gray-900">
                 <i class="fas fa-arrow-left"></i> Back to Playlist
