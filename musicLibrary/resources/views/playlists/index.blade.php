@@ -17,7 +17,6 @@
         <div class="success-alert">
             {{ session('success') }}
         </div>
-    @endif
 
     <div class="playlists-grid">
         @forelse($playlists as $playlist)
