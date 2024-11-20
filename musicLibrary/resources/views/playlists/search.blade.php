@@ -48,12 +48,12 @@
                         </div>
                         <form action="{{ route('playlists.addSong', $playlist) }}" method="POST">
                             @csrf
-                            <input type="hidden" name="song[spotify_id]" value="{{ $song['id'] }}">
-                            <input type="hidden" name="song[title]" value="{{ $song['name'] }}">
-                            <input type="hidden" name="song[artist]" value="{{ $song['artists'][0]['name'] }}">
-                            <input type="hidden" name="song[album]" value="{{ $song['album']['name'] }}">
-                            <input type="hidden" name="song[cover_art]" value="{{ $song['album']['images'][0]['url'] ?? '' }}">
-                            <button type="submit" class="px-4 py-2 text-[#006D77] hover:text-opacity-80">
+                            <input type="hidden" name="title" value="{{ $song['name'] }}">
+                            <input type="hidden" name="artist" value="{{ $song['artists'][0]['name'] }}">
+                            <input type="hidden" name="album" value="{{ $song['album']['name'] }}">
+                            <input type="hidden" name="cover_art" value="{{ $song['album']['images'][0]['url'] ?? '' }}">
+                            <input type="hidden" name="spotify_id" value="{{ $song['id'] }}"> <!-- Add this line -->
+                            <button type="submit" class="px-4 py-2 bg-[#006D77] text-white rounded-lg hover:bg-opacity-90">
                                 Add to Playlist
                             </button>
                         </form>

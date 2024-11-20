@@ -118,16 +118,18 @@ class PlaylistController extends Controller
             'title' => 'required|string',
             'artist' => 'required|string',
             'album' => 'required|string',
-            'cover_art' => 'nullable|url'
+            'cover_art' => 'nullable|url',
+            'spotify_id' => 'required|string'  // Add this validation
         ]);
 
         $song = Song::firstOrCreate(
             [
-                'title' => $validated['title'],
-                'artist' => $validated['artist'],
-                'album' => $validated['album']
+                'spotify_id' => $validated['spotify_id']  // Use spotify_id as part of the unique identifier
             ],
             [
+                'title' => $validated['title'],
+                'artist' => $validated['artist'],
+                'album' => $validated['album'],
                 'cover_art' => $validated['cover_art'] ?? null
             ]
         );
