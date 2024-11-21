@@ -13,7 +13,7 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::with('songs')->get();
+        $playlists = Playlist::where('user_id', auth()->id())->with('songs')->get();
         return view('playlists.index', compact('playlists'));
     }
 
@@ -31,58 +31,21 @@ class PlaylistController extends Controller
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['user_id'] = auth()->id() ?? 1;
+            $validated['user_id'] = auth()->id();
 
             if ($request->hasFile('cover_image')) {
                 $image = $request->file('cover_image');
-                
-                // Debug information
-                \Log::info('Image details', [
-                    'original_name' => $image->getClientOriginalName(),
-                    'mime_type' => $image->getMimeType(),
-                    'size' => $image->getSize(),
-                    'error' => $image->getError()
-                ]);
-
                 $imageName = time() . '.' . $image->extension();
-                
-                // Store the file directly in public disk
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
-                
-                if (!$path) {
-                    throw new \Exception('Failed to store image');
-                }
-
-                // Verify the file exists
-                if (!Storage::disk('public')->exists($path)) {
-                    throw new \Exception('Stored file not found');
-                }
-
                 $validated['cover_image'] = $path;
-                
-                \Log::info('Image stored successfully', [
-                    'path' => $path,
-                    'url' => Storage::url($path)
-                ]);
             }
 
             $playlist = Playlist::create($validated);
-
-            \Log::info('Playlist created', [
-                'id' => $playlist->id,
-                'cover_image' => $playlist->cover_image,
-                'storage_path' => $playlist->cover_image ? Storage::url($playlist->cover_image) : null
-            ]);
 
             return redirect()->route('playlists.show', $playlist)
                 ->with('success', 'Playlist created successfully!');
                 
         } catch (\Exception $e) {
-            \Log::error('Playlist creation failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
             return back()
                 ->withInput()
                 ->with('error', 'Failed to create playlist: ' . $e->getMessage());
@@ -91,12 +54,80 @@ class PlaylistController extends Controller
 
     public function show(Playlist $playlist)
     {
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+
         $playlist->load('songs');
         return view('playlists.show', compact('playlist'));
     }
 
+    public function edit(Playlist $playlist)
+    {
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+        return view('playlists.edit', compact('playlist'));
+    }
+
+    public function update(Request $request, Playlist $playlist)
+    {
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+
+        try {
+            $validated = $request->validate([
+                'name' => 'required|max:255',
+                'description' => 'nullable|string',
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if ($request->hasFile('cover_image')) {
+                if ($playlist->cover_image) {
+                    Storage::disk('public')->delete($playlist->cover_image);
+                }
+                $image = $request->file('cover_image');
+                $imageName = time() . '.' . $image->extension();
+                $path = $image->storeAs('playlist-covers', $imageName, 'public');
+                $validated['cover_image'] = $path;
+            }
+
+            $playlist->update($validated);
+            return redirect()->route('playlists.show', $playlist)
+                ->with('success', 'Playlist updated successfully!');
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Failed to update playlist: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy(Playlist $playlist)
+    {
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+
+        try {
+            if ($playlist->cover_image) {
+                Storage::disk('public')->delete($playlist->cover_image);
+            }
+            
+            $playlist->delete();
+            return redirect()->route('playlists.index')
+                ->with('success', 'Playlist deleted successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to delete playlist: ' . $e->getMessage());
+        }
+    }
+
     public function searchSpotify(Request $request, Playlist $playlist)
     {
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+
         $spotifyService = new SpotifyService();
         $query = $request->input('query');
         $message = '';
@@ -114,83 +145,46 @@ class PlaylistController extends Controller
 
     public function addSong(Request $request, Playlist $playlist)
     {
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+
         $validated = $request->validate([
             'title' => 'required|string',
             'artist' => 'required|string',
             'album' => 'required|string',
             'cover_art' => 'nullable|url',
-            'spotify_id' => 'required|string'  // Add this validation
+            'spotify_id' => 'required|string'
         ]);
 
-        $song = Song::firstOrCreate(
-            [
-                'spotify_id' => $validated['spotify_id']  // Use spotify_id as part of the unique identifier
-            ],
-            [
-                'title' => $validated['title'],
-                'artist' => $validated['artist'],
-                'album' => $validated['album'],
-                'cover_art' => $validated['cover_art'] ?? null
-            ]
-        );
-
-        $playlist->songs()->attach($song->id);
-
-        return back()->with('success', 'Song added to playlist successfully!');
-    }
-
-    public function edit(Playlist $playlist)
-    {
-        $playlist->load('songs');
-        return view('playlists.edit', compact('playlist'));
-    }
-
-    public function update(Request $request, Playlist $playlist)
-    {
         try {
-            $validated = $request->validate([
-                'name' => 'required|max:255',
-                'description' => 'nullable|string',
-                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'song_order' => 'array'
-            ]);
+            $song = Song::firstOrCreate(
+                ['spotify_id' => $validated['spotify_id']],
+                $validated
+            );
 
-            if ($request->hasFile('cover_image')) {
-                // Delete old image if exists
-                if ($playlist->cover_image) {
-                    Storage::disk('public')->delete($playlist->cover_image);
-                }
-
-                $image = $request->file('cover_image');
-                $imageName = time() . '.' . $image->extension();
-                $path = $image->storeAs('playlist-covers', $imageName, 'public');
-                $playlist->cover_image = $path;
-            }
-
-            $playlist->name = $validated['name'];
-            $playlist->description = $validated['description'];
-            $playlist->save();
-
-            // Update song order if provided
-            if (isset($validated['song_order'])) {
-                foreach ($validated['song_order'] as $index => $songId) {
-                    $playlist->songs()->updateExistingPivot($songId, ['order' => $index]);
-                }
+            if (!$playlist->songs->contains($song->id)) {
+                $playlist->songs()->attach($song->id);
             }
 
             return redirect()->route('playlists.show', $playlist)
-                ->with('success', 'Playlist updated successfully!');
-
+                ->with('success', 'Song added successfully!');
         } catch (\Exception $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'Failed to update playlist: ' . $e->getMessage());
+            return back()->with('error', 'Failed to add song: ' . $e->getMessage());
         }
     }
 
     public function removeSong(Playlist $playlist, Song $song)
     {
-        $playlist->songs()->detach($song->id);
-        return response()->json(['success' => true]);
+        if ($playlist->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to playlist');
+        }
+
+        try {
+            $playlist->songs()->detach($song->id);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

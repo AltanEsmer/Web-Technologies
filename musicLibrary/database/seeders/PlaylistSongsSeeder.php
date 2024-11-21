@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Playlist;
 use App\Models\Song;
 use App\Services\SpotifyService;
+use Illuminate\Database\Seeder;
 
 class PlaylistSongsSeeder extends Seeder
 {
@@ -22,6 +22,7 @@ class PlaylistSongsSeeder extends Seeder
         $searchTerms = ['rock', 'pop', 'jazz', 'classical', 'hip hop'];
 
         foreach ($playlists as $playlist) {
+            $position = 0;
             $searchTerm = $searchTerms[array_rand($searchTerms)];
             
             $tracks = $this->spotifyService->searchTracks($searchTerm);
@@ -29,25 +30,26 @@ class PlaylistSongsSeeder extends Seeder
             if ($tracks) {
                 foreach ($tracks as $track) {
                     $song = Song::firstOrCreate(
+                        ['spotify_id' => $track['id']],
                         [
-                            'spotify_id' => $track['id'],
                             'title' => $track['name'],
                             'artist' => $track['artists'][0]['name'],
-                            'album' => $track['album']['name']
-                        ],
-                        [
-                            'cover_art' => $track['album']['images'][0]['url'] ?? null
+                            'album' => $track['album']['name'],
+                            'cover_art' => $track['album']['images'][0]['url'] ?? null,
+                            'duration_ms' => $track['duration_ms'] ?? null,
+                            'popularity' => $track['popularity'] ?? 0,
+                            'explicit' => $track['explicit'] ?? false,
+                            'genres' => json_encode([])
                         ]
                     );
 
                     if (!$playlist->songs->contains($song->id)) {
-                        $playlist->songs()->attach($song->id);
+                        $playlist->songs()->attach($song->id, [
+                            'position' => $position++,
+                            'metadata' => json_encode(['added_at' => now()])
+                        ]);
                     }
                 }
-
-                $this->command->info("Added songs to playlist: {$playlist->name}");
-            } else {
-                $this->command->error("Failed to fetch songs for playlist: {$playlist->name}");
             }
         }
     }

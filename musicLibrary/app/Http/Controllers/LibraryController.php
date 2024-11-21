@@ -9,7 +9,7 @@ class LibraryController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::with('songs')->get();
+        $playlists = Playlist::where('user_id', auth()->id())->with('songs')->get();
         return view('library', compact('playlists'));
     }
 }

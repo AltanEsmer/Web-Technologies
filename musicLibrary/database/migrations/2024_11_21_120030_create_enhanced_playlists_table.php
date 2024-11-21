@@ -6,28 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('playlists', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name')->index();
             $table->text('description')->nullable();
             $table->string('cover_image')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->boolean('is_public')->default(true);
+            $table->integer('play_count')->default(0);
+            $table->json('settings')->nullable();
             $table->timestamps();
-        
-            // Foreign key constraint
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('playlists');
     }

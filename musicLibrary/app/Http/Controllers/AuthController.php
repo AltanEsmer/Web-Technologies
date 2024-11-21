@@ -56,4 +56,10 @@ class AuthController extends Controller
 
         return redirect()->route('home'); // Redirect to home page after successful signup
     }
+    public function logout()
+    {
+        Auth::logout();
+        Session::flush();
+        return redirect()->route('signin');
+    }
 }

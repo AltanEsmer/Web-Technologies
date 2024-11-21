@@ -10,15 +10,15 @@ class Song extends Model
     use HasFactory;
 
     protected $fillable = [
-        'spotify_id',
         'title',
         'artist',
         'album',
-        'cover_art'
+        'cover_art',
+        'spotify_id'
     ];
 
     public function playlists()
     {
-        return $this->belongsToMany(Playlist::class, 'playlist_song');
+        return $this->belongsToMany(Playlist::class)->withTimestamps();
     }
 }

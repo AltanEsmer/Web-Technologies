@@ -7,7 +7,6 @@
   <!-- Fonts for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('css/HomeStyle.css') }}">
-
   <!-- Linking Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
@@ -16,16 +15,22 @@
   <!-- Header & navbar -->
   <header class="header">
     <nav class="navbar">
-    <div class="logo-image-wrapper">
-          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="try" class="about-image">
-        </div> 
+      <div class="logo-image-wrapper">
+        <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+      </div> 
       <a href="{{ route('home') }}">Home</a>
-      <a href="#">About</a>
-      <a href="{{ route('library') }}">Library</a>
-      <a href="#">Contact</a>
-      <a href="{{ route('signin') }}">Sign in</a>
+      <a href="#about">About</a>
+      @auth
+        <a href="{{ route('library') }}">Library</a>
+        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+          @csrf
+          <button type="submit" style="background: none; border: none; color: white; cursor: pointer;">Logout</button>
+        </form>
+      @else
+        <a href="{{ route('signin') }}">Sign in</a>
+      @endauth
+      <a href="#contact">Contact</a>
     </nav>
-    </div>
     <form action="#" class="search-bar">
       <input type="text" name="search" id="search" placeholder="Search...">
       <button type="submit"><i class='bx bx-search'></i></button>
@@ -39,10 +44,14 @@
         <div class="parent-details">
           <h2 class="title">Best Music Library</h2>
           <h3 class="subtitle">Find the best music that fits you!</h3>
-          <p class="description">On this page you are going to recive personal recommendations for your playlists</p>
+          <p class="description">On this page you are going to receive personal recommendations for your playlists</p>
           <div class="buttons">
-            <a href="#" class="button choose-now">Go to the Library</a>
-            <a href="#" class="button contact-us">Contact Us</a>
+            @auth
+              <a href="{{ route('library') }}" class="button choose-now">Go to the Library</a>
+            @else
+              <a href="{{ route('signin') }}" class="button choose-now">Sign In to Start</a>
+            @endauth
+            <a href="#contact" class="button contact-us">Contact Us</a>
           </div>
         </div>
         <div class="parent-image-wrapper">
@@ -55,7 +64,7 @@
     <section class="about-section" id="about">
       <div class="section-content">
         <div class="about-image-wrapper">
-          <img src="{{ asset('images/Music-removebg-preview.png') }}" alt="try" class="about-image">
+          <img src="{{ asset('images/Music-removebg-preview.png') }}" alt="about" class="about-image">
         </div>
         <div class="about-details">
           <h2 class="section-title">About Us</h2>
@@ -68,9 +77,6 @@
         </div>
       </div>
     </section>
-
-
-
 
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
@@ -114,6 +120,5 @@
   <!-- Linking Swiper Script -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="{{ asset('js/HomeScript.js') }}"></script>
-
 </body>
 </html>

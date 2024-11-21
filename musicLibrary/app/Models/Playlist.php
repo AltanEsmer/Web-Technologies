@@ -12,17 +12,17 @@ class Playlist extends Model
     protected $fillable = [
         'name',
         'description',
-        'user_id',
-        'cover_image'
+        'cover_image',
+        'user_id'
     ];
-
-    public function songs()
-    {
-        return $this->belongsToMany(Song::class, 'playlist_song');
-    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function songs()
+    {
+        return $this->belongsToMany(Song::class)->withTimestamps();
     }
 }
