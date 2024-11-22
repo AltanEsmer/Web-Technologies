@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         // Attempt to log the user in
         if (Auth::attempt(['email' => $request->mail, 'password' => $request->pass], $request->has('checker'))) {
-            return redirect()->route('home'); // Redirect to home page if login is successful
+            return redirect()->route('library'); // Changed to redirect to library
         }
 
         // If login fails, redirect back with an error message
@@ -54,8 +54,9 @@ class AuthController extends Controller
         // Automatically log the user in after they sign up
         Auth::login($user);
 
-        return redirect()->route('home'); // Redirect to home page after successful signup
+        return redirect()->route('library'); // Changed to redirect to library
     }
+
     public function logout()
     {
         Auth::logout();

@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+<div class="library-container">
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="playlists">
@@ -23,53 +24,55 @@
     </aside>
 
     <!-- Main Content -->
-    <main>
-    <section class="album-carousel">
-    <div class="playlist-view">
-        <div class="playlist-title">
-            <h2>Sounds of Hungarian Rap</h2>
-            <p>or whatever</p>
-        </div>
-        <div class="playlist-carousel">
-            <button class="carousel-btn left-btn">&lt;</button>
-            <div class="carousel">
-                <!--<div class="carousel-item"><p>6363 - Arany</p><img src="/images/song_pics/dummy1.jpg"></div>-->
+    <main class="main-content">
+        <!-- Your Personal Playlists Section -->
+        <section class="playlist-section">
+            <h2>Your Playlists</h2>
+            <div class="playlist-grid">
+                @foreach($playlists as $playlist)
+                    <div class="playlist-card">
+                        <div class="playlist-image">
+                            @if($playlist->cover_image)
+                                <img src="{{ asset('storage/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                            @else
+                                <div class="default-cover">
+                                    <i class="fas fa-music"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="playlist-info">
+                            <h3>{{ $playlist->name }}</h3>
+                            <p>{{ $playlist->songs->count() }} songs</p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            <button class="carousel-btn right-btn">&gt;</button>
-        </div>
-        <div class="show-more">
-            <a href="#">Show more</a>
-        </div>
-    </div>
-</div>
+        </section>
 
-</section>
-
-
-                <!-- Playlist Detail Section 
-                <section id="playlist-details" class="playlist-details">
-            <h3>Playlist Details</h3>
-            <div id="playlist-content">Select a playlist to view its contents</div>
-        </section> -->
-
-        <section class="recommendations">
-            <h3>Artists You May Like</h3>
-            <div class="artists">
-                <div class="artist">
-                    <div class="artist-circle"></div>
-                    <p class="artist-name">Artist 1</p>
-                </div>
-                <div class="artist">
-                    <div class="artist-circle"></div>
-                    <p class="artist-name">Artist 2</p>
-                </div>
-                <div class="artist">
-                    <div class="artist-circle"></div>
-                    <p class="artist-name">Artist 3</p>
-                </div>
+        <!-- Public Playlists Section -->
+        <section class="playlist-section">
+            <h2>Public Playlists</h2>
+            <div class="playlist-grid">
+                @foreach($publicPlaylists as $playlist)
+                    <div class="playlist-card">
+                        <div class="playlist-image">
+                            @if($playlist->cover_image)
+                                <img src="{{ asset('storage/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                            @else
+                                <div class="default-cover">
+                                    <i class="fas fa-music"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="playlist-info">
+                            <h3>{{ $playlist->name }}</h3>
+                            <p>By {{ $playlist->user->name }}</p>
+                            <p>{{ $playlist->songs->count() }} songs</p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </section>
     </main>
-
-    <script src="{{ asset('js/libraryScript.js') }}"></script>
+</div>
 @endsection

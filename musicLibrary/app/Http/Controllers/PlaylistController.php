@@ -54,14 +54,10 @@ class PlaylistController extends Controller
 
     public function show(Playlist $playlist)
     {
-        if ($playlist->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized access to playlist');
-        }
-
-        $playlist->load('songs');
-        return view('playlists.show', compact('playlist'));
+        $playlists = auth()->user()->playlists;
+        return view('playlists.show', compact('playlist', 'playlists'));
     }
-
+    
     public function edit(Playlist $playlist)
     {
         if ($playlist->user_id !== auth()->id()) {

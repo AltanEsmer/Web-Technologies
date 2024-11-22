@@ -1,323 +1,120 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0%;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  :root {
-    /* Colours */
-    --white-color: #fff;
-    --dark-color: #006D77;
-    --primary-color: #83C5BE;
-    --secondary-color: #E29578;
-    --light-pink-color: #FFDDD2;
-    --medium-gray-color: #EDF6F9;
-  
-    /* Font size */
-    --font-size-s: 0.9rem;
-    --font-size-n: 1rem;
-    --font-size-m: 1.12rem;
-    --font-size-1: 1.5rem;
-    --font-size-x1: 2rem;
-    --font-size-xx1: 2.3rem;
-  
-    /* Font weight */
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-  
-    /* Border radius */
-    --border-radius-s: 8px;
-    --border-radius-m: 30px;
-    --border-radius-circle: 50%;
-    /* Site max width */
-    --site-max-width: 1300px;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-body {
-    font-family: Arial, sans-serif;
+.library-container {
     display: flex;
-    flex-direction: column; 
+    min-height: 100vh;
+    padding-top: 60px; /* Adjust based on your header height */
 }
 
-/* Navbar and header styling */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 15px 12.5%; /* Adjust padding for better alignment */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-    background-color: var(--primary-color);
-}
-
-/* Align logo and links in a row */
-.navbar {
-    display: flex;
-    align-items: center;
-}
-
-/* Logo styling */
-.about-image-wrapper {
-    max-width: 100px; /* Set a max width for the logo */
-    margin-right: 50px; /* Add space between the logo and links */
-}
-
-.about-image {
-    width: 100%; /* Make the logo fit within the wrapper */
-    height: auto;
-    max-height: 50px; /* Adjust height as needed */
-}
-
-/* Navigation links styling */
-.navbar a {
-    font-size: 20px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    margin-right: 20px;
-    transition: color 0.3s;
-}
-
-.navbar a:last-child {
-    margin-right: 0; /* Remove margin on the last link */
-}
-
-.navbar a:hover {
-    color: var(--secondary-color);
-}
-
-.navbar a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 100%;
-    height: 2px;
-    background: var(--medium-gray-color);
-    border-radius: 5px;
-    transform-origin: right;
-    transform: scaleX(0);
-    transition: transform 0.3s;
-}
-
-.navbar a:hover::after {
-    transform-origin: left;
-    transform: scaleX(1);
-}
-
-/* Search bar styling */
-.search-bar {
-    width: 250px;
-    height: 45px;
-    background: transparent;
-    border: 2px solid var(--medium-gray-color);
-    border-radius: 6px;
-    display: flex;
-    margin-left: auto; /* Pushes the search bar to the far right */
-}
-
-.search-bar input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    color: var(--medium-gray-color);
-    padding-left: 10px;
-}
-
-.search-bar button {
-    width: 40px;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.search-bar button i {
-    font-size: 22px;
-    color: var(--medium-gray-color);
-}
-
-  
-  
-/* Sidebar Styling */
 .sidebar {
     width: 250px;
-    background: #FFDDD2;
-    color: #fff;
+    background-color: #006D77;
     padding: 20px;
-    position: absolute; 
-    right: 0; 
-    top: 60px; 
-    height: calc(100vh - 60px); 
-    overflow-y: auto; 
+    color: white;
+    height: calc(100vh - 60px);
+    position: fixed;
+    top: 60px; /* Match the padding-top of container */
+    left: 0;
+    overflow-y: auto;
 }
 
-.playlists ul {
-    list-style-type: none;
+.sidebar h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.sidebar ul {
+    list-style: none;
     padding: 0;
 }
 
-.playlist-icon {
-    padding: 10px;
-    border-bottom: 1px solid #FFDDD2;
-    cursor: pointer;
-}
-/* Playlist Details Section */
-.playlist-details {
-    margin-top: 50px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    width: 300px;
-    float: right; /* Align the section to the right */
+.sidebar .playlist-icon {
+    margin-bottom: 0.5rem;
 }
 
-.playlist-details h3 {
-    color: #333;
-}
-
-.playlist-details #playlist-content ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-
-
-/* Main Content */
-main {
-    flex: 1;
-    padding: 20px;
-    margin-right: 220px; 
-    margin-top: 70px; 
-}
-
-/* playlist recommendation */
-.playlist-view {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ddd;
-    padding: 40px;
-    width: 80%;
-    margin: 40px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.playlist-title {
-    width: 20%;
-    padding-right: 20px;
-    text-align: center;
-}
-
-.playlist-title h2 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-}
-
-.playlist-title p {
-    margin: 5px 0 0;
-    font-size: 12px;
-    color: #888;
-}
-
-.playlist-carousel {
-    display: flex;
-    align-items: center;
-    width: 60%;
-    overflow: hidden;
-    position: relative;
-}
-
-.carousel {
-    display: flex;
-    transition: transform 0.3s ease;
-    width: 100%;
-}
-
-.carousel-item {
-    width: 100px;
-    /*height: 100px;*/
-    /*background-color: #FFDDD2;*/
-    margin: 0 10px;
-    /*display: flex;*/
-    align-content: center;
-    justify-content: center;
-    font-size: 15px;
-    color: #fff;
-    
-}
-.carousel-item > p {
-    background-color: #FFDDD2;
-}
-.carousel-item > img {
-    height: 150px;
-}
-.carousel-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #555;
-    padding: 10px;
-    position: relative;
-    z-index: 1;
-}
-
-.show-more {
-    width: 20%;
-    text-align: right;
-    font-size: 14px;
-}
-
-.show-more a {
-    color: #006D77;
+.sidebar .playlist-icon a {
+    color: white;
     text-decoration: none;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
-.show-more a:hover {
-    text-decoration: underline;
+.sidebar .playlist-icon a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Artists*/
-
-.recommendations .artists {
-    display: flex;
-    gap: 100px;
-    justify-content: center; 
-    margin-top: 40px;
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    margin-left: 250px; /* Same as sidebar width */
 }
 
-.artist {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.playlist-section {
+    margin-bottom: 3rem;
 }
 
-.recommendations .artist-circle {
-    width: 170px;
-    height: 170px;
-    background: #83C5BE;
-    border-radius: 90%;
-}
-
-.artist-name {
-    margin-top: 10px;
-    font-size: 1rem;
+.playlist-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
     color: #333;
-    text-align: center;
+}
+
+.playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.playlist-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.playlist-card:hover {
+    transform: translateY(-5px);
+}
+
+.playlist-image {
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.playlist-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.default-cover {
+    width: 100%;
+    height: 100%;
+    background: #006D77;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.default-cover i {
+    font-size: 3rem;
+    color: white;
+}
+
+.playlist-info {
+    padding: 1rem;
+}
+
+.playlist-info h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.playlist-info p {
+    font-size: 0.9rem;
+    color: #666;
 }

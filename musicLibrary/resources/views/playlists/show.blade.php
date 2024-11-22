@@ -1,60 +1,108 @@
 @extends('layouts.app')
 
+@section('head')
+    <link rel="stylesheet" href="{{ asset('css/libstyle.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/playlistShow.css') }}">
+@endsection
+
 @section('content')
-<div class="container mx-auto px-4 py-16">
-    <div class="max-w-2xl mx-auto">
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-            @if($playlist->cover_image)
-                <img src="{{ Storage::url($playlist->cover_image) }}" 
-                     alt="Playlist cover" 
-                     class="w-full h-64 object-cover">
-            @endif
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-3xl font-bold">{{ $playlist->name }}</h1>
-                    <a href="{{ route('playlists.edit', $playlist) }}" 
-                       class="px-4 py-2 bg-[#006D77] text-white rounded-lg hover:bg-opacity-90">
-                        Edit Playlist
+<div class="library-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="playlists">
+            <h3>Your Playlists</h3>
+            <ul>
+                @foreach($playlists as $playlist)
+                    <li class="playlist-icon" data-id="{{ $playlist->id }}">
+                        <a href="{{ route('playlists.show', $playlist) }}">{{ $playlist->name }}</a>
+                    </li>
+                @endforeach
+                <li class="playlist-icon" data-id="create">
+                    <a href="{{ route('playlists.create') }}">+ Add New</a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="playlist-container">
+            <div class="playlist-header">
+                <div class="header-content">
+                    @if($playlist->cover_image)
+                        <img src="{{ Storage::url($playlist->cover_image) }}" alt="Playlist cover" class="playlist-cover">
+                    @else
+                        <div class="default-cover">
+                            <i class="fas fa-music"></i>
+                        </div>
+                    @endif
+                    
+                    <div class="playlist-info">
+                        <h1>{{ $playlist->name }}</h1>
+                        @if($playlist->description)
+                            <p class="description">{{ $playlist->description }}</p>
+                        @endif
+                        <div class="playlist-stats">
+                            <span><i class="fas fa-music"></i> {{ $playlist->songs->count() }} songs</span>
+                            <span><i class="far fa-clock"></i> {{ number_format($playlist->songs->sum('duration_ms') / 60000, 1) }} minutes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{{ route('playlists.edit', $playlist) }}" class="edit-button">
+                        <i class="fas fa-edit"></i> Edit Playlist
                     </a>
-                    <a href="{{ route('playlists.searchSpotify', $playlist) }}" 
-                        class="px-4 py-2 bg-[#006D77] text-white rounded-lg hover:bg-opacity-90">
-                        Add Songs
+                    <a href="{{ route('playlists.searchSpotify', $playlist) }}" class="add-songs-button">
+                        <i class="fas fa-plus"></i> Add Songs
                     </a>
                 </div>
-                @if($playlist->description)
-                    <p class="text-gray-600">{{ $playlist->description }}</p>
+            </div>
+
+            <div class="songs-container">
+                @if($playlist->songs->count() > 0)
+                    <div class="songs-header">
+                        <div class="song-number">#</div>
+                        <div class="song-info">Title</div>
+                        <div class="song-album">Album</div>
+                        <div class="song-duration"><i class="far fa-clock"></i></div>
+                    </div>
+                    
+                    <div class="songs-list">
+                        @foreach($playlist->songs as $index => $song)
+                            <div class="song-item">
+                                <div class="song-number">{{ $index + 1 }}</div>
+                                <div class="song-info">
+                                    <div class="song-image">
+                                        @if($song->cover_art)
+                                            <img src="{{ $song->cover_art }}" alt="Album artwork">
+                                        @else
+                                            <div class="default-song-cover">
+                                                <i class="fas fa-music"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="song-details">
+                                        <h3>{{ $song->title }}</h3>
+                                        <p>{{ $song->artist }}</p>
+                                    </div>
+                                </div>
+                                <div class="song-album">{{ $song->album }}</div>
+                                <div class="song-duration">{{ gmdate("i:s", $song->duration_ms/1000) }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="empty-playlist">
+                        <i class="fas fa-music"></i>
+                        <p>This playlist is empty</p>
+                        <a href="{{ route('playlists.searchSpotify', $playlist) }}" class="add-songs-button">
+                            Add Some Songs
+                        </a>
+                    </div>
                 @endif
             </div>
         </div>
-
-        <div class="bg-white rounded-lg shadow-md">
-            @if($playlist->songs->count() > 0)
-                <div class="divide-y">
-                    @foreach($playlist->songs as $song)
-                        <div class="flex items-center gap-4 p-4">
-                            @if($song->cover_art)
-                                <img src="{{ $song->cover_art }}" 
-                                     alt="Album artwork" 
-                                     class="w-16 h-16 object-cover rounded">
-                            @endif
-                            <div>
-                                <h3 class="font-semibold">{{ $song->title }}</h3>
-                                <p class="text-gray-600">{{ $song->artist }}</p>
-                                <p class="text-sm text-gray-500">{{ $song->album }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="p-6 text-center text-gray-500">
-                    No songs in this playlist yet.
-                    <a href="{{ route('playlists.searchSpotify', $playlist) }}" 
-                       class="text-[#006D77] hover:underline">
-                        Add some songs
-                    </a>
-                </div>
-            @endif
-        </div>
-    </div>
+    </main>
 </div>
 @endsection

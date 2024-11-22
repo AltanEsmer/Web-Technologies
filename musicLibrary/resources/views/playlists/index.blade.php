@@ -1,48 +1,56 @@
 @extends('layouts.app')
 
+@section('head')
+    <link rel="stylesheet" href="{{ asset('css/playlistStyle.css') }}">
+@endsection
+
 @section('content')
-<div class="container mx-auto px-4 py-16">
-    <div class="max-w-2xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold">Your Playlists</h1>
-            <a href="{{ route('playlists.create') }}" class="px-4 py-2 bg-[#006D77] text-white rounded-lg hover:bg-opacity-90">
-                Create New Playlist
-            </a>
+<div class="playlist-container">
+    <div class="playlist-header">
+        <h1>Your Playlists</h1>
+        <a href="{{ route('playlists.create') }}" class="create-button">
+            <i class="fas fa-plus"></i> Create New Playlist
+        </a>
+    </div>
+
+    @if(session('success'))
+        <div class="success-alert">
+            {{ session('success') }}
         </div>
+    @endif
 
-        @if(session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @forelse($playlists as $playlist)
-                <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="playlists-grid">
+        @forelse($playlists as $playlist)
+            <div class="playlist-card">
+                <div class="playlist-cover">
                     @if($playlist->cover_image)
-                        <img src="{{ Storage::url($playlist->cover_image) }}" 
-                             alt="Playlist cover" 
-                             class="w-full h-48 object-cover">
-                    @endif
-                    <div class="p-4">
-                        <h2 class="text-xl font-semibold mb-2">{{ $playlist->name }}</h2>
-                        @if($playlist->description)
-                            <p class="text-gray-600 mb-4">{{ $playlist->description }}</p>
-                        @endif
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">{{ $playlist->songs->count() }} songs</span>
-                            <a href="{{ route('playlists.show', $playlist) }}" class="text-[#006D77] hover:underline">
-                                View Playlist
-                            </a>
+                        <img src="{{ Storage::url($playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                    @else
+                        <div class="default-cover">
+                            <i class="fas fa-music"></i>
                         </div>
+                    @endif
+                </div>
+                <div class="playlist-details">
+                    <h2>{{ $playlist->name }}</h2>
+                    @if($playlist->description)
+                        <p class="description">{{ Str::limit($playlist->description, 100) }}</p>
+                    @endif
+                    <div class="playlist-meta">
+                        <span><i class="fas fa-music"></i> {{ $playlist->songs->count() }} songs</span>
+                        <a href="{{ route('playlists.show', $playlist) }}" class="view-button">
+                            View Playlist
+                        </a>
                     </div>
                 </div>
-            @empty
-                <div class="col-span-3 text-center py-8 text-gray-500">
-                    No playlists yet. Create your first playlist!
-                </div>
-            @endforelse
-        </div>
+            </div>
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-music"></i>
+                <p>No playlists yet. Create your first playlist!</p>
+                <a href="{{ route('playlists.create') }}" class="create-button">Create Playlist</a>
+            </div>
+        @endforelse
     </div>
 </div>
 @endsection

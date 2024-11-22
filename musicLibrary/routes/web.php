@@ -6,12 +6,21 @@ use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\LibraryController;
 
-// Default route
+// Default route (Home page)
 Route::get('/', function () {
-    return redirect()->route('signin');
-})->name('default');
+    return view('home');
+})->name('home');
 
-// Authentication Routes (Public)
+// Public routes (accessible to everyone)
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+// Guest routes (only for non-authenticated users)
 Route::middleware('guest')->group(function () {
     Route::get('/signin', [AuthController::class, 'showLoginForm'])->name('signin');
     Route::post('/signin', [AuthController::class, 'signIn'])->name('signin.submit');
@@ -21,10 +30,6 @@ Route::middleware('guest')->group(function () {
 
 // Protected Routes (Require Authentication)
 Route::middleware('auth')->group(function () {
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
-    
     // Library Routes
     Route::get('/library', [LibraryController::class, 'index'])->name('library');
     
