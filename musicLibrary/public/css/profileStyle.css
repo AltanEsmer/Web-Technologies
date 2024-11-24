@@ -1,0 +1,220 @@
+/* Necessary font imported from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Miniver&family=Poppins:ital,wght@0,100;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0%;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  /* Colours */
+  --white-color: #fff;
+  --dark-color: #006D77;
+  --primary-color: #83C5BE;
+  --secondary-color: #E29578;
+  --light-pink-color: #FFDDD2;
+  --medium-gray-color: #EDF6F9;
+
+  /* Font size */
+  --font-size-s: 0.9rem;
+  --font-size-n: 1rem;
+  --font-size-m: 1.12rem;
+  --font-size-1: 1.5rem;
+  --font-size-x1: 2rem;
+  --font-size-xx1: 2.3rem;
+
+  /* Font weight */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Border radius */
+  --border-radius-s: 8px;
+  --border-radius-m: 30px;
+  --border-radius-circle: 50%;
+  /* Site max width */
+  --site-max-width: 1300px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Main Style of website */
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  width: 100%;
+}
+
+.section-content {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: var(--site-max-width);
+}
+
+.section-title {
+  text-align: center;
+  padding: 60px 0 100px;
+  text-transform: uppercase;
+  font-size: var(--font-size-x1);
+}
+
+.section-title::after {
+  content: '';
+  width: 80px;
+  height: 5px;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: var(--border-radius-s);
+  background: var(--secondary-color);
+}
+/* header*/
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 12.5%; /* Adjust padding for better alignment */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background-color: var(--primary-color);
+}
+
+/* Align logo and links in a row */
+.navbar {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo styling */
+.logo-image-wrapper {
+  max-width: 100px; /* Set a max width for the logo */
+  margin-right: 15px; /* Add space between the logo and links */
+}
+
+.logo-image {
+  width: 100%; /* Make the logo fit within the wrapper */
+  height: auto;
+  max-height: 50px; /* Adjust height as needed */
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif; /* Match your navigation font */
+  font-size: 1.1rem; /* Match your navigation font size */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link:hover {
+  color: var(--secondary-color); 
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.form-label {
+  min-width: 150px;
+  text-align: right;
+  margin: 0;
+  font-weight: 500;
+  color: #000;
+}
+
+.input-wrapper {
+  flex: 1;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-left: 150px; /* Aligns with inputs */
+}
+
+.btn-primary:hover {
+  background: var(--secondary-color);
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Style for file input */
+input[type="file"] {
+  padding: 0.5rem;
+}
+
+/* Style for success message */
+.alert-success {
+  background: rgba(40, 167, 69, 0.2);
+  border: 1px solid #28a745;
+  color: #000;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.profile-edit-wrapper {
+  max-width: 600px;
+  width: 100%;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-control::placeholder {
+  color: #666;
+  font-style: italic;
+}
