@@ -13,8 +13,8 @@
 <body>
 
   <!-- Header & navbar -->
-  <header class="header">
-    <nav class="navbar">
+  <header class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+    <nav class="navbar" style="display: flex; align-items: center; gap: 15px;">
       <div class="logo-image-wrapper">
         <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
       </div> 
@@ -26,15 +26,21 @@
           @csrf
           <button type="submit" style="background: none; border: none; color: white; cursor: pointer;">Logout</button>
         </form>
-      @else
-        <a href="{{ route('signin') }}">Sign in</a>
       @endauth
       <a href="#contact">Contact</a>
     </nav>
-    <form action="#" class="search-bar">
-      <input type="text" name="search" id="search" placeholder="Search...">
-      <button type="submit"><i class='bx bx-search'></i></button>
-    </form>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <form action="#" class="search-bar">
+        <input type="text" name="search" id="search" placeholder="Search...">
+        <button type="submit"><i class='bx bx-search'></i></button>
+      </form>
+      @guest
+        <div class="navbar" style="margin: 0; padding: 0;">
+          <a href="{{ route('signin') }}" style="margin-right: 15px;">Sign in</a>
+          <a href="{{ route('signin', ['mode' => 'signup']) }}" style="background-color: #1DB954; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; transition: background-color 0.3s ease;">Sign up</a>
+        </div>
+      @endguest
+    </div>
   </header>
 
   <main>
