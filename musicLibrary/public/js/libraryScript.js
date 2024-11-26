@@ -7,6 +7,8 @@ const songs = document.querySelectorAll('.carousel-item');
 // Show more - Functionality
 const explodeBtn = document.querySelector(".show-more");
 const playlistView = document.querySelector(".playlist-view");
+const playlistCarousel = document.querySelector(".playlist-carousel");
+const playlistTitle = document.querySelector(".playlist-title");
 
 let scrollAmount = 0;
 let songsShownIndex = [0, 1, 2];
@@ -191,11 +193,60 @@ renderSongs();
 const showMore = () => {
     prevButton.setAttribute("hidden", "true");
     nextButton.setAttribute("hidden", "true");
+    playlistView.innerHTML = ``;
+    playlistView.classList.add("playlist-view-more");
+    playlistView.classList.remove("playlist-view");
+    createPlaylistSidebar();
+    createPlaylistMain();
+    fillSongs();
+    const collapseBtn = document.querySelector(".show-less");
 }
 
+const createPlaylistSidebar = () => {
+    const playlistSidebar = document.createElement("div");
+    playlistSidebar.classList.add("playlist-sidebar");
+    playlistSidebar.innerHTML = `
+    <img class="playlist-pic" src="/images/playlist_pics/hungarian_hiphop.png">
+    <div class="playlist-description"></div>
+    <a class="show-less" href="#">Show less<a>
+    `;
+    playlistView.appendChild(playlistSidebar);
+}
+const createPlaylistMain = () => {
+    const playlistMain = document.createElement("div");
+    playlistMain.classList.add("playlist-main");
+    playlistMain.innerHTML = `
+    <div class="playlist-title"><h2>Sounds of Hungarian Rap</h2></div>
+    <div class="songs-div"></div>
+    `;
+    playlistView.appendChild(playlistMain);
+}
+
+const fillSongs = () => {
+    for(let i=0;i<songsList.length;i++) {
+        const explodedSong = document.createElement("div");
+        explodedSong.classList.add("exploded-song");
+        explodedSong.innerHTML= `
+        <img src="${songsList[i].pic}">
+        <p>${songsList[i].artist}</p>
+        <p>${songsList[i].name}</p>
+        <p>${songsList[i].album}</p>
+        `;
+            document.querySelector(".songs-div").appendChild(explodedSong);
+    }
+}
+
+const collapse = () => {
+
+    
+}
 nextButton.addEventListener("click", songScrollNext);
 prevButton.addEventListener("click", songScrollPrev);
 explodeBtn.addEventListener("click", function(event) {
     event.preventDefault();
     showMore();
+})
+collapseBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    collapse();
 })

@@ -31,8 +31,161 @@
     margin-bottom: 0.5rem;
 }
 
+<<<<<<< Updated upstream
 .sidebar .playlist-icon a {
     color: white;
+=======
+.playlist-details h3 {
+    color: #333;
+}
+
+.playlist-details #playlist-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 20px;
+    margin-right: 220px; 
+    margin-top: 70px; 
+}
+
+/* playlist recommendation */
+.playlist-view {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 40px;
+    width: 80%;
+    margin: 40px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.playlist-view > .playlist-title {
+    width: 20%;
+    padding-right: 20px;
+    text-align: center;
+}
+.playlist-view > .playlist-title h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.playlist-title p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #888;
+}
+
+/* for exploded view */
+.playlist-view-more {
+    display: flex;
+    border: 1px solid #ddd;
+    padding: 0px;
+    width: 80%;
+    margin: 40px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 700px;
+    flex-wrap: wrap;
+}
+
+.playlist-view-more > .playlist-sidebar {
+    display:flex;
+    flex-direction: column;
+    width:25%;
+    border-right: 1px solid black;
+}
+
+.playlist-sidebar > .playlist-description {
+    height: 70%;
+    border-bottom: 1px solid black;
+}
+
+.playlist-sidebar > .show-less {
+    text-align: center;
+}
+
+.playlist-view-more > .playlist-main {
+    display: flex;
+    flex-direction: column;
+    width:75%;
+}
+.playlist-main > .playlist-title {
+    height: 70px;
+    padding-top: 10px;
+    border-bottom:1px solid black;
+}
+.playlist-main > .playlist-title h2 {
+    text-align: center;
+    font-size:30px;
+}
+
+.songs-div .exploded-song {
+    display: flex;
+    flex-direction: row;
+}
+
+.exploded-song img {
+    height:40px;
+    width:40px;
+}
+
+/* playlist preview carousel */
+.playlist-carousel {
+    display: flex;
+    align-items: center;
+    width: 60%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.carousel-item {
+    width: 100px;
+    /*height: 100px;*/
+    /*background-color: #FFDDD2;*/
+    margin: 0 10px;
+    /*display: flex;*/
+    align-content: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #fff;
+    
+}
+.carousel-item > p {
+    background-color: #FFDDD2;
+}
+.carousel-item > img {
+    height: 150px;
+}
+.carousel-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.show-more {
+    width: 20%;
+    text-align: right;
+    font-size: 14px;
+}
+
+.show-more a {
+    color: #006D77;
+>>>>>>> Stashed changes
     text-decoration: none;
     display: block;
     padding: 8px;
