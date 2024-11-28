@@ -6,6 +6,7 @@
     <title>Music Library</title>
     <link rel="stylesheet" href="{{ asset('css/HomeStyle.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     @yield('head')
 </head>
@@ -28,25 +29,43 @@
                 </form>
                 
                 @auth
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
-                    </form>
+                    <img class="user-pic" onclick="toggleMenu()" 
+                         src="{{ Auth::user()->profile_image ?? asset('images/mona-lisa.jpg') }}" 
+                         alt="user">
+                    <div class="sub-menu-wrap" id="subMenu">
+                        <div class="sub-menu">
+                            <div class="user-info">
+                                <img src="{{ Auth::user()->profile_image ?? asset('images/mona-lisa.jpg') }}" alt="user">
+                                <h3>{{ Auth::user()->name }}</h3>
+                            </div>
+                            <hr>
+                            <a href="{{ route('profile.edit') }}" class="sub-menu-link">
+                                <img src="{{ asset('images/profile-icon.png') }}" alt="profile">
+                                <p>Edit Profile</p>
+                                <span>></span>
+                            </a>
+                            <a href="{{ route('home') }}" class="sub-menu-link">
+                                <img src="{{ asset('images/home-icon.png') }}" alt="home">
+                                <p>Home</p>
+                                <span>></span>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" 
+                                   class="sub-menu-link">
+                                    <img src="{{ asset('images/mona-lisa.jpg') }}" alt="logout">
+                                    <p>Logout</p>
+                                    <span>></span>
+                                </a>
+                            </form>
+                        </div>
+                    </div>
                 @else
                     <a href="{{ route('signin') }}">Sign in</a>
                 @endauth
             </div>
         </nav>
     </header>
-
-    <style>
-    .navbar {
-        padding-left: 0;
-    }
-    .logo-image-wrapper {
-        margin-left: 0;
-    }
-    </style>
 
     @yield('content')
 </body>
