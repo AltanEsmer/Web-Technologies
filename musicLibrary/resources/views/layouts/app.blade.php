@@ -38,16 +38,6 @@
             </div>
         </nav>
     </header>
-
-    <style>
-    .navbar {
-        padding-left: 0;
-    }
-    .logo-image-wrapper {
-        margin-left: 0;
-    }
-    </style>
-
     @yield('content')
 </body>
 </html>
