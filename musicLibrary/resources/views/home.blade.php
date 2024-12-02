@@ -22,10 +22,6 @@
       <a href="#about">About</a>
       @auth
         <a href="{{ route('library') }}">Library</a>
-        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-          @csrf
-          <button type="submit" style="background: none; border: none; color: white; cursor: pointer;">Logout</button>
-        </form>
       @endauth
       <a href="#contact">Contact</a>
     </nav>
@@ -34,6 +30,12 @@
         <input type="text" name="search" id="search" placeholder="Search...">
         <button type="submit"><i class='bx bx-search'></i></button>
       </form>
+      @auth
+        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+          @csrf
+          <button type="submit" style="background-color: #1DB954; color: white; padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; transition: background-color 0.3s ease;">Logout</button>
+        </form>
+      @endauth
       @guest
         <div class="navbar" style="margin: 0; padding: 0;">
           <a href="{{ route('signin') }}" style="margin-right: 15px;">Sign in</a>
