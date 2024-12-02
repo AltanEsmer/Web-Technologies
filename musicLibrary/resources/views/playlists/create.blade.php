@@ -3,6 +3,13 @@
 @section('content')
 <div class="container mx-auto px-4 py-16">
     <div class="max-w-2xl mx-auto">
+        <a href="{{ url()->previous() }}" class="inline-flex items-center mb-6 text-[#006D77] hover:text-opacity-80" style="margin-top: 50px;">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back
+        </a>
+
         <h1 class="text-3xl font-bold mb-6">Create New Playlist</h1>
 
         @if(session('error'))
