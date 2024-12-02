@@ -118,6 +118,7 @@ img {
 
 /* Navigation links styling */
 .navbar a {
+  position: relative;
   font-size: 20px;
   color: #fff;
   text-decoration: none;
