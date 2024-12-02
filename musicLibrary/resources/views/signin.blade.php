@@ -9,15 +9,23 @@
   <title>Main Page</title>
 </head>
 <body>
-<header class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
-    <nav class="navbar" style="display: flex; align-items: center; gap: 15px;">
-      <a href="{{ route('home') }}">
-        <div class="logo-image-wrapper">
-          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
-        </div>
-      </a>
+<header class="header">
+    <nav class="navbar">
+    <div class="about-image-wrapper">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="try" class="about-image">
+        </div> 
+      <a href="{{ route('home') }}">Home</a>
+      
+      <a href="{{ route('library') }}">Library</a>
+      
+      <a href="{{ route('signin') }}">Sign in</a>
     </nav>
-</header>
+    </div>
+    <form action="#" class="search-bar">
+      <input type="text" name="search" id="search" placeholder="Search...">
+      <button type="submit"><i class='bx bx-search'></i></button>
+    </form>
+  </header>
 
   <div class="background"></div>
   <div class="container">
