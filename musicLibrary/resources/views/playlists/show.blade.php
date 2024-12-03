@@ -12,9 +12,12 @@
         <div class="playlists">
             <h3>Your Playlists</h3>
             <ul>
-                @foreach($playlists as $playlist)
-                    <li class="playlist-icon" data-id="{{ $playlist->id }}">
-                        <a href="{{ route('playlists.show', $playlist) }}">{{ $playlist->name }}</a>
+                @foreach($playlists as $sidebarPlaylist)
+                    <li class="playlist-icon" data-id="{{ $sidebarPlaylist->id }}">
+                        <a href="{{ route('playlists.show', $sidebarPlaylist) }}" 
+                           class="{{ $sidebarPlaylist->id === $playlist->id ? 'active' : '' }}">
+                            {{ $sidebarPlaylist->name }}
+                        </a>
                     </li>
                 @endforeach
                 <li class="playlist-icon" data-id="create">

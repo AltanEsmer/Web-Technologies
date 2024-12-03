@@ -54,7 +54,12 @@ class PlaylistController extends Controller
 
     public function show(Playlist $playlist)
     {
+        // Load the playlist with its songs and user
+        $playlist->load(['songs', 'user']);
+        
+        // Get user's playlists for the sidebar
         $playlists = auth()->user()->playlists;
+        
         return view('playlists.show', compact('playlist', 'playlists'));
     }
     

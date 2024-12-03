@@ -28,21 +28,30 @@
 }
 
 .sidebar .playlist-icon {
-    margin-bottom: 0.5rem;
-}
-
-.sidebar .playlist-icon a {
-    position: relative;
-    color: white;
-    text-decoration: none;
-    display: block;
-    padding: 8px;
+    padding: 8px 16px;
+    margin: 4px 0;
     border-radius: 4px;
     transition: background-color 0.2s;
 }
 
-.sidebar .playlist-icon a:hover {
+.sidebar .playlist-icon.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar .playlist-icon.active a {
+    color: #fff;
+    font-weight: 500;
+}
+
+.sidebar .playlist-icon:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .playlist-icon a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    display: block;
+    width: 100%;
 }
 
 .sidebar .playlist-icon a::after {
@@ -88,10 +97,11 @@
 }
 
 .playlist-card {
-    background: white;
+    cursor: pointer;
+    background: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 }
 
@@ -137,6 +147,17 @@
 .playlist-info p {
     font-size: 0.9rem;
     color: #666;
+}
+
+.playlist-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.playlist-link:hover {
+    transform: scale(1.02);
 }
 
 /* Dropdown Menu Styles */

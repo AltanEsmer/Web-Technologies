@@ -3,6 +3,7 @@
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/libstyle.css') }}">
     <script src="{{ asset('js/profile-helper.js') }}"></script>
+    <script src="{{ asset('js/libraryScript.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -68,21 +69,23 @@
             <h2>Your Playlists</h2>
             <div class="playlist-grid">
                 @foreach($playlists as $playlist)
-                    <div class="playlist-card">
-                        <div class="playlist-image">
-                            @if($playlist->cover_image)
-                                <img src="{{ asset('storage/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
-                            @else
-                                <div class="default-cover">
-                                    <i class="fas fa-music"></i>
-                                </div>
-                            @endif
+                    <a href="{{ route('playlists.show', $playlist) }}" class="playlist-link">
+                        <div class="playlist-card">
+                            <div class="playlist-image">
+                                @if($playlist->cover_image)
+                                    <img src="{{ asset('storage/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                                @else
+                                    <div class="default-cover">
+                                        <i class="fas fa-music"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="playlist-info">
+                                <h3>{{ $playlist->name }}</h3>
+                                <p>{{ $playlist->songs->count() }} songs</p>
+                            </div>
                         </div>
-                        <div class="playlist-info">
-                            <h3>{{ $playlist->name }}</h3>
-                            <p>{{ $playlist->songs->count() }} songs</p>
-                        </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </section>
@@ -92,22 +95,24 @@
             <h2>Public Playlists</h2>
             <div class="playlist-grid">
                 @foreach($publicPlaylists as $playlist)
-                    <div class="playlist-card">
-                        <div class="playlist-image">
-                            @if($playlist->cover_image)
-                                <img src="{{ asset('storage/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
-                            @else
-                                <div class="default-cover">
-                                    <i class="fas fa-music"></i>
-                                </div>
-                            @endif
+                    <a href="{{ route('playlists.show', $playlist) }}" class="playlist-link">
+                        <div class="playlist-card">
+                            <div class="playlist-image">
+                                @if($playlist->cover_image)
+                                    <img src="{{ asset('storage/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                                @else
+                                    <div class="default-cover">
+                                        <i class="fas fa-music"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="playlist-info">
+                                <h3>{{ $playlist->name }}</h3>
+                                <p>By {{ $playlist->user->name }}</p>
+                                <p>{{ $playlist->songs->count() }} songs</p>
+                            </div>
                         </div>
-                        <div class="playlist-info">
-                            <h3>{{ $playlist->name }}</h3>
-                            <p>By {{ $playlist->user->name }}</p>
-                            <p>{{ $playlist->songs->count() }} songs</p>
-                        </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </section>
