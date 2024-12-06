@@ -54,7 +54,12 @@ class PlaylistController extends Controller
 
     public function show(Playlist $playlist)
     {
+        // Load the playlist with its songs and user
+        $playlist->load(['songs', 'user']);
+        
+        // Get user's playlists for the sidebar
         $playlists = auth()->user()->playlists;
+        
         return view('playlists.show', compact('playlist', 'playlists'));
     }
     
@@ -154,17 +159,27 @@ class PlaylistController extends Controller
         ]);
 
         try {
+            // Get the current maximum position
+            $maxPosition = $playlist->songs()->max('position') ?? -1;
+
             $song = Song::firstOrCreate(
                 ['spotify_id' => $validated['spotify_id']],
-                $validated
+                [
+                    'title' => $validated['title'],
+                    'artist' => $validated['artist'],
+                    'album' => $validated['album'],
+                    'cover_art' => $validated['cover_art']
+                ]
             );
 
             if (!$playlist->songs->contains($song->id)) {
-                $playlist->songs()->attach($song->id);
+                $playlist->songs()->attach($song->id, ['position' => $maxPosition + 1]);
+                return redirect()->route('playlists.show', $playlist)
+                    ->with('success', 'Song added successfully!');
             }
 
             return redirect()->route('playlists.show', $playlist)
-                ->with('success', 'Song added successfully!');
+                ->with('info', 'Song is already in the playlist.');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to add song: ' . $e->getMessage());
         }

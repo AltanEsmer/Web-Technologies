@@ -83,45 +83,6 @@ const songsList = [
     },
 ]
 
-/*prevButton.addEventListener('click', () => {
-    carousel.scrollTo({
-        top: 0,
-        left: (scrollAmount -= 150),
-        behavior: 'smooth'
-    });
-    if (scrollAmount < 0) scrollAmount = 0;
-});*/
-
-/*nextButton.addEventListener('click', () => {
-    songsShownIndex.forEach((value, index, array)=>{
-        array[index] = value + 1;
-    })
-    console.log(songsShownIndex);
-    songs[songsShownIndex[0]-1].hidden = true ;
-    songs[songsShownIndex[2]].hidden = false;
-    console.log(songs);
-    carousel.scrollTo({
-        top: 0,
-        left: (scrollAmount += 150),
-        behavior: 'smooth'
-    });
-});*/
-
-// Playlist Sidebar Loading Functionality
-document.querySelectorAll('.playlist-icon').forEach(item => {
-    item.addEventListener('click', event => {
-        const playlistId = event.target.getAttribute('data-playlist-id');
-        loadPlaylistDetails(playlistId);
-    });
-});
-document.querySelectorAll('.playlist-icon').forEach(item => {
-    item.addEventListener('click', function () {
-        const playlistId = this.dataset.id;
-        window.location.href = `/playlist/${playlistId}`;
-    });
-});
-
-
 // Function to load playlist details via AJAX
 function loadPlaylistDetails(playlistId) {
     fetch(`playlist.php?playlist_id=${playlistId}`)
@@ -146,7 +107,7 @@ function loadPlaylistDetails(playlistId) {
 }
 
 // Function to render the selected 3 songs of the playlist on the page
-const renderSongs = () => {
+function renderSongs() {
     for(let i=0; i<3; i++) {
         
         let songbox = document.createElement("div")
@@ -158,7 +119,7 @@ const renderSongs = () => {
     }
     return;    
 }
-const songScrollNext = () => {
+function songScrollNext() {
     for(let i = 0; i<3;i++) {
         if(songsShownIndex[i]===songsList.length-1) {
             songsShownIndex[i] = 0;
@@ -172,7 +133,7 @@ const songScrollNext = () => {
 }
 
 // Functions for scrolling throught the songs in the playlist in preview mode
-const songScrollPrev = () => {
+function songScrollPrev() {
 
         for(let i =0; i<3; i++) {
             if(songsShownIndex[i]===0) {
@@ -189,8 +150,8 @@ const songScrollPrev = () => {
 // Renders songs when page loaded
 renderSongs();
 
-//show-more function for playlist recommendations
-const showMore = () => {
+// show-more function for playlist recommendations
+function showMore() {
     prevButton.setAttribute("hidden", "true");
     nextButton.setAttribute("hidden", "true");
     playlistView.innerHTML = ``;
