@@ -16,8 +16,7 @@ return new class extends Migration
             $table->json('metadata')->nullable();
             $table->timestamps();
 
-            // Add index for position but don't make it unique
-            $table->index(['playlist_id', 'position']);
+            $table->unique(['playlist_id', 'position']);
         });
     }
 

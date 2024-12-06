@@ -23,9 +23,6 @@ class Playlist extends Model
 
     public function songs()
     {
-        return $this->belongsToMany(Song::class)
-                    ->withPivot('position')
-                    ->withTimestamps()
-                    ->orderBy('position');
+        return $this->belongsToMany(Song::class)->withTimestamps();
     }
 }
