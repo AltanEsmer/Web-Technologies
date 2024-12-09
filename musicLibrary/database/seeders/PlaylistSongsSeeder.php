@@ -19,7 +19,11 @@ class PlaylistSongsSeeder extends Seeder
     public function run()
     {
         $playlists = Playlist::all();
-        $searchTerms = ['rock', 'pop', 'jazz', 'classical', 'hip hop'];
+        $searchTerms = [
+            'rock', 'pop', 'jazz', 'classical', 'hip hop', 'indie', 'electronic', 
+            'reggae', 'blues', '80s', '90s', 'lo-fi', 'chill', 'party', 'r&b', 
+            'workout', 'acoustic', 'country', 'happy', 'sad'
+        ];
 
         foreach ($playlists as $playlist) {
             $position = 0;
