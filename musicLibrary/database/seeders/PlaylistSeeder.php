@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -9,7 +10,9 @@ class PlaylistSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('playlists')->insert([
+        $users = User::all();
+        
+        $playlists = [
             [
                 'name' => 'Rock Classics',
                 'description' => 'Classic rock songs from the 70s and 80s',
@@ -120,6 +123,14 @@ class PlaylistSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ]
-        ]);
+        ];
+
+        foreach ($playlists as $index => $playlist) {
+            // Assign each playlist to a different user using modulo to cycle through users
+            $user = $users[$index % count($users)];
+            $playlist['user_id'] = $user->id;
+            
+            DB::table('playlists')->insert($playlist);
+        }
     }
 }

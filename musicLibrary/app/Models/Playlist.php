@@ -13,7 +13,13 @@ class Playlist extends Model
         'name',
         'description',
         'cover_image',
-        'user_id'
+        'user_id',
+        'is_public'
+    ];
+
+    // Add this to ensure boolean casting
+    protected $casts = [
+        'is_public' => 'boolean'
     ];
 
     public function user()

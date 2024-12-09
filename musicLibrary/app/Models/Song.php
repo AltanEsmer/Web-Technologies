@@ -14,7 +14,8 @@ class Song extends Model
         'artist',
         'album',
         'cover_art',
-        'spotify_id'
+        'spotify_id',
+        'duration_ms'
     ];
 
     public function playlists()
