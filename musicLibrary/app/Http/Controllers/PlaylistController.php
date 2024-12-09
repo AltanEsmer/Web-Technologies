@@ -49,7 +49,7 @@ class PlaylistController extends Controller
                 $image = $request->file('cover_image');
                 $imageName = time() . '.' . $image->extension();
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
-                $validated['cover_image'] = $path;
+                $validated['cover_image'] = basename($path);
             }
 
             $playlist = Playlist::create($validated);
@@ -111,7 +111,7 @@ class PlaylistController extends Controller
                 $image = $request->file('cover_image');
                 $imageName = time() . '.' . $image->extension();
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
-                $validated['cover_image'] = $path;
+                $validated['cover_image'] = basename($path);
             }
 
             $playlist->update($validated);

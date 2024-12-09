@@ -33,7 +33,7 @@
             <div class="playlist-header">
                 <div class="header-content">
                     @if($playlist->cover_image)
-                        <img src="{{ Storage::url($playlist->cover_image) }}" alt="Playlist cover" class="playlist-cover">
+                        <img src="{{ asset('storage/playlist-covers/' . $playlist->cover_image) }}" alt="Playlist cover" class="playlist-cover">
                     @else
                         <div class="default-cover">
                             <i class="fas fa-music"></i>
