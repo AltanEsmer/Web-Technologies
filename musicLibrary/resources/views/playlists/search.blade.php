@@ -52,7 +52,8 @@
                             <input type="hidden" name="artist" value="{{ $song['artists'][0]['name'] }}">
                             <input type="hidden" name="album" value="{{ $song['album']['name'] }}">
                             <input type="hidden" name="cover_art" value="{{ $song['album']['images'][0]['url'] ?? '' }}">
-                            <input type="hidden" name="spotify_id" value="{{ $song['id'] }}"> <!-- Add this line -->
+                            <input type="hidden" name="spotify_id" value="{{ $song['id'] }}">
+                            <input type="hidden" name="duration_ms" value="{{ $song['duration_ms'] }}">
                             <button type="submit" class="px-4 py-2 bg-white text-[#006D77] border border-[#006D77] rounded-lg hover:bg-[#006D77] hover:text-white">
                                 Add to Playlist
                             </button>

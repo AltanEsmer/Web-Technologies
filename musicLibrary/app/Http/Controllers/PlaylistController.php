@@ -179,7 +179,8 @@ class PlaylistController extends Controller
             'artist' => 'required|string',
             'album' => 'required|string',
             'cover_art' => 'nullable|url',
-            'spotify_id' => 'required|string'
+            'spotify_id' => 'required|string',
+            'duration_ms' => 'nullable|integer'
         ]);
 
         try {
@@ -192,7 +193,8 @@ class PlaylistController extends Controller
                     'title' => $validated['title'],
                     'artist' => $validated['artist'],
                     'album' => $validated['album'],
-                    'cover_art' => $validated['cover_art']
+                    'cover_art' => $validated['cover_art'],
+                    'duration_ms' => $validated['duration_ms']
                 ]
             );
 
