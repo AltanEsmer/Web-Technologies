@@ -27,42 +27,7 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- User Profile Section -->
-        @auth
-        <div class="user-profile">
-            <img class="user-pic" onclick="toggleMenu()" 
-                 src="{{ Auth::user()->profile_image ?? asset('images/mona-lisa.jpg') }}" 
-                 alt="user">
-            <div class="sub-menu-wrap" id="subMenu">
-                <div class="sub-menu">
-                    <div class="user-info">
-                        <img src="{{ Auth::user()->profile_image ?? asset('images/mona-lisa.jpg') }}" alt="user">
-                        <h3>{{ Auth::user()->name }}</h3>
-                    </div>
-                    <hr>
-                    <a href="{{ route('profile.edit') }}" class="sub-menu-link">
-                        <img src="{{ asset('images/profile-icon.png') }}" alt="profile">
-                        <p>Edit Profile</p>
-                        <span>></span>
-                    </a>
-                    <a href="{{ route('home') }}" class="sub-menu-link">
-                        <img src="{{ asset('images/home-icon.png') }}" alt="home">
-                        <p>Home</p>
-                        <span>></span>
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" 
-                           class="sub-menu-link">
-                            <img src="{{ asset('images/mona-lisa.jpg') }}" alt="logout">
-                            <p>Logout</p>
-                            <span>></span>
-                        </a>
-                    </form>
-                </div>
-            </div>
-        </div>
-        @endauth
+        
 
         <!-- Your Personal Playlists Section -->
         <section class="playlist-section">

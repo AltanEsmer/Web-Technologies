@@ -10,7 +10,7 @@
     padding: 2rem;
     background: rgba(0, 109, 119, 0.05);
     border-radius: 16px;
-}
+} /* rgba(0, 109, 119, 0.05); */
 
 .header-content {
     display: flex;

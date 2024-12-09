@@ -52,6 +52,10 @@
                     file:text-sm file:font-semibold
                     file:bg-[#006D77] file:text-white
                     hover:file:bg-opacity-90">
+                <!-- Image Preview -->
+                <div id="image-preview" class="mt-4">
+                    <img id="preview" src="" alt="Image Preview" class="hidden w-40 h-40 object-cover rounded-md border" />
+                </div>
             </div>
 
             <button type="submit" class="w-full bg-[#006D77] text-white py-2 px-4 rounded-md hover:bg-opacity-90">
@@ -60,4 +64,7 @@
         </form>
     </div>
 </div>
+
+<!-- Image preview -->
+<script src="{{ asset('js/imagePreview.js') }}"></script>
 @endsection

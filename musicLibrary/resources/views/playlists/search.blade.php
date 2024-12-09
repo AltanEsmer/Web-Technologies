@@ -20,7 +20,7 @@
                     class="flex-1 p-3 border rounded-lg"
                     required
                 >
-                <button type="submit" class="px-6 py-3 bg-[#006D77] text-white rounded-lg hover:bg-opacity-90">
+                <button type="submit" class="px-6 py-3 bg-white text-[#006D77] border border-[#006D77] rounded-lg hover:bg-[#006D77] hover:text-white">
                     Search
                 </button>
             </div>
@@ -53,7 +53,7 @@
                             <input type="hidden" name="album" value="{{ $song['album']['name'] }}">
                             <input type="hidden" name="cover_art" value="{{ $song['album']['images'][0]['url'] ?? '' }}">
                             <input type="hidden" name="spotify_id" value="{{ $song['id'] }}"> <!-- Add this line -->
-                            <button type="submit" class="px-4 py-2 bg-[#006D77] text-white rounded-lg hover:bg-opacity-90">
+                            <button type="submit" class="px-4 py-2 bg-white text-[#006D77] border border-[#006D77] rounded-lg hover:bg-[#006D77] hover:text-white">
                                 Add to Playlist
                             </button>
                         </form>

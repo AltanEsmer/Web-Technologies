@@ -11,6 +11,9 @@ export default {
     ],
     theme: {
         extend: {
+            colors: {
+                'custom-bg': 'rgba(0, 109, 119, 0.25)',
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
