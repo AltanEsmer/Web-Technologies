@@ -13,7 +13,8 @@ class Playlist extends Model
         'name',
         'description',
         'cover_image',
-        'user_id'
+        'user_id',
+        'is_public'
     ];
 
     public function songs()

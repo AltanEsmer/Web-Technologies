@@ -13,8 +13,18 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::where('user_id', auth()->id())->with('songs')->get();
-        return view('playlists.index', compact('playlists'));
+        // Get user's own playlists
+        $userPlaylists = Playlist::where('user_id', auth()->id())
+            ->with('songs')
+            ->get();
+
+        // Get public playlists from other users
+        $publicPlaylists = Playlist::where('user_id', '!=', auth()->id())
+            ->where('is_public', true)
+            ->with(['songs', 'user'])
+            ->get();
+
+        return view('playlists.index', compact('userPlaylists', 'publicPlaylists'));
     }
 
     public function create()
@@ -28,10 +38,12 @@ class PlaylistController extends Controller
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'description' => 'nullable|string',
-                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'is_public' => 'boolean'
             ]);
 
             $validated['user_id'] = auth()->id();
+            $validated['is_public'] = $request->has('is_public');
 
             if ($request->hasFile('cover_image')) {
                 $image = $request->file('cover_image');
@@ -78,11 +90,19 @@ class PlaylistController extends Controller
         }
 
         try {
+            \Log::info('Update Request Data:', $request->all());
+
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'description' => 'nullable|string',
-                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'is_public' => 'nullable|boolean'
             ]);
+
+            // Set is_public based on checkbox presence
+            $validated['is_public'] = $request->has('is_public');
+            
+            \Log::info('Validated Data:', $validated);
 
             if ($request->hasFile('cover_image')) {
                 if ($playlist->cover_image) {
@@ -95,9 +115,13 @@ class PlaylistController extends Controller
             }
 
             $playlist->update($validated);
+            
+            \Log::info('Updated Playlist:', $playlist->toArray());
+
             return redirect()->route('playlists.show', $playlist)
                 ->with('success', 'Playlist updated successfully!');
         } catch (\Exception $e) {
+            \Log::error('Playlist Update Error:', ['error' => $e->getMessage()]);
             return back()
                 ->withInput()
                 ->with('error', 'Failed to update playlist: ' . $e->getMessage());
