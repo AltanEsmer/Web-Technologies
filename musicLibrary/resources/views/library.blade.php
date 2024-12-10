@@ -38,7 +38,7 @@
                         <div class="playlist-card">
                             <div class="playlist-image">
                                 @if($playlist->cover_image)
-                                    <img src="{{ asset('storage/playlist-covers/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                                    <img src="{{ asset($playlist->cover_image) }}" alt="{{ $playlist->name }}">
                                 @else
                                     <div class="default-cover">
                                         <i class="fas fa-music"></i>
@@ -64,7 +64,7 @@
                         <div class="playlist-card">
                             <div class="playlist-image">
                                 @if($playlist->cover_image)
-                                    <img src="{{ asset('storage/playlist-covers/' . $playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                                    <img src="{{ asset($playlist->cover_image) }}" alt="{{ $playlist->name }}">
                                 @else
                                     <div class="default-cover">
                                         <i class="fas fa-music"></i>

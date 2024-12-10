@@ -2,21 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Playlist;
 
 class PlaylistSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
-        $users = User::all();
-        
         $playlists = [
             [
                 'name' => 'Rock Classics',
-                'description' => 'Classic rock songs from the 70s and 80s',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\rock_image.jpg',
+                'description' => 'Classic rock hits from all time',
+                'cover_image' => 'images/playlist_pics/rock.jpg',
                 'user_id' => 1,
                 'is_public' => true,
                 'play_count' => 0,
@@ -26,9 +23,9 @@ class PlaylistSeeder extends Seeder
             ],
             [
                 'name' => 'Chill Vibes',
-                'description' => 'Relaxing and chill tracks for any time',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\chill_vibes.jpg',
-                'user_id' => 1,
+                'description' => 'Relaxing tunes to unwind',
+                'cover_image' => 'images/playlist_pics/chill.jpg',
+                'user_id' => 2,
                 'is_public' => true,
                 'play_count' => 0,
                 'settings' => json_encode(['genre_distribution' => []]),
@@ -37,9 +34,9 @@ class PlaylistSeeder extends Seeder
             ],
             [
                 'name' => 'Workout Hits',
-                'description' => 'High-energy music for a great workout',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\workout_mix.jpg',
-                'user_id' => 1,
+                'description' => 'High-energy songs for your workout',
+                'cover_image' => 'images/playlist_pics/workout.jpg',
+                'user_id' => 3,
                 'is_public' => true,
                 'play_count' => 0,
                 'settings' => json_encode(['genre_distribution' => []]),
@@ -48,8 +45,8 @@ class PlaylistSeeder extends Seeder
             ],
             [
                 'name' => 'Country Roads',
-                'description' => 'A collection of the best country music',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\country_roads.png',
+                'description' => 'Best country music collection',
+                'cover_image' => 'images/playlist_pics/country.png',
                 'user_id' => 1,
                 'is_public' => true,
                 'play_count' => 0,
@@ -60,8 +57,8 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Jazz Essentials',
                 'description' => 'Timeless jazz tracks for a smooth experience',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\jazz.jpeg',
-                'user_id' => 1,
+                'cover_image' => 'images/playlist_pics/jazz.jpeg',
+                'user_id' => 2,
                 'is_public' => true,
                 'play_count' => 0,
                 'settings' => json_encode(['genre_distribution' => []]),
@@ -71,8 +68,8 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Pop Hits',
                 'description' => 'The most popular hits from today and yesterday',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\pop_hits.jpg',
-                'user_id' => 1,
+                'cover_image' => 'images/playlist_pics/pop.jpg',
+                'user_id' => 3,
                 'is_public' => true,
                 'play_count' => 0,
                 'settings' => json_encode(['genre_distribution' => []]),
@@ -82,7 +79,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Throwback 90s',
                 'description' => 'Take a trip back to the 90s with these hits',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\90s.jpeg',
+                'cover_image' => 'images/playlist_pics/90s.jpeg',
                 'user_id' => 1,
                 'is_public' => true,
                 'play_count' => 0,
@@ -92,31 +89,9 @@ class PlaylistSeeder extends Seeder
             ],
             [
                 'name' => 'Classical Favorites',
-                'description' => 'Beautiful classical pieces for any occasion',
-                'user_id' => 1,
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\classic_songs.jpg',
-                'is_public' => true,
-                'play_count' => 0,
-                'settings' => json_encode(['genre_distribution' => []]),
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'name' => 'Party Time',
-                'description' => 'Get the party started with these upbeat tracks',
-                'cover_image' => 'smusicLibrary\storage\app\public\playlist-covers\party_songs.jpg',
-                'user_id' => 1,
-                'is_public' => true,
-                'play_count' => 0,
-                'settings' => json_encode(['genre_distribution' => []]),
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'name' => 'Indie Mix',
-                'description' => 'A mix of the best indie tracks from emerging artists',
-                'cover_image' => 'musicLibrary\storage\app\public\playlist-covers\indie_songs.jpeg',
-                'user_id' => 1,
+                'description' => 'The best classical music collection',
+                'cover_image' => 'images/playlist_pics/classical.jpg',
+                'user_id' => 2,
                 'is_public' => true,
                 'play_count' => 0,
                 'settings' => json_encode(['genre_distribution' => []]),
@@ -125,12 +100,8 @@ class PlaylistSeeder extends Seeder
             ]
         ];
 
-        foreach ($playlists as $index => $playlist) {
-            // Assign each playlist to a different user using modulo to cycle through users
-            $user = $users[$index % count($users)];
-            $playlist['user_id'] = $user->id;
-            
-            DB::table('playlists')->insert($playlist);
+        foreach ($playlists as $playlist) {
+            Playlist::create($playlist);
         }
     }
 }

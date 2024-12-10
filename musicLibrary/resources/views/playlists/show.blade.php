@@ -32,13 +32,15 @@
         <div class="playlist-container">
             <div class="playlist-header">
                 <div class="header-content">
-                    @if($playlist->cover_image)
-                        <img src="{{ asset('storage/playlist-covers/' . $playlist->cover_image) }}" alt="Playlist cover" class="playlist-cover">
-                    @else
-                        <div class="default-cover">
-                            <i class="fas fa-music"></i>
-                        </div>
-                    @endif
+                    <div class="playlist-cover">
+                        @if($playlist->cover_image)
+                            <img src="{{ asset($playlist->cover_image) }}" alt="{{ $playlist->name }}">
+                        @else
+                            <div class="default-cover">
+                                <i class="fas fa-music"></i>
+                            </div>
+                        @endif
+                    </div>
                     
                     <div class="playlist-info">
                         <h1>{{ $playlist->name }}</h1>
