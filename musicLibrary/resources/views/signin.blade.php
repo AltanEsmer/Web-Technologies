@@ -106,7 +106,7 @@
           <div class="input-box">
             <span class="icon"><i class='bx bxs-lock-alt' ></i></span>
             <input type="password" name="pass_confirmation" id="pass_confirmation" required>
-            <label>Enter Password Again</label>
+            <label>Confirm Password</label>
           </div>
 
           <div class="remember-forgot">

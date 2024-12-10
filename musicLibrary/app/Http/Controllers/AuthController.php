@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -37,24 +38,22 @@ class AuthController extends Controller
     // Handle the Sign Up form submission
     public function signUp(Request $request)
     {
-        // Validate the input
         $validated = $request->validate([
             'username' => 'required|string|max:255',
-            'mail' => 'required|email|unique:users,email',
-            'pass' => 'required|min:6|confirmed',
+            'mail' => 'required|string|email|max:255|unique:users,email',
+            'pass' => 'required|string|min:6|confirmed',
         ]);
 
-        // Create the new user
         $user = User::create([
-            'name' => $request->username,
-            'email' => $request->mail,
-            'password' => Hash::make($request->pass),
+            'name' => $validated['username'],
+            'email' => $validated['mail'],
+            'password' => Hash::make($validated['pass']),
         ]);
 
-        // Automatically log the user in after they sign up
+        event(new Registered($user));
         Auth::login($user);
 
-        return redirect()->route('library'); // Changed to redirect to library
+        return redirect()->route('verification.notice');
     }
 
     public function logout()
