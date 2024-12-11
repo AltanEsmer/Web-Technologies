@@ -165,20 +165,33 @@ class PlaylistController extends Controller
 
     public function addSong(Request $request, Playlist $playlist)
     {
-        if ($playlist->user_id !== auth()->id()) {
-            abort(403, 'Unauthorized access to playlist');
-        }
-
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'artist' => 'required|string',
-            'album' => 'required|string',
-            'cover_art' => 'nullable|url',
-            'spotify_id' => 'required|string',
-            'duration_ms' => 'nullable|integer'
-        ]);
-
         try {
+            if ($playlist->user_id !== auth()->id()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized access to playlist'
+                ], 403);
+            }
+
+            // Debug: Log the incoming request
+            \Log::info('AddSong Request:', [
+                'request' => $request->all(),
+                'user_id' => auth()->id(),
+                'playlist_id' => $playlist->id
+            ]);
+
+            $validated = $request->validate([
+                'title' => 'required|string',
+                'artist' => 'required|string',
+                'album' => 'required|string',
+                'cover_art' => 'nullable|url',
+                'spotify_id' => 'required|string',
+                'duration_ms' => 'nullable|integer'
+            ]);
+
+            // Debug: Log validated data
+            \Log::info('Validated data:', $validated);
+
             // Get the current maximum position
             $maxPosition = $playlist->songs()->max('position') ?? -1;
 
@@ -193,16 +206,38 @@ class PlaylistController extends Controller
                 ]
             );
 
+            // Debug: Log song creation
+            \Log::info('Song created/found:', ['song_id' => $song->id]);
+
             if (!$playlist->songs->contains($song->id)) {
                 $playlist->songs()->attach($song->id, ['position' => $maxPosition + 1]);
-                return redirect()->route('playlists.show', $playlist)
-                    ->with('success', 'Song added successfully!');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Song added successfully!'
+                ]);
             }
 
-            return redirect()->route('playlists.show', $playlist)
-                ->with('info', 'Song is already in the playlist.');
+            return response()->json([
+                'success' => true,
+                'message' => 'Song is already in the playlist.'
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation error:', ['errors' => $e->errors()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to add song: ' . $e->getMessage());
+            \Log::error('Error adding song:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add song: ' . $e->getMessage()
+            ], 500);
         }
     }
 
