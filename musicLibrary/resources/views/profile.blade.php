@@ -92,6 +92,20 @@
           </div>
 
           <div class="form-group">
+            <h3>Two-Factor Authentication</h3>
+            @if(auth()->user()->two_factor_confirmed_at)
+                <p>2FA is currently enabled</p>
+                <form action="{{ route('2fa.disable') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Disable 2FA</button>
+                </form>
+            @else
+                <p>2FA is currently disabled</p>
+                <a href="{{ route('2fa.setup') }}" class="btn btn-primary">Enable 2FA</a>
+            @endif
+          </div>
+
+          <div class="form-group">
             <button type="submit" class="btn btn-primary">Save Changes</button>
           </div>
         </form>

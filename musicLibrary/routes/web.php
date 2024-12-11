@@ -1,11 +1,4 @@
-MAIL_MAILER=smtp
-MAIL_HOST=your-smtp-host
-MAIL_PORT=587
-MAIL_USERNAME=your-username
-MAIL_PASSWORD=your-password
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=your-email@example.com
-MAIL_FROM_NAME="${APP_NAME}"<?php
+<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -16,6 +9,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 //for now here just for testing
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TwoFactorAuthController;
 
 // Public routes
 Route::get('/', function () {
@@ -72,7 +66,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Spotify search
     Route::get('/spotify/search', [SpotifyController::class, 'searchSpotify'])->name('spotify.search');
+    
+    Route::get('/2fa/setup', [TwoFactorAuthController::class, 'show2faForm'])->name('2fa.setup');
+    Route::post('/2fa/enable', [TwoFactorAuthController::class, 'enable2fa'])->name('2fa.enable');
+    Route::post('/2fa/disable', [TwoFactorAuthController::class, 'disable2fa'])->name('2fa.disable');
+    Route::get('/2fa/verify', [TwoFactorAuthController::class, 'showVerifyForm'])->name('2fa.verify');
+    Route::post('/2fa/verify', [TwoFactorAuthController::class, 'verify']);
+    Route::get('/2fa/recovery-codes', [TwoFactorAuthController::class, 'showRecoveryCodes'])
+        ->name('2fa.show-recovery-codes');
 });
 
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/2fa/verify', [TwoFactorAuthController::class, 'showVerifyForm'])->name('2fa.verify');
+    Route::post('/2fa/verify', [TwoFactorAuthController::class, 'verify']);
+});

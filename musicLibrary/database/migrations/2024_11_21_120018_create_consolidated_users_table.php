@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone_number')->nullable();
             $table->json('preferences')->nullable(); // Includes preferred_genres
-            $table->json('two_factor')->nullable(); // All 2FA related data
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

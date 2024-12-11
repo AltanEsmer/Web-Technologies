@@ -20,18 +20,23 @@ class AuthController extends Controller
     // Handle the Sign In form submission
     public function signIn(Request $request)
     {
-        // Validate the input
         $validated = $request->validate([
             'mail' => 'required|email',
             'pass' => 'required|min:6',
         ]);
 
-        // Attempt to log the user in
         if (Auth::attempt(['email' => $request->mail, 'password' => $request->pass], $request->has('checker'))) {
-            return redirect()->route('library'); // Changed to redirect to library
+            $user = Auth::user();
+            
+            if ($user->two_factor_secret && $user->two_factor_confirmed_at) {
+                Auth::logout();
+                $request->session()->put('2fa.user_id', $user->id);
+                return redirect()->route('2fa.verify');
+            }
+
+            return redirect()->route('library');
         }
 
-        // If login fails, redirect back with an error message
         return redirect()->back()->withErrors(['msg' => 'Invalid credentials!'])->withInput();
     }
 
