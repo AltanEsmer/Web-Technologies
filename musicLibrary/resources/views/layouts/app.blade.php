@@ -8,6 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="{{ asset('js/profile-helper.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- Add this simple style to hide progress bars -->
+    <style>
+        .yellow-progress-bar,
+        #nprogress,
+        .turbolinks-progress-bar {
+            display: none !important;
+        }
+    </style>
+    
     @yield('head')
 </head>
 <body class="bg-gray-200">
@@ -68,5 +79,6 @@
         </nav>
     </header>
     @yield('content')
+    @stack('scripts')
 </body>
 </html>
