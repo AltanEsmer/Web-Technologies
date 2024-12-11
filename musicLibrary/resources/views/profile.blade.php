@@ -20,6 +20,10 @@
         <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
       </div> 
       
+      <a href="{{ url()->previous() }}" class="nav-link">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      
       <form method="POST" action="{{ route('logout') }}" style="display: inline;">
         @csrf
         <button type="submit" class="nav-link">Logout</button>
