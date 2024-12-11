@@ -7,6 +7,7 @@ use App\Models\Song;
 use Illuminate\Http\Request;
 use App\Services\SpotifyService;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class PlaylistController extends Controller
@@ -14,12 +15,12 @@ class PlaylistController extends Controller
     public function index()
     {
         // Get user's own playlists
-        $userPlaylists = Playlist::where('user_id', auth()->id())
+        $userPlaylists = Playlist::where('user_id', Auth::id())
             ->with('songs')
             ->get();
 
         // Get public playlists from other users
-        $publicPlaylists = Playlist::where('user_id', '!=', auth()->id())
+        $publicPlaylists = Playlist::where('user_id', '!=', Auth::id())
             ->where('is_public', true)
             ->with(['songs', 'user'])
             ->get();
@@ -42,14 +43,14 @@ class PlaylistController extends Controller
                 'is_public' => 'boolean'
             ]);
 
-            $validated['user_id'] = auth()->id();
+            $validated['user_id'] = Auth::id();
             $validated['is_public'] = $request->has('is_public');
 
             if ($request->hasFile('cover_image')) {
                 $image = $request->file('cover_image');
                 $imageName = time() . '.' . $image->extension();
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
-                $validated['cover_image'] = basename($path);
+                $validated['cover_image'] = $path;
             }
 
             $playlist = Playlist::create($validated);
@@ -90,8 +91,6 @@ class PlaylistController extends Controller
         }
 
         try {
-            \Log::info('Update Request Data:', $request->all());
-
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'description' => 'nullable|string',
@@ -99,29 +98,25 @@ class PlaylistController extends Controller
                 'is_public' => 'nullable|boolean'
             ]);
 
-            // Set is_public based on checkbox presence
             $validated['is_public'] = $request->has('is_public');
-            
-            \Log::info('Validated Data:', $validated);
 
             if ($request->hasFile('cover_image')) {
+                // Delete old image if it exists
                 if ($playlist->cover_image) {
                     Storage::disk('public')->delete($playlist->cover_image);
                 }
+                
                 $image = $request->file('cover_image');
                 $imageName = time() . '.' . $image->extension();
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
-                $validated['cover_image'] = basename($path);
+                $validated['cover_image'] = 'playlist-covers/' . $imageName;
             }
 
             $playlist->update($validated);
-            
-            \Log::info('Updated Playlist:', $playlist->toArray());
 
             return redirect()->route('playlists.show', $playlist)
                 ->with('success', 'Playlist updated successfully!');
         } catch (\Exception $e) {
-            \Log::error('Playlist Update Error:', ['error' => $e->getMessage()]);
             return back()
                 ->withInput()
                 ->with('error', 'Failed to update playlist: ' . $e->getMessage());
