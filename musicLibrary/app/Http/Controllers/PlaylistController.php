@@ -88,7 +88,7 @@ class PlaylistController extends Controller
         if ($playlist->user_id !== auth()->id()) {
             abort(403, 'Unauthorized access to playlist');
         }
-
+    
         try {
             \Log::info('Update Request Data:', $request->all());
 
@@ -96,7 +96,8 @@ class PlaylistController extends Controller
                 'name' => 'required|max:255',
                 'description' => 'nullable|string',
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'is_public' => 'nullable|boolean'
+                'is_public' => 'nullable|boolean',
+                'song_order' => 'nullable|array'
             ]);
 
             // Set is_public based on checkbox presence
@@ -113,11 +114,19 @@ class PlaylistController extends Controller
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
                 $validated['cover_image'] = basename($path);
             }
-
+    
+            // Update playlist details
             $playlist->update($validated);
+    
+            // Update song order
+            if ($request->has('song_order')) {
+                $songOrder = $request->input('song_order');
             
-            \Log::info('Updated Playlist:', $playlist->toArray());
-
+                foreach ($songOrder as $position => $songId) {
+                    $playlist->songs()->updateExistingPivot($songId, ['position' => $position + 1]); // +1 for 1-based index
+                }
+            }
+    
             return redirect()->route('playlists.show', $playlist)
                 ->with('success', 'Playlist updated successfully!');
         } catch (\Exception $e) {
@@ -127,6 +136,8 @@ class PlaylistController extends Controller
                 ->with('error', 'Failed to update playlist: ' . $e->getMessage());
         }
     }
+    
+
 
     public function destroy(Playlist $playlist)
     {

@@ -100,17 +100,26 @@
 new Sortable(document.getElementById('songList'), {
     handle: '.cursor-move',
     animation: 150,
-    onEnd: function() {
+    onEnd: function(evt) {
+        console.log("Reordered", evt);
         updateSongOrder();
     }
 });
 
 function updateSongOrder() {
-    const songInputs = document.querySelectorAll('input[name="song_order[]"]');
-    songInputs.forEach((input, index) => {
-        input.value = input.closest('[data-song-id]').dataset.songId;
+    const songContainers = document.querySelectorAll('#songList > [data-song-id]');
+    songContainers.forEach((container, index) => {
+        const input = container.querySelector('input[name="song_order[]"]');
+        if (input) {
+            input.value = container.dataset.songId;
+            console.log(`Song ID ${container.dataset.songId} is now at position ${index}`);
+        } else {
+            console.error(`Missing input for song ID ${container.dataset.songId}`);
+        }
     });
 }
+
+
 
 function removeSong(songId) {
     if (confirm('Are you sure you want to remove this song from the playlist?')) {
