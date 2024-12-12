@@ -57,6 +57,10 @@ Route::middleware('auth')->group(function () {
     
     // Spotify Search Route
     Route::get('/spotify/search', [SpotifyController::class, 'searchSpotify'])->name('spotify.search');
+    
+    // Playlist Reorder Route
+    Route::post('/playlists/{playlist}/reorder', [PlaylistController::class, 'reorderSongs'])
+        ->name('playlists.reorderSongs');
 });
 
 // Logout Route
