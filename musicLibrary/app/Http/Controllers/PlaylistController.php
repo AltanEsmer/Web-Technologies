@@ -254,4 +254,34 @@ class PlaylistController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function reorderSongs(Request $request, Playlist $playlist)
+    {
+        if ($playlist->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        try {
+            $songs = $request->input('songs');
+            
+            // Begin transaction to ensure all updates succeed or none do
+            \DB::beginTransaction();
+            
+            foreach ($songs as $song) {
+                $playlist->songs()->updateExistingPivot($song['id'], [
+                    'position' => $song['position']
+                ]);
+            }
+            
+            \DB::commit();
+            
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update song order: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -106,10 +106,33 @@ new Sortable(document.getElementById('songList'), {
 });
 
 function updateSongOrder() {
-    const songInputs = document.querySelectorAll('input[name="song_order[]"]');
-    songInputs.forEach((input, index) => {
-        input.value = input.closest('[data-song-id]').dataset.songId;
-    });
+    const songElements = document.querySelectorAll('[data-song-id]');
+    const newOrder = Array.from(songElements).map((el, index) => ({
+        id: el.dataset.songId,
+        position: index
+    }));
+
+    // Send the new order to the server
+    fetch(`/playlists/{{ $playlist->id }}/reorder`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ songs: newOrder })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the hidden inputs
+            const songInputs = document.querySelectorAll('input[name="song_order[]"]');
+            songInputs.forEach((input, index) => {
+                input.value = input.closest('[data-song-id]').dataset.songId;
+            });
+        }
+    })
+    .catch(error => console.error('Error updating song order:', error));
 }
 
 function removeSong(songId) {
