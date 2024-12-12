@@ -89,31 +89,42 @@ class PlaylistController extends Controller
         if ($playlist->user_id !== auth()->id()) {
             abort(403, 'Unauthorized access to playlist');
         }
-
+    
         try {
             $validated = $request->validate([
                 'name' => 'required|max:255',
                 'description' => 'nullable|string',
                 'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'is_public' => 'nullable|boolean'
+                'is_public' => 'nullable|boolean',
+                'song_order' => 'nullable|array'
             ]);
-
+    
             $validated['is_public'] = $request->has('is_public');
-
+    
+            // Handle cover image upload
             if ($request->hasFile('cover_image')) {
-                // Delete old image if it exists
                 if ($playlist->cover_image) {
                     Storage::disk('public')->delete($playlist->cover_image);
                 }
-                
+    
                 $image = $request->file('cover_image');
                 $imageName = time() . '.' . $image->extension();
                 $path = $image->storeAs('playlist-covers', $imageName, 'public');
                 $validated['cover_image'] = 'playlist-covers/' . $imageName;
             }
-
+    
+            // Update playlist details
             $playlist->update($validated);
-
+    
+            // Update song order
+            if ($request->has('song_order')) {
+                $songOrder = $request->input('song_order');
+            
+                foreach ($songOrder as $position => $songId) {
+                    $playlist->songs()->updateExistingPivot($songId, ['position' => $position + 1]); // +1 for 1-based index
+                }
+            }
+    
             return redirect()->route('playlists.show', $playlist)
                 ->with('success', 'Playlist updated successfully!');
         } catch (\Exception $e) {
@@ -122,6 +133,8 @@ class PlaylistController extends Controller
                 ->with('error', 'Failed to update playlist: ' . $e->getMessage());
         }
     }
+    
+
 
     public function destroy(Playlist $playlist)
     {
