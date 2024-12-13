@@ -1,0 +1,157 @@
+// FRONTEND - HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <form id="signup-form">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="terms" required>
+                I accept the terms and conditions
+            </label>
+        </div>
+        <button type="button" id="send-code">Send Verification Code</button>
+        <div class="form-group" id="verification-group" style="display: none;">
+            <label for="verification">Verification Code:</label>
+            <input type="text" id="verification" name="verification">
+            <button type="button" id="verify">Verify</button>
+        </div>
+    </form>
+
+    <script>
+        const sendCodeButton = document.getElementById('send-code');
+        const termsCheckbox = document.getElementById('terms');
+        const verificationGroup = document.getElementById('verification-group');
+        const verifyButton = document.getElementById('verify');
+
+        let verificationCode;
+
+        sendCodeButton.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            if (!email || !termsCheckbox.checked) {
+                alert('Please enter a valid email and accept the terms.');
+                return;
+            }
+
+            const response = await fetch('/send-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            if (response.ok) {
+                verificationCode = await response.json();
+                alert('Verification code sent to your email.');
+                verificationGroup.style.display = 'block';
+            } else {
+                alert('Failed to send verification code. Please try again.');
+            }
+        });
+
+        verifyButton.addEventListener('click', () => {
+            const userCode = document.getElementById('verification').value;
+            if (userCode == verificationCode) {
+                alert('Your account has been verified!');
+            } else {
+                alert('Invalid verification code. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
+
+// BACKEND - Node.js
+const express = require('express');
+const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
+const app = express();
+const PORT = 3000;
+
+app.use(bodyParser.json());
+
+let verificationCodes = {}; // To store codes temporarily
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'your-email@gmail.com', // Replace with your email
+        pass: 'your-email-password' // Replace with your email password
+    }
+});
+
+app.post('/send-code', (req, res) => {
+    const { email } = req.body;
+    const code = Math.floor(Math.random() * 999) + 1; // Generate random code
+    verificationCodes[email] = code;
+
+    const mailOptions = {
+        from: 'your-email@gmail.com',
+        to: email,
+        subject: 'Your Verification Code',
+        text: `Your verification code is: ${code}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+            res.status(500).send('Error sending email.');
+        } else {
+            res.json(code);
+        }
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
