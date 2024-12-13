@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\SpotifyController;
@@ -8,6 +9,12 @@ use App\Http\Controllers\LibraryController;
 //for now here just for testing
 use App\Http\Controllers\ProfileController;
 
+//for guest user
+use App\Http\Controllers\GuestController;
+
+Route::post('/guest-login', [GuestController::class, 'loginAsGuest']);
+
+//for edit profile
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //^
@@ -35,6 +42,28 @@ Route::middleware('guest')->group(function () {
 
 // Protected Routes (Require Authentication)
 Route::middleware('auth')->group(function () {
+    
+    //profile edit auth
+    Route::get('/profile', function () {
+        if (Auth::check() && Auth::user()->user_type === 'guest') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Guest users cannot edit profiles.',
+            ], 403); // Return 403 Forbidden status with a JSON error message
+        }
+        return app(ProfileController::class)->edit();
+    })->name('profile.edit');
+
+    Route::post('/profile', function () {
+        if (Auth::check() && Auth::user()->user_type === 'guest') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Guest users cannot edit profiles.',
+            ], 403); // Return 403 Forbidden status with a JSON error message
+        }
+        return app(ProfileController::class)->update(request());
+    })->name('profile.update');
+    
     // Library Routes
     Route::get('/library', [LibraryController::class, 'index'])->name('library');
     

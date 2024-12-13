@@ -41,7 +41,9 @@
                         <h3>{{ Auth::user()->name }}</h3>
                     </div>
                     <hr>
-                    <a href="{{ route('profile.edit') }}" class="sub-menu-link">
+                    <a href="{{ route('profile.edit') }}" class="sub-menu-link"
+                    data-user-type="{{ Auth::check() ? Auth::user()->user_type : 'normal' }}"
+                    data-edit-url="{{ route('profile.edit') }}">
                         <img src="{{ asset('images/profile-icon.png') }}" alt="profile">
                         <p>Edit Profile</p>
                         <span>></span>

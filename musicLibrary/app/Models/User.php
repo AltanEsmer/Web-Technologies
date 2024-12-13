@@ -17,7 +17,8 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'preferences',
-        'two_factor'
+        'two_factor',
+        'user_type',
     ];
 
     protected $hidden = [
@@ -36,4 +37,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Playlist::class);
     }
+    
+    public function isCurator()
+    {
+        return $this->user_type === 'curator';
+    }
+
 }

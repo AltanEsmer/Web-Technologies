@@ -36,9 +36,14 @@
             <div class="flex items-center">
                 <label for="is_public" class="block text-sm font-medium text-gray-700 mr-3">Playlist Visibility</label>
                 <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name="is_public" id="is_public" class="sr-only peer" value="1" {{ old('is_public', $playlist->is_public) ? 'checked' : '' }}>
+                    <input type="checkbox" name="is_public" id="is_public" 
+                    class="sr-only peer" value="1" 
+                    {{ auth()->user()->isCurator() ? (old('is_public', true) ? 'checked' : '') : '' }}
+                    {{ !auth()->user()->isCurator() ? 'disabled' : '' }}>
                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#006D77]/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#006D77]"></div>
-                    <span class="ms-3 text-sm font-medium text-gray-700 peer-checked:text-gray-700">Public</span>
+                    <span class="ms-3 text-sm font-medium text-gray-700 peer-checked:text-gray-700">
+                        {{ auth()->user()->isCurator() ? 'Public' : 'Only Curators can make it public' }}
+                    </span>
                 </label>
             </div>
 
