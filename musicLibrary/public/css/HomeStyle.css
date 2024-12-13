@@ -655,3 +655,49 @@ img {
 .sub-menu-link:hover p {
   font-weight: 600;
 }
+
+/* Header right section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Auth buttons */
+.auth-buttons {
+  margin: 0;
+  padding: 0;
+}
+
+.signin-link {
+  margin-right: 15px;
+}
+
+.signup-link {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Logout form and button */
+.logout-form {
+  display: inline;
+}
+
+.logout-button {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover,
+.signup-link:hover {
+  background-color: var(--secondary-color);
+}
