@@ -42,7 +42,6 @@
         <div class="auth-buttons">
           <a href="{{ route('signin') }}" class="signin-link">Sign in</a>
           <a href="{{ route('signin', ['mode' => 'signup']) }}" class="signup-link">Sign up</a>
-          
         </div>
       @endguest
     </div>

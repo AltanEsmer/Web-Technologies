@@ -55,11 +55,11 @@
                     <div class="playlist-card">
                         <div class="playlist-image">
                             <div class="default-cover">
-                                <i class="fas fa-plus"></i> <!-- Icon for adding new playlist -->
+                                <i class="fas fa-plus"></i> 
                             </div>
                         </div>
                         <div class="playlist-info">
-                            <h3>Add New Playlist</h3>
+                            <h3>Add a new playlist</h3>
                             <p>Create a new playlist</p>
                         </div>
                     </div>
