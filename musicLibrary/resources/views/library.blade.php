@@ -58,6 +58,7 @@
                     </a>
                 @endforeach
                 <!-- Add New Playlist Button -->
+            @if(Auth::check() && Auth::user()->user_type !== 'guest')
                 <a href="{{ route('playlists.create') }}" class="playlist-link">
                     <div class="playlist-card">
                         <div class="playlist-image">
@@ -71,6 +72,11 @@
                         </div>
                     </div>
                 </a>
+            @else
+                        <div class="playlist-info">
+                            <h3>Login to create playlists</h3>
+                        </div>
+            @endif
             </div>
         </section>
 

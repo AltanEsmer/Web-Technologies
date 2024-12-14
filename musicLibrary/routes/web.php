@@ -63,14 +63,34 @@ Route::middleware('auth')->group(function () {
         }
         return app(ProfileController::class)->update(request());
     })->name('profile.update');
-    
+    Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create');
+    Route::post('/playlists', [PlaylistController::class, 'store'])->name('playlists.store');
+    //restriction for playlist creation
+    Route::get('/playlists/create', function () {
+        if (Auth::check() && Auth::user()->user_type === 'guest') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Guest users cannot create playlists.',
+            ], 403); // Return 403 Forbidden status with a JSON error message
+        }
+        return app(PlaylistController::class)->create();
+    })->name('playlists.create');
+
+    Route::post('/playlists/create', function () {
+        if (Auth::check() && Auth::user()->user_type === 'guest') {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Guest users cannot create playlists.',
+            ], 403); // Return 403 Forbidden status with a JSON error message
+        }
+        return app(PlaylistController::class)->store(request());
+    })->name('playlists.store');
+
     // Library Routes
     Route::get('/library', [LibraryController::class, 'index'])->name('library');
     
     // Playlist Routes
     Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlists.index');
-    Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create');
-    Route::post('/playlists', [PlaylistController::class, 'store'])->name('playlists.store');
     Route::get('/playlists/{playlist}', [PlaylistController::class, 'show'])->name('playlists.show');
     Route::get('/playlists/{playlist}/edit', [PlaylistController::class, 'edit'])->name('playlists.edit');
     Route::put('/playlists/{playlist}', [PlaylistController::class, 'update'])->name('playlists.update');
