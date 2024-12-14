@@ -13,7 +13,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Rock Classics',
                 'description' => 'Classic rock hits from all time',
-                'cover_image' => 'images/playlist_pics/rock.jpg',
+                'cover_image' => 'playlist-covers/rock.jpg',
                 'user_id' => 1,
                 'is_public' => true,
                 'play_count' => 0,
@@ -24,7 +24,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Chill Vibes',
                 'description' => 'Relaxing tunes to unwind',
-                'cover_image' => 'images/playlist_pics/chill.jpg',
+                'cover_image' => 'playlist-covers/chill.jpg',
                 'user_id' => 2,
                 'is_public' => true,
                 'play_count' => 0,
@@ -35,7 +35,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Workout Hits',
                 'description' => 'High-energy songs for your workout',
-                'cover_image' => 'images/playlist_pics/workout.jpg',
+                'cover_image' => 'playlist-covers/workout.jpg',
                 'user_id' => 3,
                 'is_public' => true,
                 'play_count' => 0,
@@ -46,7 +46,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Country Roads',
                 'description' => 'Best country music collection',
-                'cover_image' => 'images/playlist_pics/country.png',
+                'cover_image' => 'playlist-covers/country.png',
                 'user_id' => 1,
                 'is_public' => true,
                 'play_count' => 0,
@@ -57,7 +57,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Jazz Essentials',
                 'description' => 'Timeless jazz tracks for a smooth experience',
-                'cover_image' => 'images/playlist_pics/jazz.jpeg',
+                'cover_image' => 'playlist-covers/jazz.jpeg',
                 'user_id' => 2,
                 'is_public' => true,
                 'play_count' => 0,
@@ -68,7 +68,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Pop Hits',
                 'description' => 'The most popular hits from today and yesterday',
-                'cover_image' => 'images/playlist_pics/pop.jpg',
+                'cover_image' => 'playlist-covers/pop.jpg',
                 'user_id' => 3,
                 'is_public' => true,
                 'play_count' => 0,
@@ -79,7 +79,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Throwback 90s',
                 'description' => 'Take a trip back to the 90s with these hits',
-                'cover_image' => 'images/playlist_pics/90s.jpeg',
+                'cover_image' => 'playlist-covers/90s.jpeg',
                 'user_id' => 1,
                 'is_public' => true,
                 'play_count' => 0,
@@ -90,7 +90,7 @@ class PlaylistSeeder extends Seeder
             [
                 'name' => 'Classical Favorites',
                 'description' => 'The best classical music collection',
-                'cover_image' => 'images/playlist_pics/classical.jpg',
+                'cover_image' => 'playlist-covers/classical.jpg',
                 'user_id' => 2,
                 'is_public' => true,
                 'play_count' => 0,

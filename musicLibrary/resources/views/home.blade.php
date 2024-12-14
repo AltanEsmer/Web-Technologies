@@ -13,10 +13,12 @@
 <body>
 
   <!-- Header & navbar -->
-  <header class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
-    <nav class="navbar" style="display: flex; align-items: center; gap: 15px;">
+  <header class="header">
+    <nav class="navbar">
       <div class="logo-image-wrapper">
-        <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+        <a href="{{ route('home') }}">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+        </a>
       </div> 
       <a href="{{ route('home') }}">Home</a>
       <a href="#about">About</a>
@@ -25,21 +27,21 @@
       @endauth
       <a href="#contact">Contact</a>
     </nav>
-    <div style="display: flex; align-items: center; gap: 15px;">
+    <div class="header-right">
       <form action="#" class="search-bar">
         <input type="text" name="search" id="search" placeholder="Search...">
         <button type="submit"><i class='bx bx-search'></i></button>
       </form>
       @auth
-        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+        <form method="POST" action="{{ route('logout') }}" class="logout-form">
           @csrf
-          <button type="submit" style="background-color: #1DB954; color: white; padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; transition: background-color 0.3s ease;">Logout</button>
+          <button type="submit" class="logout-button">Logout</button>
         </form>
       @endauth
       @guest
-        <div class="navbar" style="margin: 0; padding: 0;">
-          <a href="{{ route('signin') }}" style="margin-right: 15px;">Sign in</a>
-          <a href="{{ route('signin', ['mode' => 'signup']) }}" style="background-color: #1DB954; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; transition: background-color 0.3s ease;">Sign up</a>
+        <div class="auth-buttons">
+          <a href="{{ route('signin') }}" class="signin-link">Sign in</a>
+          <a href="{{ route('signin', ['mode' => 'signup']) }}" class="signup-link">Sign up</a>
         </div>
       @endguest
     </div>

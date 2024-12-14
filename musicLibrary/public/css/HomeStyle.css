@@ -159,7 +159,7 @@ img {
   width: 250px;
   height: 45px;
   background: transparent;
-  border: 2px solid var(--medium-gray-color);
+  border: 2px solid var(--white-color);
   border-radius: 6px;
   display: flex;
   margin-left: auto; /* Pushes the search bar to the far right */
@@ -188,7 +188,7 @@ img {
 
 .search-bar button i {
   font-size: 22px;
-  color: var(--medium-gray-color);
+  color: var(--white-color);
 }
 
 /* Parent section styling */
@@ -604,6 +604,7 @@ img {
 
 .user-info img {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
@@ -614,7 +615,8 @@ img {
   margin: 15px 0;
 }
 
-.sub-menu-link {
+.sub-menu-link,
+.sub-menu-link2 {
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -625,9 +627,11 @@ img {
   border-radius: 5px;
 }
 
-.sub-menu-link p {
+.sub-menu-link p,
+.sub-menu-link2 p {
   width: 100%;
   margin: 0;
+  color: black;
 }
 
 .sub-menu-link img {
@@ -639,19 +643,88 @@ img {
   margin-right: 15px;
 }
 
-.sub-menu-link span {
+.sub-menu-link2 img {
+  width: 40px;
+  height: 40px;
+  background: #e5e5e5;
+  border-radius: 50%;
+  padding: 0px;
+  margin-right: 15px;
+}
+
+.sub-menu-link span,
+.sub-menu-link2 span {
   font-size: 18px;
   transition: transform 0.5s;
 }
 
-.sub-menu-link:hover {
+.sub-menu-link:hover,
+.sub-menu-link2:hover {
   background: #f0f0f0;
 }
 
-.sub-menu-link:hover span {
+.sub-menu-link:hover span,
+.sub-menu-link2:hover span {
   transform: translateX(5px);
 }
 
-.sub-menu-link:hover p {
+.sub-menu-link:hover p,
+.sub-menu-link2:hover p {
   font-weight: 600;
+}
+
+/* Header right section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Auth buttons */
+.auth-buttons {
+  margin: 0;
+  padding: 0;
+}
+
+.signin-link {
+  margin-right: 15px;
+  color: var(--white-color);
+}
+
+.signup-link {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Logout form and button */
+.logout-form {
+  display: inline;
+}
+
+.logout-button {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover,
+.signup-link:hover {
+  background-color: var(--secondary-color);
+}
+
+.logo-image-wrapper a {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.logo-image-wrapper a:hover {
+    opacity: 0.8;
 }

@@ -107,7 +107,7 @@ function loadPlaylistDetails(playlistId) {
 }
 
 // Function to render the selected 3 songs of the playlist on the page
-function renderSongs() {
+/*function renderSongs() {
     for(let i=0; i<3; i++) {
         
         let songbox = document.createElement("div")
@@ -118,7 +118,7 @@ function renderSongs() {
         carousel.appendChild(songbox);
     }
     return;    
-}
+}*/
 function songScrollNext() {
     for(let i = 0; i<3;i++) {
         if(songsShownIndex[i]===songsList.length-1) {
@@ -148,7 +148,7 @@ function songScrollPrev() {
 }
  
 // Renders songs when page loaded
-renderSongs();
+//renderSongs();
 
 // show-more function for playlist recommendations
 function showMore() {
@@ -197,17 +197,33 @@ const fillSongs = () => {
     }
 }
 
-const collapse = () => {
-
-    
-}
-nextButton.addEventListener("click", songScrollNext);
-prevButton.addEventListener("click", songScrollPrev);
-explodeBtn.addEventListener("click", function(event) {
+//nextButton.addEventListener("click", songScrollNext);
+//prevButton.addEventListener("click", songScrollPrev);
+/*explodeBtn.addEventListener("click", function(event) {
     event.preventDefault();
     showMore();
 })
 collapseBtn.addEventListener("click", function(event) {
     event.preventDefault();
     collapse();
-})
+})*/
+
+//conditioning for profile edit
+document.addEventListener('DOMContentLoaded', function () {
+    const profileLink = document.querySelector('.sub-menu-link');
+
+    if (profileLink) {
+        profileLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            const userType = profileLink.getAttribute('data-user-type');
+            const editUrl = profileLink.getAttribute('data-edit-url');
+
+            if (userType === 'guest') {
+                alert('You must log in to access this feature.');
+            } else if (userType === 'normal' || userType === 'curator') {
+                window.location.href = editUrl; // Redirect to the edit profile URL
+            }
+        });
+    }
+});

@@ -34,6 +34,54 @@ loginLink.addEventListener('click', () => {
   logreBox.classList.remove('active');
 });
 
+//for logging in with guest user
+const guestLogin = document.querySelector('.guest-login');
+guestLogin.addEventListener('click', function(event) {
+  event.preventDefault();
+  createGuestUser();
+})
+
+const createGuestUser = () => {
+  const namePool = {
+    firstName: [
+      "Melodic", "Rhythmic", "Harmonious", "Tuneful", "Symphonic",
+      "Chordal", "Lyrical", "Crescendoing", "Resonant", "Acoustic",
+      "Vibrato", "Polyphonic", "Pianissimo", "Forte", "Mezzo", 
+      "Staccato", "Allegro", "Andante", "Operatic", "Serenading"
+    ],
+    secondName: [
+      "Waffle", "Pickle", "Noodle", "Platypus", "Blimp",
+      "Lobster", "Tofu", "Sock", "Pogo", "Doodle",
+      "Giraffe", "Zucchini", "Sneeze", "Elbow", "Puddle",
+      "Cactus", "Ferret", "Jellybean", "Otter", "Walrus"
+    ]
+  }
+  const username = namePool.firstName[Math.floor(Math.random()*19)] + namePool.secondName[Math.floor(Math.random()*19)] + Math.floor(Math.random()*100)
+  const usertype = "guest";
+
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+  // Send the POST request to the backend
+  fetch('/guest-login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': csrfToken,
+    },
+    body: JSON.stringify({ username, usertype: 'guest' }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        console.log('Guest user logged in:', data.user);
+        window.location.href = '/'; // Redirect to dashboard or appropriate page
+      } else {
+        console.error('Error logging in as guest:', data.message);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+};
+  
 //for checking if input data is valid
 
 /*

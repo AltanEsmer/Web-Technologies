@@ -76,6 +76,9 @@
               Don't have an account?
               <a href="#" class="register-link">Sign Up</a>
             </p>
+            <p>
+              <a href="#" class="guest-login">Login as guest</a>
+            </p>  
           </div>
         </form>
       </div>

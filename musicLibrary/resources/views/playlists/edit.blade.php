@@ -36,9 +36,14 @@
             <div class="flex items-center">
                 <label for="is_public" class="block text-sm font-medium text-gray-700 mr-3">Playlist Visibility</label>
                 <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name="is_public" id="is_public" class="sr-only peer" value="1" {{ old('is_public', $playlist->is_public) ? 'checked' : '' }}>
+                    <input type="checkbox" name="is_public" id="is_public" 
+                    class="sr-only peer" value="1" 
+                    {{ auth()->user()->isCurator() ? (old('is_public', true) ? 'checked' : '') : '' }}
+                    {{ !auth()->user()->isCurator() ? 'disabled' : '' }}>
                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#006D77]/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#006D77]"></div>
-                    <span class="ms-3 text-sm font-medium text-gray-700 peer-checked:text-gray-700">Public</span>
+                    <span class="ms-3 text-sm font-medium text-gray-700 peer-checked:text-gray-700">
+                        {{ auth()->user()->isCurator() ? 'Public' : 'Only Curators can make it public' }}
+                    </span>
                 </label>
             </div>
 
@@ -100,17 +105,26 @@
 new Sortable(document.getElementById('songList'), {
     handle: '.cursor-move',
     animation: 150,
-    onEnd: function() {
+    onEnd: function(evt) {
+        console.log("Reordered", evt);
         updateSongOrder();
     }
 });
 
 function updateSongOrder() {
-    const songInputs = document.querySelectorAll('input[name="song_order[]"]');
-    songInputs.forEach((input, index) => {
-        input.value = input.closest('[data-song-id]').dataset.songId;
+    const songContainers = document.querySelectorAll('#songList > [data-song-id]');
+    songContainers.forEach((container, index) => {
+        const input = container.querySelector('input[name="song_order[]"]');
+        if (input) {
+            input.value = container.dataset.songId;
+            console.log(`Song ID ${container.dataset.songId} is now at position ${index}`);
+        } else {
+            console.error(`Missing input for song ID ${container.dataset.songId}`);
+        }
     });
 }
+
+
 
 function removeSong(songId) {
     if (confirm('Are you sure you want to remove this song from the playlist?')) {
