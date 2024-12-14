@@ -30,6 +30,7 @@
           <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
         </a>
       </div> 
+            <a href="{{ route('home') }}">Home</a>
                 @auth
                     <a href="{{ route('library') }}" class="pl-0">Library</a>
                 @endauth
