@@ -25,9 +25,12 @@
     <header class="header">
         <nav class="navbar flex justify-between items-center w-full">
             <div class="flex items-center space-x-4">
-                <div class="logo-image-wrapper pl-0">
-                    <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
-                </div> 
+            <div class="logo-image-wrapper">
+        <a href="{{ route('home') }}">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+        </a>
+      </div> 
+            <a href="{{ route('home') }}">Home</a>
                 @auth
                     <a href="{{ route('library') }}" class="pl-0">Library</a>
                 @endauth
@@ -57,16 +60,12 @@
                         <p>Edit Profile</p>
                         <span>></span>
                     </a>
-                    <a href="{{ route('home') }}" class="sub-menu-link">
-                        <img src="{{ asset('images/home-icon.png') }}" alt="home">
-                        <p>Home</p>
-                        <span>></span>
-                    </a>
+                    
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" 
-                           class="sub-menu-link">
-                            <img src="{{ asset('images/mona-lisa.jpg') }}" alt="logout">
+                           class="sub-menu-link2">
+                            <img src="{{ asset('images/logout2.jpg') }}" alt="logout">
                             <p>Logout</p>
                             <span>></span>
                         </a>

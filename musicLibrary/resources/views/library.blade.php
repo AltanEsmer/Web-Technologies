@@ -50,6 +50,20 @@
                         </div>
                     </a>
                 @endforeach
+                <!-- Add New Playlist Button -->
+                <a href="{{ route('playlists.create') }}" class="playlist-link">
+                    <div class="playlist-card">
+                        <div class="playlist-image">
+                            <div class="default-cover">
+                                <i class="fas fa-plus"></i> 
+                            </div>
+                        </div>
+                        <div class="playlist-info">
+                            <h3>Add a new playlist</h3>
+                            <p>Create a new playlist</p>
+                        </div>
+                    </div>
+                </a>
             </div>
         </section>
 
