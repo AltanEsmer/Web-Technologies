@@ -13,17 +13,24 @@
         <div class="playlists">
             <h3>Your Playlists</h3>
             <ul>
-                @foreach($playlists as $playlist)
-                    <li class="playlist-icon" data-id="{{ $playlist->id }}">
-                        <a href="{{ route('playlists.show', $playlist) }}">{{ $playlist->name }}</a>
+                @if(Auth::check() && Auth::user()->user_type !== 'guest')
+                    @foreach($playlists as $playlist)
+                        <li class="playlist-icon" data-id="{{ $playlist->id }}">
+                            <a href="{{ route('playlists.show', $playlist) }}">{{ $playlist->name }}</a>
+                        </li>
+                    @endforeach
+                    <li class="playlist-icon" data-id="create">
+                        <a href="{{ route('playlists.create') }}">+ Add New</a>
                     </li>
-                @endforeach
-                <li class="playlist-icon" data-id="create">
-                    <a href="{{ route('playlists.create') }}">+ Add New</a>
-                </li>
+                @else
+                    <li class="playlist-icon no-access">
+                        <p>You cannot create playlists as a guest user.</p>
+                    </li>
+                @endif
             </ul>
         </div>
     </aside>
+
 
     <!-- Main Content -->
     <main class="main-content">
