@@ -16,7 +16,9 @@
   <header class="header">
     <nav class="navbar">
       <div class="logo-image-wrapper">
-        <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+        <a href="{{ route('home') }}">
+          <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+        </a>
       </div> 
       <a href="{{ route('home') }}">Home</a>
       <a href="#about">About</a>
@@ -40,6 +42,7 @@
         <div class="auth-buttons">
           <a href="{{ route('signin') }}" class="signin-link">Sign in</a>
           <a href="{{ route('signin', ['mode' => 'signup']) }}" class="signup-link">Sign up</a>
+          
         </div>
       @endguest
     </div>
