@@ -53,7 +53,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Smooth hover animations for navbar links
 document.querySelectorAll(".navbar a").forEach(link => {
   link.addEventListener("mouseenter", () => {
-    gsap.to(link, { scale: 1.2, color: "#1DB954", duration: 0.3 });
+    gsap.to(link, { scale: 1.2, color: "brown", duration: 0.3 });
   });
   link.addEventListener("mouseleave", () => {
     gsap.to(link, { scale: 1, color: "#ffffff", duration: 0.3 });
@@ -118,13 +118,14 @@ gsap.utils.toArray("section").forEach(section => {
 // Input field animations
 document.querySelectorAll(".form-input").forEach(input => {
   input.addEventListener("focus", () => {
-    gsap.to(input, { borderColor: "#1DB954", boxShadow: "0 0 8px #1DB954", duration: 0.3 });
+    gsap.to(input, { borderColor: "brown", boxShadow: "0 0 8px #1DB954", duration: 0.3 });
   });
   input.addEventListener("blur", () => {
     gsap.to(input, { borderColor: "#ccc", boxShadow: "none", duration: 0.3 });
   });
 });
 
+// Image animations
 document.addEventListener("DOMContentLoaded", function() {
   const images = document.querySelectorAll('.parent-image, .about-image');
 
