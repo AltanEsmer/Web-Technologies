@@ -114,3 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 });
+
+document.querySelectorAll(".pl-0").forEach(link => {
+    link.addEventListener("mouseenter", () => {
+      gsap.to(link, { scale: 1.2, color: "#1DB954", duration: 0.3 });
+    });
+    link.addEventListener("mouseleave", () => {
+      gsap.to(link, { scale: 1, color: "#ffffff", duration: 0.3 });
+    });
+  });
