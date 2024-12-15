@@ -106,8 +106,12 @@ function loadPlaylistDetails(playlistId) {
         });
 }
 
+    console.log('Carousel:', carousel); // Check if it's null or undefined
+
+
 // Function to render the selected 3 songs of the playlist on the page
-/*function renderSongs() {
+/*
+function renderSongs() {
     for(let i=0; i<3; i++) {
         
         let songbox = document.createElement("div")
@@ -197,6 +201,10 @@ const fillSongs = () => {
     }
 }
 
+const collapse = () => {
+
+    
+}
 //nextButton.addEventListener("click", songScrollNext);
 //prevButton.addEventListener("click", songScrollPrev);
 /*explodeBtn.addEventListener("click", function(event) {
@@ -208,22 +216,123 @@ collapseBtn.addEventListener("click", function(event) {
     collapse();
 })*/
 
-//conditioning for profile edit
-document.addEventListener('DOMContentLoaded', function () {
-    const profileLink = document.querySelector('.sub-menu-link');
+// Animations
+document.addEventListener('DOMContentLoaded', () => {
+    const { gsap } = window;
 
-    if (profileLink) {
-        profileLink.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default link behavior
+    const playlistCards = document.querySelectorAll('.playlist-card');
+    gsap.fromTo(
+        playlistCards,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, stagger: 0.2, duration: 1.2, ease: 'power3.out' }
+    );
 
-            const userType = profileLink.getAttribute('data-user-type');
-            const editUrl = profileLink.getAttribute('data-edit-url');
+    playlistCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, { scale: 1.1, duration: 0.3, ease: 'power2.inOut' });
+        });
 
-            if (userType === 'guest') {
-                alert('You must log in to access this feature.');
-            } else if (userType === 'normal' || userType === 'curator') {
-                window.location.href = editUrl; // Redirect to the edit profile URL
-            }
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.inOut' });
+        });
+    });
+
+    // Sidebar playlist link animations
+    const playlistIcons = document.querySelectorAll('.playlist-icon, .playlist-icon a, active');
+    gsap.fromTo(
+        playlistIcons,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, stagger: 0.1, duration: 0.8, ease: 'power2.out' }
+    );
+
+    });
+
+const sidebar = document.querySelector('.sidebar');
+gsap.fromTo(
+    sidebar,
+    { x: '-100%', opacity: 0 },
+    { x: '0%', opacity: 1, duration: 1, ease: 'power2.out' }
+);
+
+// Scroll-triggered animations for public playlists
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.fromTo(
+    '.playlist-section:nth-child(2) .playlist-card',
+    { opacity: 0, y: 50 },
+    {
+        opacity: 1,
+        y: 0,
+        stagger: 0.2,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+            trigger: '.playlist-section:nth-child(2)',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+        },
+    }
+);
+
+const addNewPlaylist = document.querySelector('.playlist-icon[data-id="create"] a');
+addNewPlaylist.addEventListener('mouseenter', () => {
+    gsap.to(addNewPlaylist, { scale: 1.1, duration: 0.2, ease: 'power2.out' });
+});
+addNewPlaylist.addEventListener('mouseleave', () => {
+    gsap.to(addNewPlaylist, { scale: 1, duration: 0.2, ease: 'power2.out' });
+});
+
+// Image animation
+document.addEventListener("DOMContentLoaded", function() {
+    const images = document.querySelectorAll('.about-image');
+  
+    images.forEach(image => {
+      image.addEventListener('mouseover', function() {
+        anime({
+          targets: image,
+          scale: 1.1,          
+          rotate: '10deg',     
+          easing: 'easeOutQuad',
+          duration: 500,        
+        });
+      });
+  
+      image.addEventListener('mouseleave', function() {
+        anime({
+          targets: image,
+          scale: 1,             
+          rotate: '0deg',      
+          easing: 'easeOutQuad', 
+          duration: 500,       
+        });
+      });
+    });
+  });
+
+  // Smooth hover animations for navbar link
+document.querySelectorAll(".pl-0").forEach(link => {
+    link.addEventListener("mouseenter", () => {
+      gsap.to(link, { scale: 1.2, color: "brown", duration: 0.3 });
+    });
+    link.addEventListener("mouseleave", () => {
+      gsap.to(link, { scale: 1, color: "#ffffff", duration: 0.3 });
+    });
+  });
+
+  // Search input section
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search');
+
+    if (searchInput) {
+        searchInput.addEventListener('focus', () => {
+            searchInput.style.width = '300px';
+            searchInput.style.boxShadow = '0 0 10px white';
+            // default color storage: rgba(0, 123, 255, 0.5)
+        });
+
+        searchInput.addEventListener('blur', () => {
+            searchInput.style.width = '200px';
+            searchInput.style.boxShadow = 'none';
         });
     }
 });
