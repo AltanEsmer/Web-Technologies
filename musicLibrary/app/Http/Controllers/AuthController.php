@@ -17,27 +17,39 @@ class AuthController extends Controller
         return view('signin');
     }
 
+    // Show the signup form
+    public function showSignupForm()
+    {
+        return view('signup');
+    }
+
     // Handle the Sign In form submission
     public function signIn(Request $request)
     {
-        $validated = $request->validate([
+        $credentials = $request->validate([
             'mail' => 'required|email',
             'pass' => 'required|min:6',
         ]);
 
-        if (Auth::attempt(['email' => $request->mail, 'password' => $request->pass], $request->has('checker'))) {
-            $user = Auth::user();
+        if (Auth::attempt(['email' => $credentials['mail'], 'password' => $credentials['pass']], $request->has('checker'))) {
+            $request->session()->regenerate();
             
+            $user = Auth::user();
+            // Check if user has 2FA enabled
             if ($user->two_factor_secret && $user->two_factor_confirmed_at) {
                 Auth::logout();
                 $request->session()->put('2fa.user_id', $user->id);
                 return redirect()->route('2fa.verify');
             }
 
-            return redirect()->route('library');
+            return redirect()->intended(route('library'));
         }
 
-        return redirect()->back()->withErrors(['msg' => 'Invalid credentials!'])->withInput();
+        return back()
+            ->withInput($request->only('mail'))
+            ->withErrors([
+                'mail' => 'The provided credentials do not match our records.',
+            ]);
     }
 
     // Handle the Sign Up form submission
@@ -47,6 +59,7 @@ class AuthController extends Controller
             'username' => 'required|string|max:255',
             'mail' => 'required|string|email|max:255|unique:users,email',
             'pass' => 'required|string|min:6|confirmed',
+            'pass_confirmation' => 'required|string|min:6',
         ]);
 
         $user = User::create([
@@ -61,10 +74,11 @@ class AuthController extends Controller
         return redirect()->route('verification.notice');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        Session::flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('signin');
     }
 }

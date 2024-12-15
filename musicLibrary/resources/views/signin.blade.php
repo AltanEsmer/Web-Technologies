@@ -42,24 +42,27 @@
 
     <div class="logreg-box">
       <div class="form-box login">
-        <form action="{{ route('signin.submit') }}" method="post">
-        @csrf
-        @if ($errors->has('msg'))
+        <form action="{{ route('signin.post') }}" method="POST">
+          @csrf
+          
+          @if ($errors->any())
             <div class="alert alert-danger">
-                <strong>{{ $errors->first('msg') }}</strong>
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
             </div>
-        @endif
+          @endif
 
-        <h2>Sign In</h2>
+          <h2>Sign In</h2>
 
           <div class="input-box">
-            <span class="icon"><i class='bx bxs-envelope' ></i></span>
-            <input type="email" name="mail" id="mail" required>
+            <span class="icon"><i class='bx bxs-envelope'></i></span>
+            <input type="email" name="mail" id="mail" value="{{ old('mail') }}" required>
             <label>Email</label>
           </div>
 
           <div class="input-box">
-            <span class="icon"><i class='bx bxs-lock-alt' ></i></span>
+            <span class="icon"><i class='bx bxs-lock-alt'></i></span>
             <input type="password" name="pass" id="pass" required>
             <label>Password</label>
           </div>
@@ -69,22 +72,16 @@
             <a href="#">Forgot password?</a>
           </div>
 
-          <button type="submit" class="btn" id="sign-in-btn" onclick="lsRememberMe()">Sign In</button>
+          <button type="submit" class="btn">Sign In</button>
 
           <div class="login-register">
-            <p>
-              Don't have an account?
-              <a href="#" class="register-link">Sign Up</a>
-            </p>
-            <p>
-              <a href="#" class="guest-login">Login as guest</a>
-            </p>  
+            <p>Don't have an account? <a href="{{ route('signup') }}" class="register-link">Sign Up</a></p>
           </div>
         </form>
       </div>
 
       <div class="form-box register">
-        <form action="{{ route('signup.submit') }}" method="post">
+        <form action="{{ route('signup.post') }}" method="post">
         @csrf 
         <h2>Sign Up</h2>
 
@@ -113,16 +110,13 @@
           </div>
 
           <div class="remember-forgot">
-            <label><input type="checkbox" name="checker" id="checker"> I agree to the terms & conditions</label>
+            <label><input type="checkbox" required> I agree to the terms & conditions</label>
           </div>
 
           <button type="submit" class="btn">Sign Up</button>
 
           <div class="login-register">
-            <p>
-              Already have an account?
-              <a href="#" class="login-link">Sign In</a>
-            </p>
+            <p>Already have an account? <a href="{{ route('signin') }}" class="login-link">Sign In</a></p>
           </div>
         </form>
       </div>

@@ -34,6 +34,7 @@ class GuestController extends Controller
             'status' => 'success',
             'message' => 'Guest user logged in successfully.',
             'user' => $user,
+            'redirect' => route('library')
         ]);
     }
 }

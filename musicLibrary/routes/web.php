@@ -7,7 +7,6 @@ use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\LibraryController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-//for now here just for testing
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TwoFactorAuthController;
 
@@ -26,10 +25,49 @@ Route::get('/contact', function () {
 
 // Guest routes (only for non-authenticated users)
 Route::middleware('guest')->group(function () {
+    // Sign In routes
     Route::get('/signin', [AuthController::class, 'showLoginForm'])->name('signin');
-    Route::post('/signin', [AuthController::class, 'signIn'])->name('signin.submit');
+    Route::post('/signin', [AuthController::class, 'signIn'])->name('signin.post');
+    
+    // Sign Up routes
     Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
-    Route::post('/signup', [AuthController::class, 'signUp'])->name('signup.submit');
+    Route::post('/signup', [AuthController::class, 'signUp'])->name('signup.post');
+});
+
+// 2FA routes (no auth middleware needed as it's handled in the controller)
+Route::prefix('2fa')->name('2fa.')->group(function () {
+    Route::get('/verify', [TwoFactorAuthController::class, 'showVerifyForm'])
+        ->name('verify');
+    Route::post('/verify', [TwoFactorAuthController::class, 'verify'])
+        ->name('verify.post');
+});
+
+// Protected routes (require auth and email verification)
+Route::middleware(['auth', 'verified', 'two-factor'])->group(function () {
+    Route::get('/library', [LibraryController::class, 'index'])->name('library');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
+    // 2FA setup routes (these need auth but not 2FA verification)
+    Route::get('/2fa/setup', [TwoFactorAuthController::class, 'show2faForm'])->name('2fa.setup');
+    Route::post('/2fa/enable', [TwoFactorAuthController::class, 'enable2fa'])->name('2fa.enable');
+    Route::post('/2fa/disable', [TwoFactorAuthController::class, 'disable2fa'])->name('2fa.disable');
+    Route::get('/2fa/recovery-codes', [TwoFactorAuthController::class, 'showRecoveryCodes'])
+        ->name('2fa.show-recovery-codes');
+    Route::post('/2fa/complete-setup', [TwoFactorAuthController::class, 'completeSetup'])
+        ->name('2fa.complete-setup');
+    
+    // Playlist routes
+    Route::resource('playlists', PlaylistController::class);
+    Route::get('/playlists/{playlist}/search', [PlaylistController::class, 'searchSpotify'])
+        ->name('playlists.searchSpotify');
+    Route::post('/playlists/{playlist}/songs', [PlaylistController::class, 'addSong'])
+        ->name('playlists.addSong');
+    Route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])
+        ->name('playlists.removeSong');
+    
+    // Spotify search
+    Route::get('/spotify/search', [SpotifyController::class, 'searchSpotify'])->name('spotify.search');
 });
 
 // Email verification routes
@@ -49,37 +87,5 @@ Route::middleware('auth')->group(function () {
     })->middleware(['throttle:6,1'])->name('verification.send');
 });
 
-// Protected routes (require auth and email verification)
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/library', [LibraryController::class, 'index'])->name('library');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    
-    // Playlist routes
-    Route::resource('playlists', PlaylistController::class);
-    Route::get('/playlists/{playlist}/search', [PlaylistController::class, 'searchSpotify'])
-        ->name('playlists.searchSpotify');
-    Route::post('/playlists/{playlist}/songs', [PlaylistController::class, 'addSong'])
-        ->name('playlists.addSong');
-    Route::delete('/playlists/{playlist}/songs/{song}', [PlaylistController::class, 'removeSong'])
-        ->name('playlists.removeSong');
-    
-    // Spotify search
-    Route::get('/spotify/search', [SpotifyController::class, 'searchSpotify'])->name('spotify.search');
-    
-    Route::get('/2fa/setup', [TwoFactorAuthController::class, 'show2faForm'])->name('2fa.setup');
-    Route::post('/2fa/enable', [TwoFactorAuthController::class, 'enable2fa'])->name('2fa.enable');
-    Route::post('/2fa/disable', [TwoFactorAuthController::class, 'disable2fa'])->name('2fa.disable');
-    Route::get('/2fa/verify', [TwoFactorAuthController::class, 'showVerifyForm'])->name('2fa.verify');
-    Route::post('/2fa/verify', [TwoFactorAuthController::class, 'verify']);
-    Route::get('/2fa/recovery-codes', [TwoFactorAuthController::class, 'showRecoveryCodes'])
-        ->name('2fa.show-recovery-codes');
-});
-
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/2fa/verify', [TwoFactorAuthController::class, 'showVerifyForm'])->name('2fa.verify');
-    Route::post('/2fa/verify', [TwoFactorAuthController::class, 'verify']);
-});

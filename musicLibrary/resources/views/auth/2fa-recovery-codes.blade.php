@@ -156,10 +156,13 @@
                 @endforeach
             </div>
 
-            <a href="{{ route('profile.edit') }}" class="btn">
-                I've saved these codes
-            </a>
+            <form action="{{ route('2fa.complete-setup') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn">
+                    I've saved these codes
+                </button>
+            </form>
         </div>
     </div>
 </body>
-</html> 
+</html>

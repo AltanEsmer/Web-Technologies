@@ -11,7 +11,7 @@
                     <div class="setup-content">
                         <h2>Two-Factor Authentication</h2>
                         
-                        <form method="POST" action="{{ route('2fa.verify') }}">
+                        <form method="POST" action="{{ route('2fa.verify.submit') }}">
                             @csrf
                             <div class="input-box">
                                 <input type="text" name="code" id="code" required>

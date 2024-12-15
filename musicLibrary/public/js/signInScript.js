@@ -39,7 +39,7 @@ const guestLogin = document.querySelector('.guest-login');
 guestLogin.addEventListener('click', function(event) {
   event.preventDefault();
   createGuestUser();
-})
+});
 
 const createGuestUser = () => {
   const namePool = {
@@ -56,32 +56,32 @@ const createGuestUser = () => {
       "Cactus", "Ferret", "Jellybean", "Otter", "Walrus"
     ]
   }
-  const username = namePool.firstName[Math.floor(Math.random()*19)] + namePool.secondName[Math.floor(Math.random()*19)] + Math.floor(Math.random()*100)
-  const usertype = "guest";
+  const username = namePool.firstName[Math.floor(Math.random()*19)] + namePool.secondName[Math.floor(Math.random()*19)] + Math.floor(Math.random()*100);
 
-  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-  // Send the POST request to the backend
-  fetch('/guest-login', {
+  fetch('/guest/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': csrfToken,
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     },
-    body: JSON.stringify({ username, usertype: 'guest' }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        console.log('Guest user logged in:', data.user);
-        window.location.href = '/'; // Redirect to dashboard or appropriate page
-      } else {
-        console.error('Error logging in as guest:', data.message);
-      }
+    body: JSON.stringify({
+      username: username
     })
-    .catch(error => console.error('Error:', error));
-};
-  
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      window.location.href = data.redirect;
+    } else {
+      alert('Failed to create guest user. Please try again.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred. Please try again.');
+  });
+}
+
 //for checking if input data is valid
 
 /*
@@ -109,4 +109,3 @@ document.querySelector('#sign-in-btn').addEventListener('click', function(event)
   })
   .catch(error => console.error('Error:', error));
 });
-*/
