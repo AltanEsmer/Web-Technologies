@@ -342,4 +342,117 @@ main {
     z-index: 1001;
   }
   
+  .sub-menu-wrap.open-menu {
+    max-height: 400px;
+  }
   
+  .sub-menu {
+    padding: 20px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .user-info h3 {
+    font-weight: 500;
+    margin-left: 15px;
+  }
+  
+  .user-info img {
+    width: 50px;
+    border-radius: 50%;
+  }
+  
+  .sub-menu hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 15px 0;
+  }
+  
+  .sub-menu-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+    transition: background 0.3s ease;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .sub-menu-link p {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .sub-menu-link img {
+    width: 40px;
+    height: 40px;
+    background: #e5e5e5;
+    border-radius: 50%;
+    padding: 8px;
+    margin-right: 15px;
+  }
+  
+  .sub-menu-link span {
+    font-size: 18px;
+    transition: transform 0.5s;
+  }
+  
+  .sub-menu-link:hover {
+    background: #f0f0f0;
+  }
+  
+  .sub-menu-link:hover span {
+    transform: translateX(5px);
+  }
+  
+  .sub-menu-link:hover p {
+    font-weight: 600;
+  }
+
+  /* Animation define */
+  @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+  }
+
+/* Shining effect for Js animation (helper) */
+.playlist-cover {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures the image scales properly */
+    overflow: hidden;
+}
+
+/* Shining effect */
+@keyframes shine {
+    0% {
+        filter: brightness(100%);
+        background: none;
+    }
+    50% {
+        filter: brightness(150%);
+    }
+    100% {
+        filter: brightness(100%);
+    }
+}
+
+.playlist-cover.shining {
+    animation: shine 1s linear;
+}
+

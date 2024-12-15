@@ -35,7 +35,7 @@
       @auth
         <form method="POST" action="{{ route('logout') }}" class="logout-form">
           @csrf
-          <button type="submit" class="logout-button">Logout</button>
+          <button class="animated-btn logout-btn" type="submit" style="background-color: #1DB954; color: white; padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer;">Logout</button>
         </form>
       @endauth
       @guest
@@ -57,11 +57,11 @@
           <p class="description">On this page you are going to receive personal recommendations for your playlists</p>
           <div class="buttons">
             @auth
-              <a href="{{ route('library') }}" class="button choose-now">Go to the Library</a>
+              <a href="{{ route('library') }}" class="button choose-now library-btn animated-btn">Go to the Library</a>
             @else
-              <a href="{{ route('signin') }}" class="button choose-now">Sign In to Start</a>
+              <a href="{{ route('signin') }}" class="button choose-now library-btn animated-btn">Sign In to Start</a>
             @endauth
-            <a href="#contact" class="button contact-us">Contact Us</a>
+            <a href="#contact" class="button contact-us animated-btn">Contact Us</a>
           </div>
         </div>
         <div class="parent-image-wrapper">
@@ -104,7 +104,7 @@
           <input type="text" placeholder="Your name" class="form-input" required>
           <input type="email" placeholder="Your email" class="form-input" required>
           <textarea placeholder="Your message" name="message" id="message" class="form-input"></textarea>
-          <button class="submit-button">Submit</button>
+          <button class="submit-button animated-btn">Submit</button>
         </form>
       </div>
     </section>
@@ -127,8 +127,12 @@
     </footer>
   </main>
 
-  <!-- Linking Swiper Script -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="{{ asset('js/HomeScript.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <script src="{{ asset('js/homeScript.js') }}"></script>
+  <script src="{{ asset('js/profile-helper.js') }}"></script>
+ 
 </body>
 </html>

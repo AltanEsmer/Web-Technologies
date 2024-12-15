@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-16">
     <div class="max-w-2xl mx-auto">
-        <a href="{{ url()->previous() }}" class="inline-flex items-center mb-6 text-[#006D77] hover:text-opacity-80" style="margin-top: 50px;">
+        <a href="{{ url()->previous() }}" id="back" class="inline-flex items-center mb-6 text-[#006D77] hover:text-opacity-80" style="margin-top: 50px">
             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-[#006D77] text-white py-2 px-4 rounded-md hover:bg-opacity-90">
+            <button type="submit" id="createButton" class="w-full bg-[#006D77] text-white py-2 px-4 rounded-md hover:bg-opacity-90">
                 Create Playlist
             </button>
         </form>
@@ -80,4 +80,5 @@
 
 <!-- Image preview -->
 <script src="{{ asset('js/imagePreview.js') }}"></script>
+<script src="{{ asset('js/createAnimations.js') }}"></script>
 @endsection

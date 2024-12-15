@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-16 mt-12">
     <div class="max-w-2xl mx-auto">
         <div class="flex items-center gap-4 mb-6">
-            <a href="{{ route('playlists.show', $playlist) }}" class="text-gray-600 hover:text-gray-900">
+            <a id="back" href="{{ route('playlists.show', $playlist) }}" class="text-gray-600 hover:text-gray-900">
                 <i class="fas fa-arrow-left"></i> Back to Playlist
             </a>
             <h1 class="text-3xl font-bold">Edit Playlist</h1>
@@ -84,7 +84,8 @@
                             </div>
                             <button type="button" 
                                     onclick="removeSong({{ $song->id }})"
-                                    class="text-red-500 hover:text-red-700">
+                                    class="text-red-500 hover:text-red-700"
+                                    id="removeButton-{{ $song->id }}">
                                 <i class="fas fa-times"></i>
                             </button>
                             <input type="hidden" name="song_order[]" value="{{ $song->id }}">
@@ -93,7 +94,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-[#006D77] text-white py-2 px-4 rounded-md hover:bg-opacity-90">
+            <button id="saveButton" type="submit" class="w-full bg-[#006D77] text-white py-2 px-4 rounded-md hover:bg-opacity-90">
                 Save Changes
             </button>
         </form>
@@ -144,4 +145,5 @@ function removeSong(songId) {
     }
 }
 </script>
+<script src="{{ asset('js/editAnimations.js') }}"></script>
 @endsection
