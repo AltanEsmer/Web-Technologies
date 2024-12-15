@@ -13,36 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <style>
-        .yellow-progress-bar,
-        #nprogress,
-        .turbolinks-progress-bar {
-            display: none !important;
-        }
-        
-        .yellow-progress-bar,
-        #nprogress,
-        .turbolinks-progress-bar {
-            display: none !important;
-        }
-
-        /* Profile Picture Hover */
-        .user-pic {
-            transition: transform 0.5s ease-in-out;
-        }
-        .user-pic:hover {
-            transform: scale(1.2);
-        }
-
-        /* Playlist Card Hover */
-        .playlist-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .playlist-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+    
     
     @yield('head')
 </head>
@@ -101,24 +72,6 @@
                             </form>
                         </div>
                     </div>
-                    <hr>
-                    <a href="{{ route('profile.edit') }}" class="sub-menu-link"
-                    data-user-type="{{ Auth::check() ? Auth::user()->user_type : 'normal' }}"
-                    data-edit-url="{{ route('profile.edit') }}">
-                        <img src="{{ asset('images/profile-icon.png') }}" alt="profile">
-                        <p>Edit Profile</p>
-                        <span>></span>
-                    </a>
-                    
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" 
-                           class="sub-menu-link2">
-                            <img src="{{ asset('images/logout2.jpg') }}" alt="logout">
-                            <p>Logout</p>
-                            <span>></span>
-                        </a>
-                    </form>
                 </div>
                 @endauth
             </div>
