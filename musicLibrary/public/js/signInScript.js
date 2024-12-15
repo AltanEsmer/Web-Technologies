@@ -34,6 +34,70 @@ loginLink.addEventListener('click', () => {
   logreBox.classList.remove('active');
 });
 
+// Animations
+const signInButton = document.getElementById('sign-in-btn');
+const signUpButton = document.getElementById('sign-up-btn');
+
+function animateButton(button) {
+    anime({
+        targets: button,
+        rotate: '360deg',
+        scale: 1.1,
+        backgroundColor: ['#3498db', '#e74c3c'], 
+        color: '#fff', 
+        easing: 'easeInOutQuad',
+        duration: 600,
+        complete: function() {
+            anime({
+                targets: button,
+                scale: 1, 
+                backgroundColor: '#3498db', 
+                color: '#fff', 
+                easing: 'easeOutQuad',
+                duration: 400
+            });
+        }
+    });
+}
+
+signInButton.addEventListener('click', function() {
+    animateButton(signInButton);
+});
+
+signUpButton.addEventListener('click', function() {
+    animateButton(signUpButton);
+});
+
+function addHoverEffect(button) {
+    button.addEventListener('mouseenter', function() {
+        anime({
+            targets: button,
+            scale: 1.1,
+            backgroundColor: '#2ecc71', 
+            color: '#fff', 
+            duration: 300,
+            easing: 'easeInOutQuad'
+        });
+    });
+
+    button.addEventListener('mouseleave', function() {
+        anime({
+            targets: button,
+            scale: 1,
+            backgroundColor: '#3498db', 
+            color: '#fff',
+            duration: 300,
+            easing: 'easeInOutQuad'
+        });
+    });
+}
+
+// Add hover effects to both buttons
+addHoverEffect(signInButton);
+addHoverEffect(signUpButton);
+
+
+
 //for checking if input data is valid
 
 /*

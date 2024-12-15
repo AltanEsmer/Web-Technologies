@@ -108,4 +108,6 @@
         </div>
     </main>
 </div>
+
+<script src="{{ asset('js/playlistAnimations.js') }}"></script>
 @endsection

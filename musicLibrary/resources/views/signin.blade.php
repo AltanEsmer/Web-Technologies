@@ -113,7 +113,7 @@
             <label><input type="checkbox" name="checker" id="checker"> I agree to the terms & conditions</label>
           </div>
 
-          <button type="submit" class="btn">Sign Up</button>
+          <button type="submit" class="btn" id="sign-up-btn">Sign Up</button>
 
           <div class="login-register">
             <p>
@@ -126,6 +126,7 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <script src="{{ asset('js/signInScript.js') }}"></script>
 
 </body>

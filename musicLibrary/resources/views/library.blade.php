@@ -3,7 +3,6 @@
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/libstyle.css') }}">
     <script src="{{ asset('js/profile-helper.js') }}"></script>
-    <script src="{{ asset('js/libraryScript.js') }}" defer></script>
 @endsection
 
 @section('content')
@@ -83,4 +82,6 @@
         </section>
     </main>
 </div>
+
+<script src="{{ asset('js/libraryScript.js') }}" defer></script>
 @endsection

@@ -2,6 +2,7 @@
 
 @section('head')
     <link rel="stylesheet" href="{{ asset('css/playlistStyle.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/libstyle.css') }}">
 @endsection
 
 @section('content')
@@ -53,4 +54,5 @@
         @endforelse
     </div>
 </div>
+<script src="{{ asset('js/playlistAnimations.js') }}"></script>
 @endsection

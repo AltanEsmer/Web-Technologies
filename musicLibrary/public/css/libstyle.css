@@ -414,3 +414,45 @@ main {
   .sub-menu-link:hover p {
     font-weight: 600;
   }
+
+  /* Animation define */
+  @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+  }
+
+/* Shining effect for Js animation (helper) */
+.playlist-cover {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures the image scales properly */
+    overflow: hidden;
+}
+
+/* Shining effect */
+@keyframes shine {
+    0% {
+        filter: brightness(100%);
+        background: none;
+    }
+    50% {
+        filter: brightness(150%);
+    }
+    100% {
+        filter: brightness(100%);
+    }
+}
+
+.playlist-cover.shining {
+    animation: shine 1s linear;
+}
+
