@@ -16,6 +16,9 @@
           <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
         </div>
       </a>
+      <div class="guest-login-container">
+        <a href="#" class="guest-login">Login as Guest</a>
+      </div>
     </nav>
   </header>
 

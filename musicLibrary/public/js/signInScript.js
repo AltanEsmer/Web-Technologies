@@ -173,3 +173,4 @@ document.querySelector('#sign-in-btn').addEventListener('click', function(event)
   })
   .catch(error => console.error('Error:', error));
 });
+*/
