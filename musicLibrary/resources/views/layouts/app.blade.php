@@ -56,20 +56,16 @@
                                 <p>Edit Profile</p>
                                 <span>></span>
                             </a>
-                            <a href="{{ route('home') }}" class="sub-menu-link">
-                                <img src="{{ asset('images/home-icon.png') }}" alt="home">
-                                <p>Home</p>
-                                <span>></span>
-                            </a>
+                            
                             <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" 
-                                   class="sub-menu-link">
-                                    <img src="{{ asset('images/mona-lisa.jpg') }}" alt="logout">
-                                    <p>Logout</p>
-                                    <span>></span>
-                                </a>
-                            </form>
+                        @csrf
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" 
+                           class="sub-menu-link2">
+                            <img src="{{ asset('images/logout2.jpg') }}" alt="logout">
+                            <p>Logout</p>
+                            <span>></span>
+                        </a>
+                    </form>
                         </div>
                     </div>
                 </div>
