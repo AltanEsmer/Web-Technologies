@@ -119,12 +119,38 @@
             
             <div class="instructions">
                 <p>1. Install an authenticator app like Google Authenticator on your phone</p>
-                <p>2. Scan the QR code below with your authenticator app</p>
+                <p>2. Scan the QR code or enter the code manually</p>
                 <p>3. Enter the verification code shown in your app</p>
             </div>
 
             <div class="qr-container">
-                {!! $qrCodeUrl !!}
+                <!-- QR Code Section -->
+                <div class="qr-section" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+                    <img src="data:image/png;base64,{{ $qrCodeUrl }}" alt="QR Code" style="width: 200px; height: 200px;">
+                    <button type="button" onclick="showManualEntry()" class="btn" style="margin-top: 15px; background: #f5f5f5; width: auto; padding: 8px 15px;">
+                        Can't scan? Enter manually
+                    </button>
+                </div>
+
+                <!-- Manual Entry Section (Hidden by default) -->
+                <div id="manual-entry" style="display: none;">
+                    <div class="secret-key" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="color: #333; margin-bottom: 10px;">Enter this code in your authenticator app:</p>
+                        <code style="display: block; color: #333; font-size: 18px; word-break: break-all; font-family: monospace; background: #f5f5f5; padding: 10px; border-radius: 4px;">{{ $secret }}</code>
+                    </div>
+                    
+                    <div class="manual-steps" style="color: #333; text-align: left; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+                        <p style="margin-bottom: 10px;"><strong>Steps in Google Authenticator:</strong></p>
+                        <ol style="margin-left: 20px;">
+                            <li>Tap the + button</li>
+                            <li>Choose "Enter setup key"</li>
+                            <li>Enter "Music Library" as the account name</li>
+                            <li>Enter the code shown above</li>
+                            <li>Make sure "Time based" is selected</li>
+                            <li>Tap Add</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
 
             <form method="POST" action="{{ route('2fa.enable') }}">
@@ -142,6 +168,13 @@
 
                 <button type="submit" class="btn">Enable 2FA</button>
             </form>
+
+            <script>
+                function showManualEntry() {
+                    document.querySelector('.qr-section').style.display = 'none';
+                    document.getElementById('manual-entry').style.display = 'block';
+                }
+            </script>
         </div>
     </div>
 </body>
