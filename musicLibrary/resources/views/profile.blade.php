@@ -10,7 +10,7 @@
   <!-- Linking Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
-  
+  <script src="{{ asset('js/profileAnimations.js') }}" defer></script>
 </head>
 <body>
   <!-- Header & navbar -->
@@ -20,9 +20,7 @@
         <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
       </div> 
       
-      <a href="{{ url()->previous() }}" class="nav-link">
-        <i class="fas fa-arrow-left"></i> Back
-      </a>
+      <a href="{{ route('library') }}" class="nav-link">← Back</a>
       
       <form method="POST" action="{{ route('logout') }}" style="display: inline;">
         @csrf
@@ -40,7 +38,7 @@
           <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile') }}" method="POST" enctype="multipart/form-data">
           @csrf
           
           <div class="form-group">

@@ -6,6 +6,8 @@
     <title>2FA Setup - Music Library</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('css/signinStyle.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="{{ asset('js/2faAnimations.js') }}" defer></script>
     <style>
         .container {
             display: flex;
@@ -104,11 +106,10 @@
 <body>
     <header class="header">
         <nav class="navbar">
-            <a href="{{ route('home') }}">
-                <div class="logo-image-wrapper">
-                    <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
-                </div>
-            </a>
+            <div class="logo-image-wrapper">
+                <img src="{{ asset('images/MusicLibraryLogo.png') }}" alt="Logo" class="about-image">
+            </div>
+            <a href="{{ route('profile') }}" class="nav-link">← Back</a>
         </nav>
     </header>
 

@@ -45,8 +45,8 @@ Route::prefix('2fa')->name('2fa.')->group(function () {
 // Protected routes (require auth and email verification)
 Route::middleware(['auth', 'verified', 'two-factor'])->group(function () {
     Route::get('/library', [LibraryController::class, 'index'])->name('library');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
     // 2FA setup routes (these need auth but not 2FA verification)
     Route::get('/2fa/setup', [TwoFactorAuthController::class, 'show2faForm'])->name('2fa.setup');

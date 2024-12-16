@@ -117,18 +117,20 @@ img {
 }
 
 .nav-link {
-  background: none;
-  border: none;
   color: white;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif; /* Match your navigation font */
-  font-size: 1.1rem; /* Match your navigation font size */
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .nav-link:hover {
-  color: var(--secondary-color); 
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-5px);
 }
 
 .form-group {
