@@ -20,18 +20,13 @@ class ProfileController extends Controller
         $user = Auth::user();
         
         $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'profile_picture' => 'nullable|image|max:1024',
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        if ($request->hasFile('profile_picture')) {
-            // Handle profile picture upload
-            $path = $request->file('profile_picture')->store('profile-pictures', 'public');
-            $user->profile_picture = $path;
-        }
-
-        $user->username = $validated['username'];
+        $user->name = $validated['username'];
+        $user->email = $validated['email'];
         
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
@@ -39,6 +34,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Profile updated successfully!');
+        return redirect()->route('profile')->with('status', 'Profile updated successfully!');
     }
 }

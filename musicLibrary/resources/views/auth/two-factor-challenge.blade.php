@@ -14,7 +14,7 @@
 
     <div class="logreg-box">
         <div class="form-box login">
-            <form method="POST" action="{{ route('2fa.verify') }}" class="verify-form">
+            <form method="POST" action="{{ route('2fa.verify.post') }}" class="verify-form">
                 @csrf
                 <h2>Two Factor Authentication</h2>
 
@@ -27,14 +27,8 @@
                 @endif
 
                 <div class="input-box">
-                    <input type="text" 
-                           name="code" 
-                           id="code" 
-                           inputmode="numeric"
-                           pattern="[0-9]*"
-                           autocomplete="one-time-code"
-                           required>
-                    <label>Authentication Code</label>
+                    <input type="text" name="code" required>
+                    <label>Enter Authentication Code</label>
                 </div>
 
                 <div class="recovery-text">
@@ -42,7 +36,7 @@
                     <p>Use a recovery code instead.</p>
                 </div>
 
-                <button type="submit" class="verify-btn">Verify</button>
+                <button type="submit" class="btn">Verify</button>
             </form>
         </div>
     </div>
@@ -166,7 +160,7 @@ header {
     margin: 20px 0;
 }
 
-.verify-btn {
+.btn {
     width: 100%;
     padding: 15px;
     background: #4CAF50;
@@ -179,7 +173,7 @@ header {
     transition: 0.3s;
 }
 
-.verify-btn:hover {
+.btn:hover {
     background: #45a049;
 }
 

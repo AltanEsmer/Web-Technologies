@@ -34,28 +34,36 @@ Route::middleware('guest')->group(function () {
     Route::post('/signup', [AuthController::class, 'signUp'])->name('signup.post');
 });
 
-// 2FA routes (no auth middleware needed as it's handled in the controller)
+// 2FA routes
 Route::prefix('2fa')->name('2fa.')->group(function () {
+    // Public 2FA routes (for verification during login)
     Route::get('/verify', [TwoFactorAuthController::class, 'showVerifyForm'])
         ->name('verify');
     Route::post('/verify', [TwoFactorAuthController::class, 'verify'])
         ->name('verify.post');
+        
+    // Protected 2FA routes (for setup and management)
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/setup', [TwoFactorAuthController::class, 'show2faForm'])
+            ->name('setup');
+        Route::post('/enable', [TwoFactorAuthController::class, 'enable2fa'])
+            ->name('enable');
+        Route::post('/disable', [TwoFactorAuthController::class, 'disable2fa'])
+            ->name('disable');
+        Route::get('/recovery-codes', [TwoFactorAuthController::class, 'showRecoveryCodes'])
+            ->name('show-recovery-codes');
+        Route::post('/complete-setup', [TwoFactorAuthController::class, 'completeSetup'])
+            ->name('complete-setup');
+    });
 });
 
 // Protected routes (require auth and email verification)
 Route::middleware(['auth', 'verified', 'two-factor'])->group(function () {
     Route::get('/library', [LibraryController::class, 'index'])->name('library');
+    
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    
-    // 2FA setup routes (these need auth but not 2FA verification)
-    Route::get('/2fa/setup', [TwoFactorAuthController::class, 'show2faForm'])->name('2fa.setup');
-    Route::post('/2fa/enable', [TwoFactorAuthController::class, 'enable2fa'])->name('2fa.enable');
-    Route::post('/2fa/disable', [TwoFactorAuthController::class, 'disable2fa'])->name('2fa.disable');
-    Route::get('/2fa/recovery-codes', [TwoFactorAuthController::class, 'showRecoveryCodes'])
-        ->name('2fa.show-recovery-codes');
-    Route::post('/2fa/complete-setup', [TwoFactorAuthController::class, 'completeSetup'])
-        ->name('2fa.complete-setup');
     
     // Playlist routes
     Route::resource('playlists', PlaylistController::class);

@@ -146,13 +146,27 @@ class TwoFactorAuthController extends Controller
 
     public function disable2fa(Request $request)
     {
-        $user = Auth::user();
-        $user->two_factor_secret = null;
-        $user->two_factor_confirmed_at = null;
-        $user->two_factor_recovery_codes = null;
-        $user->save();
+        try {
+            $user = Auth::user();
+            
+            // Clear 2FA fields
+            $user->two_factor_secret = null;
+            $user->two_factor_confirmed_at = null;
+            $user->two_factor_recovery_codes = null;
+            $user->save();
 
-        return redirect()->route('profile.edit')->with('success', '2FA has been disabled');
+            \Log::info('2FA disabled successfully', ['user_id' => $user->id]);
+            
+            return redirect()->route('profile')
+                ->with('success', '2FA has been disabled successfully');
+        } catch (\Exception $e) {
+            \Log::error('Error disabling 2FA: ' . $e->getMessage(), [
+                'user_id' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()->withErrors(['error' => 'Failed to disable 2FA. Please try again.']);
+        }
     }
 
     public function showVerifyForm(Request $request)
@@ -183,8 +197,12 @@ class TwoFactorAuthController extends Controller
         }
 
         try {
+            $google2fa = app('pragmarx.google2fa');
+            
+            // First check if it's a recovery code
             $recoveryCodes = json_decode($user->two_factor_recovery_codes, true) ?? [];
             if (in_array($request->code, $recoveryCodes)) {
+                // Remove used recovery code
                 $recoveryCodes = array_diff($recoveryCodes, [$request->code]);
                 $user->two_factor_recovery_codes = json_encode(array_values($recoveryCodes));
                 $user->save();
@@ -192,23 +210,44 @@ class TwoFactorAuthController extends Controller
                 Auth::login($user);
                 session(['2fa_verified' => true]);
                 session()->forget('2fa.user_id');
+                
+                // Log successful 2FA verification
+                \Log::info('2FA verification successful using recovery code', ['user_id' => $user->id]);
+                
                 return redirect()->intended(route('library'))
                     ->with('status', 'Recovery code used successfully. Please generate new recovery codes.');
             }
 
-            $google2fa = app('pragmarx.google2fa');
-            $valid = $google2fa->verifyKey($user->two_factor_secret, $request->code);
+            // Then check if it's a valid 2FA code
+            $valid = $google2fa->verifyKey(
+                $user->two_factor_secret,
+                $request->code,
+                8  // Increase window to allow for time drift
+            );
 
             if ($valid) {
                 Auth::login($user);
                 session(['2fa_verified' => true]);
                 session()->forget('2fa.user_id');
+                
+                // Log successful 2FA verification
+                \Log::info('2FA verification successful using TOTP', ['user_id' => $user->id]);
+                
                 return redirect()->intended(route('library'));
             }
 
+            // Log failed verification attempt
+            \Log::warning('2FA verification failed', [
+                'user_id' => $user->id,
+                'code' => $request->code
+            ]);
+
             return back()->withErrors(['code' => 'Invalid verification code']);
         } catch (\Exception $e) {
-            \Log::error('2FA verification error: ' . $e->getMessage());
+            \Log::error('2FA verification error: ' . $e->getMessage(), [
+                'user_id' => $user->id,
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()->withErrors(['code' => 'Error verifying code']);
         }
     }
@@ -235,9 +274,15 @@ class TwoFactorAuthController extends Controller
         ]);
     }
 
-    public function completeSetup()
+    public function completeSetup(Request $request)
     {
-        return redirect()->route('profile.edit')
-            ->with('success', '2FA has been enabled successfully');
+        $user = $request->user();
+        
+        // Mark 2FA as confirmed
+        $user->two_factor_confirmed_at = now();
+        $user->save();
+
+        // Redirect to library page with success message
+        return redirect()->route('library')->with('status', 'Two-factor authentication has been enabled successfully.');
     }
 }

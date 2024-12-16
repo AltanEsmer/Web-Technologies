@@ -38,7 +38,7 @@
           <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <form action="{{ route('profile') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
           @csrf
           
           <div class="form-group">
@@ -100,6 +100,21 @@
 
         <div class="form-group">
           <h3>Two-Factor Authentication</h3>
+          
+          @if(session('success'))
+              <div class="alert alert-success">
+                  {{ session('success') }}
+              </div>
+          @endif
+
+          @if($errors->any())
+              <div class="alert alert-danger">
+                  @foreach($errors->all() as $error)
+                      <div>{{ $error }}</div>
+                  @endforeach
+              </div>
+          @endif
+
           @if(auth()->user()->two_factor_confirmed_at)
               <p>2FA is currently enabled</p>
               <form action="{{ route('2fa.disable') }}" method="POST" style="display: inline;">

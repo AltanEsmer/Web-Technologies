@@ -28,20 +28,25 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'mail' => 'required|email',
-            'pass' => 'required|min:6',
+            'pass' => 'required',
         ]);
 
         if (Auth::attempt(['email' => $credentials['mail'], 'password' => $credentials['pass']], $request->has('checker'))) {
-            $request->session()->regenerate();
-            
             $user = Auth::user();
-            // Check if user has 2FA enabled
+            
+            \Log::info('User logged in successfully', [
+                'user_id' => $user->id,
+                'has_2fa' => (bool)$user->two_factor_secret,
+                'two_factor_confirmed' => (bool)$user->two_factor_confirmed_at
+            ]);
+            
             if ($user->two_factor_secret && $user->two_factor_confirmed_at) {
                 Auth::logout();
-                $request->session()->put('2fa.user_id', $user->id);
+                session(['2fa.user_id' => $user->id]);
                 return redirect()->route('2fa.verify');
             }
 
+            $request->session()->regenerate();
             return redirect()->intended(route('library'));
         }
 
